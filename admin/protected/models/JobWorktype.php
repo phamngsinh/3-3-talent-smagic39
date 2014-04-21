@@ -99,6 +99,6 @@ class JobWorktype extends CActiveRecord
             } else {
                 $name = JobWorktype::model()->findByPk($id);
             }
-            return $name->name;
+            return isset($name->name) ? $name->name : '' ;
         }
 }
