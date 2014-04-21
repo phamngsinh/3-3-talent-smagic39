@@ -1,0 +1,152 @@
+.respimg
+{
+	width:100%;
+	height:auto;	
+}
+
+.respimg80
+{
+	width:80%;
+	height:auto;	
+}
+
+#pull
+{
+	background:#01337d url(../images/nav-icon1.png) right no-repeat;
+	margin-bottom:10px;	
+	display:none;
+	padding:10px 10px;
+	font-weight:bold;
+	text-transform:uppercase;
+	color:#fff;
+	font-size:16px;
+	line-height:42px;
+	padding:0px 15px;
+	text-transform:capitalize;
+	border-radius:5px;
+
+}
+
+
+
+@media screen and (max-width:999px) {
+
+body
+{
+	background:none;
+}
+
+#header, #content, #footer
+{
+	max-width:768px;
+	width:100%;
+}
+
+
+.header_nav ul li a {
+padding: 0px 8px;
+}
+
+.header_nav ul li {
+padding: 0px 1px;
+}
+
+
+}
+
+
+@media screen and (max-width:767px) {
+
+#pull
+{
+	display:block;	
+}
+
+.header_nav ul
+{
+	display:none;	
+}
+
+body
+{
+	background:none;	
+}
+
+#header, #content, #footer
+{
+	max-width:480px;
+	width:100%;
+}
+
+
+.company_name, .header_right, .mc_right, .mc_left, .footer_right, .footer_left
+{
+	float:left;
+	clear:left;	
+	width:100%;
+	margin-bottom:10px;
+}
+
+.header_nav
+{
+}
+
+.header_nav ul li
+{
+	padding:0px;
+	float:left;
+}
+
+.slide_banner
+{
+	margin-bottom:20px;	
+}
+
+.header_contact
+{
+	text-align:left;
+	margin:10px 0px;
+}
+	
+.header_nav ul li
+{
+	display:block;
+	width:100%;
+	margin-bottom:10px;	
+}
+
+.header_nav ul li a
+{
+	text-align:center;
+	background:#0058db;
+	color:#fff;
+}
+
+#footer
+{
+text-align:center;	
+}
+
+.footer_nav
+{
+	margin-top:20px;
+}
+
+.footer_nav ul li
+{
+	display:block;
+}
+
+.footer_nav ul li a
+{
+	border-right:none;
+	padding:10px 0px;
+	width:100%;
+	text-align:center;
+	display:block;
+	border-top:1px solid #fff;
+
+}
+
+
+}

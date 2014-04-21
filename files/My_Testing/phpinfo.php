@@ -1,0 +1,3 @@
+<?php
+ fountaintechies: echo phpinfo();
+ ?>

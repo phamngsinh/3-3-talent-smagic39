@@ -1,0 +1,44 @@
+<?php
+
+//http://www.yiiframework.com/wiki/65/how-to-setup-rbac-with-a-php-file/
+
+return array (
+  'super admin' => 
+  array (
+    'type' => CAuthItem::TYPE_ROLE,
+    'description' => 'Its Super Admin and can do anything',
+    'bizRule' => '',
+    'data' => '',
+    'children' => 
+    array (
+      0 => 'Admin',
+      1 => 'User',
+    ),
+  ),
+  'admin' => 
+  array (
+    'type' => CAuthItem::TYPE_ROLE,
+    'description' => 'Can manage users and contents',
+    'bizRule' => '',
+    'data' => '',
+    'children' => 
+    array (
+      0 => 'User',
+    ),
+    'assignments' => 
+    array (
+      2 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
+  ),
+  'user' => 
+  array (
+    'type' => CAuthItem::TYPE_ROLE,
+    'description' => 'Can manage contents',
+    'bizRule' => '',
+    'data' => '',
+  ),
+);
