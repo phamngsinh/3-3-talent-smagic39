@@ -44,85 +44,6 @@
                         /* array('label'=>'Ice Cream',
                           'items'=>array(
                          */
-
-                        /* array('label'=>'Manage Categories', 'url'=>array('/icecreamCategory/admin', 'view'=>'forms')),
-
-                          array('label'=>'Create Flavours', 'url'=>array('/flavour/create', 'view'=>'create')),
-
-                          array('label'=>'Manage Flavours', 'url'=>array('/flavour/admin', 'view'=>'forms')),
-
-                          ),
-                          ), */
-
-
-
-                        /* array('label'=>'Contents',
-                          'items'=>array(
-                         */
-                        /*
-                          array('label'=>'Manage Questions', 'url'=>array('/questions/admin', 'view'=>'graphs'),'itemOptions'=>array('class'=>'icon_chart'),
-
-                          'items'=>array(
-                          array('label'=>'Add Questions', 'url'=>array('/questions/create')),
-                          ),
-
-                          ),
-                         */
-                        //array('label'=>'Categories Messages', 'url'=>array('/ms/CategoriesMessages','name'=>'Common',"fb_msg_id"=>0)),
-                        // array('label'=>'Manage Scoops', 'url'=>array('/entries/admin', 'view'=>'graphs'),'itemOptions'=>array('class'=>'icon_chart')),
-                        //array('label'=>'Manage Queries', 'url'=>array('/queries/admin', 'view'=>'forms')),
-                        //array('label'=>'Manage Movies', 'url'=>array('#', 'view'=>'interface')),
-                        //array('label'=>'Manage Photos', 'url'=>array('#', 'view'=>'Demo 404 page')),
-                        //array('label'=>'Manage Facebook Users', 'url'=>array('/users/admin', 'view'=>'calendar')),
-                        // array('label'=>'Manage Pages', 'url'=>array('/page/page/admin', 'view'=>'buttons_and_icons')),
-                        //  ),
-                        //   ),
-                        //array('label'=>'Downloads', 'visible'=>Yii::app()->user->checkAccess('admin'),
-                        //'items'=>array(
-                        //array('label'=>'Download Facebook Users', 'url'=>array('/ms/DownloadFbUsers')),
-                        //array('label'=>'Download Participations', 'url'=>array('/ms/downloadParticipations')),
-                        // array('label'=>'Download Queries', 'url'=>array('/queries/downloadAllQueries')),
-                        // array('label'=>'Download Entries', 'url'=>array('/ms/DownloadAllEntries')),   
-                        //   array('label'=>'Download Voters List', 'url'=>array('/ms/DownloadVotersDetails')),
-                        //array('label'=>'Download Photos', 'url'=>array('#')),
-                        /*   ),
-                          ), */
-                        array('label' => 'Downloads',
-                            'items' => array(
-//		     array('label'=>'Manage Questions', 'url'=>array('/questions/admin', 'view'=>'graphs'),'itemOptions'=>array('class'=>'icon_chart'),
-//
-//			  'items'=>array(
-//                    array('label'=>'Add Questions', 'url'=>array('/questions/create')),                    		    
-//                  ),
-//			 
-//			 ),
-//		      
-                                //array('label'=>'Categories Messages', 'url'=>array('/ms/CategoriesMessages','name'=>'Common',"fb_msg_id"=>0)),
-                                //array('label'=>'Manage Entries', 'url'=>array('/entries/admin', 'view'=>'graphs'),'itemOptions'=>array('class'=>'icon_chart')),
-                                // array('label'=>'Manage Queries', 'url'=>array('/queries/admin', 'view'=>'forms')),
-                                //array('label'=>'Manage Movies', 'url'=>array('#', 'view'=>'interface')),
-                                //array('label'=>'Manage Photos', 'url'=>array('#', 'view'=>'Demo 404 page')),
-                                //array('label'=>'Manage Facebook Users', 'url'=>array('/users/admin', 'view'=>'calendar')),
-                                // array('label'=>'Manage Pages', 'url'=>array('/page/page/admin', 'view'=>'buttons_and_icons')),
-                                //   ),
-                                //   ),
-                                //array('label'=>'Downloads', 'visible'=>Yii::app()->user->checkAccess('admin'),
-                                //'items'=>array(
-                                //array('label'=>'Download Facebook Users', 'url'=>array('/ms/DownloadFbUsers')),
-                                //array('label'=>'Download Participations', 'url'=>array('/ms/downloadParticipations')),
-                                array('label' => 'Download Voters', 'url' => array('/ms/downloaddebatevoters')),
-                            // array('label'=>'Download Entries', 'url'=>array('/ms/DownloadAllEntries')),   
-                            //   array('label'=>'Download Voters List', 'url'=>array('/ms/DownloadVotersDetails')),
-                            //array('label'=>'Download Photos', 'url'=>array('#')),
-                            ),
-                        ),
-                        array('label' => 'Debates',
-                            'items' => array(
-                                array('label' => 'Create Debate', 'url' => array('/debate/create', 'view' => 'create')),
-                                array('label' => 'Manage Debates', 'url' => array('/debate/admin', 'view' => 'forms')),
-                                array('label' => 'Manage Voters', 'url' => array('/votings/admin', 'view' => 'forms')),
-                            ),
-                        ),
                         array('label' => 'Settings',
                             'items' => array(
                                 array('label' => 'Application Settings', 'url' => array('/ms/applicationSettings'), 'visible' => Yii::app()->user->checkAccess('admin')),
@@ -138,7 +59,7 @@
                             ),
                         ),
                         //smagic39 add more function
-                        array('label' => 'Job Management','url' =>'#',
+                        array('label' => 'Job Management', 'url' => '#',
                             'items' => array(
                                 array('label' => 'Category', 'url' => '#', 'items' => array(
                                         array('label' => 'Create Category', 'url' => array('/JobCategories/create')),
@@ -165,7 +86,7 @@
                                         array('label' => 'Manage Testimonial', 'url' => array('/jobTestimonials/admin')),
                                     )),
                                 array('label' => 'Contact Us', 'url' => '#', 'items' => array(
-                                        array('label' => 'Create Contact', 'url' => array('/jobContactus/create')),
+                                        array('label' => 'Application Settings', 'url' => array('/jobContactus/contact')),
                                         array('label' => 'Manage Contact', 'url' => array('/jobContactus/admin')),
                                     )),
                                 array('label' => 'About Us', 'url' => '#', 'items' => array(

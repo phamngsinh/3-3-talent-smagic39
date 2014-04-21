@@ -64,9 +64,25 @@ class PageController extends Controller {
             'dataProvider' => $dataProvider,
         ));
     }
-
+ 
     public function actionContact() {
-        $this->render('contact');
+        $model = new JobContactus;
+        $ms = Ms::model()->findByAttributes(array('var_name' => 'admin_contact'));
+        if (isset($_POST['JobContactus'])) {
+            
+            $model->attributes = $_POST['JobContactus'];
+            $model['date_created'] = date('Y-m-d H:i:s');
+            if ($model->validate()){
+                $model->save();
+                $this->redirect(array('index'));
+            }
+        }
+
+        $this->render('contact', array(
+            'model' => $model,
+            'ms'=> isset($ms['value4_text']) ? $ms['value4_text'] : ''
+                
+            ));
     }
 
     public function actionTeams() {
@@ -82,18 +98,18 @@ class PageController extends Controller {
 
     public function actionTestimonials() {
         //paginator
-        
+
         $page = (isset($_GET['page']) ? $_GET['page'] : 1);
         $criteria = new CDbCriteria();
         $item_count = JobTestimonials::model()->count($criteria);
         $pages = new CPagination($item_count);
         $pages->pageSize = 5;
-        
+
         $pages->applyLimit($criteria);
         $models = Yii::app()->db->createCommand()
                 ->select('testimonials.*,files.*')
                 ->from('tbl_job_testimonials testimonials')
-                ->limit(Yii::app()->params['listPerPage'], $page-1)
+                ->limit(Yii::app()->params['listPerPage'], $page - 1)
                 ->leftJoin('tbl_job_files files', 'files.file_id = testimonials.image_id');
         $data = $models->queryAll();
         $this->render('testimonials', array(

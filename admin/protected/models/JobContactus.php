@@ -39,7 +39,7 @@ class JobContactus extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, email, content, date_created', 'required'),
+			array('name, email, content', 'required'),
 			array('name, email', 'length', 'max'=>255),
 			array('phone', 'length', 'max'=>100),
 			array('content', 'length', 'max'=>500),
