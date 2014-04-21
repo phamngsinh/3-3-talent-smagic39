@@ -1,0 +1,10 @@
+[21-Dec-2012 12:43:32 UTC] PHP Parse error:  syntax error, unexpected ')', expecting '&' or T_VARIABLE in /home/ogilvya/public_html/team1/fb/do_debate/protected/controllers/SiteController.php on line 610
+[21-Dec-2012 16:05:28 UTC] PHP Fatal error:  Call to undefined method Yii::model() in /home/ogilvya/public_html/team1/fb/do_debate/protected/controllers/SiteController.php on line 143
+[22-Dec-2012 11:51:05 UTC] PHP Parse error:  syntax error, unexpected T_STRING, expecting ']' in /home/ogilvya/public_html/team1/fb/do_debate/protected/controllers/SiteController.php on line 162
+[22-Dec-2012 11:53:13 UTC] PHP Parse error:  syntax error, unexpected T_STRING, expecting ']' in /home/ogilvya/public_html/team1/fb/do_debate/protected/controllers/SiteController.php on line 162
+[22-Dec-2012 14:21:26 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/ogilvya/public_html/team1/fb/do_debate/protected/controllers/SiteController.php on line 139
+[22-Dec-2012 14:22:07 UTC] PHP Fatal error:  Cannot use object of type CDbCommand as array in /home/ogilvya/public_html/team1/fb/do_debate/protected/controllers/SiteController.php on line 152
+[22-Dec-2012 14:22:47 UTC] PHP Fatal error:  Cannot use object of type CDbCommand as array in /home/ogilvya/public_html/team1/fb/do_debate/protected/controllers/SiteController.php on line 152
+[22-Dec-2012 14:23:47 UTC] PHP Fatal error:  Cannot use object of type CDbCommand as array in /home/ogilvya/public_html/team1/fb/do_debate/protected/controllers/SiteController.php on line 152
+[26-Dec-2012 08:58:29 UTC] Unknown algorithm. Expected HMAC-SHA256
+[26-Dec-2012 09:57:18 UTC] PHP Parse error:  syntax error, unexpected ';' in /home/ogilvya/public_html/team1/fb/do_debate/protected/controllers/SiteController.php on line 151
