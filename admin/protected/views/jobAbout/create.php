@@ -13,6 +13,5 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create JobAbout</h1>
-
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<h1>About Us</h1>
+<?php echo $this->renderPartial('_form', array('model'=>$model,'data'=>$data)); ?>

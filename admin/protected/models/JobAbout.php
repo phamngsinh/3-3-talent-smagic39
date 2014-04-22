@@ -37,7 +37,7 @@ class JobAbout extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('content', 'required'),
-			array('content', 'length', 'max'=>255),
+			array('content', 'length', 'max'=>1000),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('about_id, content, date_created', 'safe', 'on'=>'search'),

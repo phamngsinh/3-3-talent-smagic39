@@ -63,19 +63,27 @@ class JobAboutController extends Controller
 	public function actionCreate()
 	{
 		$model=new JobAbout;
-
+                $data = JobAbout::model()->find();
+                
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['JobAbout']))
 		{
-			$model->attributes=$_POST['JobAbout'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->about_id));
+                    $model->attributes=$_POST['JobAbout'];
+                    if(count($data) > 0){
+                        $model->updateAll(array('content'=> $_POST['JobAbout']['content']),"about_id = ".$data['about_id']);
+                    }else{
+                         $model->attributes=$_POST['JobAbout'];
+                         $model->save();
+                    }
+			
+		  $this->redirect(array('view','id'=>isset($data['about_id']) ? $data['about_id'] : $model->about_id));
 		}
-
+               
 		$this->render('create',array(
 			'model'=>$model,
+                        'data'=> isset($data['content']) ? $data['content'] : ''
 		));
 	}
 

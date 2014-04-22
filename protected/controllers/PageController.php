@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @author  smagic39<smagic39@gmail.com>
+ */
 include("./admin/protected/models/Jobs.php");
 include("./admin/protected/models/JobLocation.php");
 include("./admin/protected/models/JobWorktype.php");
@@ -64,15 +66,15 @@ class PageController extends Controller {
             'dataProvider' => $dataProvider,
         ));
     }
- 
+
     public function actionContact() {
         $model = new JobContactus;
         $ms = Ms::model()->findByAttributes(array('var_name' => 'admin_contact'));
         if (isset($_POST['JobContactus'])) {
-            
+
             $model->attributes = $_POST['JobContactus'];
             $model['date_created'] = date('Y-m-d H:i:s');
-            if ($model->validate()){
+            if ($model->validate()) {
                 $model->save();
                 $this->redirect(array('index'));
             }
@@ -80,9 +82,8 @@ class PageController extends Controller {
 
         $this->render('contact', array(
             'model' => $model,
-            'ms'=> isset($ms['value4_text']) ? $ms['value4_text'] : ''
-                
-            ));
+            'ms' => isset($ms['value4_text']) ? $ms['value4_text'] : ''
+        ));
     }
 
     public function actionTeams() {

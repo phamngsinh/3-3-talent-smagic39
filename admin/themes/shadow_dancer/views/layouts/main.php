@@ -89,10 +89,7 @@
                                         array('label' => 'Application Settings', 'url' => array('/jobContactus/contact')),
                                         array('label' => 'Manage Contact', 'url' => array('/jobContactus/admin')),
                                     )),
-                                array('label' => 'About Us', 'url' => '#', 'items' => array(
-                                        array('label' => 'Create', 'url' => array('/jobAbout/create')),
-                                        array('label' => 'View', 'url' => array('/jobAbout/admin')),
-                                    )),
+                                array('label' => 'About Us', 'url' => array('/jobAbout/create')),
                             ),
                         ),
                         array('label' => 'Authentications',
