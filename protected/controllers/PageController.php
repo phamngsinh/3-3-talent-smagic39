@@ -14,6 +14,7 @@ include("./admin/protected/models/Files.php");
 include("./admin/protected/models/JobResumes.php");
 include("./admin/protected/models/JobCovers.php");
 include("./admin/protected/models/JobCategories.php");
+include("./admin/protected/models/JobSubcategories.php");
 
 class PageController extends Controller {
 
@@ -273,6 +274,19 @@ class PageController extends Controller {
             'item_count' => $item_count,
             'pages' => $pages
         ));
+    }
+    public function actionDynamicsubCategories() {
+        $data=  JobSubcategories::model()->findAll('parent=:parent_id', 
+           array(':parent_id'=>(int) $_POST['cat_id']));
+ 
+        $data=CHtml::listData($data,'id','cat_id');
+        echo "<option value=''>All</option>";
+            foreach($data as $value=>$id)
+            {
+                $name = JobCategories::model()->getCatName($id);
+                echo CHtml::tag('option',
+                           array('value'=>$value),CHtml::encode($name),true);
+            }
     }
 
     // Uncomment the following methods and override them if needed

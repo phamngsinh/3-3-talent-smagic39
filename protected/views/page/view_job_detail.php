@@ -49,31 +49,32 @@
 <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'search-form',
-        // Please note: When you enable ajax validation, make sure the corresponding
-        // controller action is handling ajax validation correctly.
-        // There is a call to performAjaxValidation() commented in generated controller code.
-        // See class documentation of CActiveForm for details on this.
         'enableAjaxValidation' => false,
     ));
     ?>
                 <div class="search-job-title">Seach Jobs</div>	    
                 <div class="search-job-para">Find the right job for you.</div>
                 
-                   	<div class="form-row"><select name="Sectors">
-                   	  <option value="Sector" selected>Sector</option>
-                   	  <option value="Sector" selected>Sector</option>
-                   	  <option value="Sector" selected>Sector</option>
-                   	  <option value="Sector" selected>Sector</option>
-                    </select></div>    
-                    
-                   <div class="form-row">
-                       <?php
-                        echo $form->dropDownList($job, 'cat_id', $categories, array(
-                            'prompt' => '-- All Categories --',
-                            'selected' => true,
-                        ));
+                   	<div class="form-row">
+                            <?php
+                                echo CHtml::dropDownList('cat_id', '', $categories, array(
+                                    'prompt' => '-- All Categories --',
+                                    'selected' => true,
+                                    'ajax' => array(
+                                        'type'=>'POST', //request type
+                                        'url'=>Yii::app()->createUrl('page/dynamicsubCategories'), //url to call 
+                                        'update'=>'#sub_cat_id', 
+                                        'data' => array('cat_id' => 'js:this.value', 'YII_CSRF_TOKEN' => Yii::app()->request->csrfToken),
+                                    )
+                                ));
+
                         ?>
-                   </div>
+                        </div>
+                    <div class="form-row">
+                        <?php
+                         echo CHtml::dropDownList('sub_cat_id', '',  array());
+                        ?>
+                    </div>
                     
                    	<div class="form-row"><?php
                             echo $form->dropDownList($job, 'job_location_id', $locations, array(
