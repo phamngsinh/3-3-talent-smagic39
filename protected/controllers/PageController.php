@@ -288,6 +288,65 @@ class PageController extends Controller {
                            array('value'=>$value),CHtml::encode($name),true);
             }
     }
+    public function actionBrowserJob() {
+        if(isset($_GET['Jobs']['job_location_id'])) {
+            $job_location = $_GET['Jobs']['job_location_id'];
+        }
+        if(isset($_GET['Jobs']['worktype_id'])) {
+            $job_worktype = $_GET['Jobs']['worktype_id'];
+        }
+        if(isset($_GET['cat_id'])) {
+            $job_cat = $_GET['cat_id'];
+        }
+        if(isset($_GET['sub_cat_id'])) {
+            $job_subcat = $_GET['sub_cat_id'];
+        }
+        if(isset($_GET['Keywords'])) {
+            $job_keyword = $_GET['Keywords'];
+        }
+        
+        $criteria = new CDbCriteria();
+        if($job_location) {
+            $criteria->condition = 't.job_location_id='.$job_location;
+        }
+        if($job_worktype) {
+            $criteria->condition = 't.worktype_id='.$job_worktype;
+        }
+        if(isset($_GET['sub_cat_id'])) {
+            $criteria->condition = 't.cat_id='.$job_subcat.' OR t.cat_id='.$job_cat;
+        }
+        if($job_cat) {
+            $criteria->condition = 't.cat_id='.$job_cat;
+        }
+        if($job_keyword) {
+            $criteria->condition = 't.title LIKE "%'.$job_keyword.'%"';
+        } 
+        else if($job_location && $job_worktype && $job_subcat && $job_keyword){
+            $criteria->condition = 't.job_location_id='.$job_location.' AND t.cat_id='.$job_subcat.' AND t.worktype_id='.$job_worktype.' AND t.title LIKE "%'.$job_keyword.'%"';
+        }
+        $criteria->order='job_id DESC';
+        $item_count = Jobs::model()->count($criteria);
+        
+        //implement dropdown search
+        $jobs = new Jobs();
+        $categories = CHtml::ListData(JobCategories::model()->findAll(), 'cat_id', 'cat_name');
+        $location = CHtml::ListData(JobLocation::model()->findAll(), 'job_location_id', 'address');
+        $worktype = CHtml::ListData(JobWorktype::model()->findAll(), 'worktype_id', 'name');
+        
+        $pages = new CPagination($item_count);
+        $pages->setPageSize(Yii::app()->params['listPerPage']);
+        $pages->applyLimit($criteria);  // the trick is here!
+        $this->render('index', array(
+            'dataProvider' => Jobs::model()->findAll($criteria),
+            'item_count' => $item_count,
+            'page_size' => Yii::app()->params['listPerPage'],
+            'pages' => $pages,
+            'categories' => $categories,
+            'locations' => $location,
+            'worktypes' => $worktype,
+            'model' => $jobs,
+        ));
+    }
 
     // Uncomment the following methods and override them if needed
     /*

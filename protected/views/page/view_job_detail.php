@@ -50,6 +50,8 @@
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'search-form',
         'enableAjaxValidation' => false,
+        'method'=>'GET',
+        'action'=>Yii::app()->createUrl('page/browserJob'),
     ));
     ?>
                 <div class="search-job-title">Seach Jobs</div>	    
