@@ -29,8 +29,11 @@
                         
                         <div class="job-buttons">
                             <a href="<?php echo Yii::app()->createUrl('page/view', array('id'=>$job->job_id)); ?>" class="view-more">View More</a>
-                            <a href="#">Apply Now</a>
-                            <a href="#">Share</a>
+                            <?php echo CHtml::link('Apply Now',array('page/register','job'=>$job->job_id)); ?>
+                            
+                            <a href="https://www.facebook.com/sharer/sharer.php?u= <?php echo urlencode(Yii::app()->getBaseUrl(true)); ?>" data-href="<?php echo Yii::app()->getBaseUrl(true); ?>"  target="_blank">
+                                Share on Facebook
+                             </a>
                             
                         </div>
                     
@@ -57,7 +60,16 @@
             </div>
 <!--job-list end-->	
 <div class="search-jobs">    
-<form action="" method="get">
+<?php
+    $form = $this->beginWidget('CActiveForm', array(
+        'id' => 'search-form',
+        // Please note: When you enable ajax validation, make sure the corresponding
+        // controller action is handling ajax validation correctly.
+        // There is a call to performAjaxValidation() commented in generated controller code.
+        // See class documentation of CActiveForm for details on this.
+        'enableAjaxValidation' => false,
+    ));
+    ?>
                 <div class="search-job-title">Seach Jobs</div>	    
                 <div class="search-job-para">Find the right job for you.</div>
                 
@@ -68,32 +80,36 @@
                    	  <option value="Sector" selected>Sector</option>
                     </select></div>    
                     
-                   	<div class="form-row"><select name="Sub-Category">
-                   	  <option value="Sub Category" selected>All Sub Categories</option>
-                   	  <option value="Sub Category" selected>All Sub Categories</option>
-                   	  <option value="Sub Category" selected>All Sub Categories</option>
-                    </select>    </div>
+                   <div class="form-row">
+                       <?php
+                        echo $form->dropDownList($model, 'cat_id', $categories, array(
+                            'prompt' => '-- All Categories --',
+                            'selected' => true,
+                        ));
+                        ?>
+                   </div>
                     
-                   	<div class="form-row"><select name="Locations">
-                   	  <option value="Locations" selected>All Locations</option>
-                   	  <option value="Locations" selected>All Locations</option>
-                   	  <option value="Locations" selected>All Locations</option>
-                   	  <option value="Locations" selected>All Locations</option>
-                   	  <option value="Locations" selected>All Locations</option>
-                    </select> </div>   
+                   	<div class="form-row"><?php
+                            echo $form->dropDownList($model, 'job_location_id', $locations, array(
+                                'prompt' => '-- All Locations --',
+                                'selected' => true,
+                            ));
+                            ?>
+                        </div>   
                     
-                   	<div class="form-row"><select name="Work-Type">
-                   	  <option value="Work Type" selected>All Work Types</option>
-                   	  <option value="Work Type" selected>All Work Types</option>
-                   	  <option value="Work Type" selected>All Work Types</option>
-                   	  <option value="Work Type" selected>All Work Types</option>
-                    </select> </div>   
+                   	<div class="form-row"><?php
+                            echo $form->dropDownList($model, 'worktype_id', $worktypes, array(
+                                'prompt' => '-- All Work Types --',
+                                'selected' => true,
+                            ));
+                            ?>
+                        </div>   
                                         
                     <div class="form-row"><input name="Keywords" type="text" placeholder="Keywords"></div>
                     
                   <div class="form-row submit-button"><input type="submit" value="Search Jobs"></div>
                     
-              </form>
+    <?php $this->endWidget(); ?>
               
               
             <div><a href="#"><img src="images/job-alert.png" width="276" height="98" alt=""></a></div>
@@ -101,6 +117,6 @@
         
         </div>
             <!--home-enquiry-->
-                    <div class="clear"></div>
+    <div class="clear"></div>
             
             
