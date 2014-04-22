@@ -70,6 +70,7 @@ class JobTestimonialsController extends Controller {
             $file_tmp = CUploadedFile::getInstance($model, 'image_id');
             $fileName = uniqid(time()) . $file_tmp;
             unset($model->image_id);
+            
             if ($model->save()) {
                 $uri = '';
                 $file_id = '';
