@@ -87,14 +87,34 @@ class PageController extends Controller {
     }
 
     public function actionTeams() {
-        $dataProvider = new CActiveDataProvider('JobTeams', array(
-            'pagination' => array(
-                'pageSize' => 8,
-            ),
-        ));
+        $page = (isset($_GET['page']) ? $_GET['page'] : 1);
+        $criteria = new CDbCriteria();
+        $item_count = JobTeams::model()->count($criteria);
+        $pages = new CPagination($item_count);
+        $pages->pageSize = 5;
+
+        $pages->applyLimit($criteria);
+        $models = Yii::app()->db->createCommand()
+                ->select('teams.*,files.*')
+                ->from('tbl_job_teams teams')
+                ->limit(Yii::app()->params['listPerPage'], $page - 1)
+                ->leftJoin('tbl_job_files files', 'files.file_id = teams.image_id');
+        $data = $models->queryAll();
         $this->render('teams', array(
-            'dataProvider' => $dataProvider,
+            'data' => $data,
+            'page_size' => Yii::app()->params['listPerPage'],
+            'item_count' => $item_count,
+            'pages' => $pages
         ));
+    }
+    public function actionTeamsDetail($id){
+            $models = Yii::app()->db->createCommand()
+                ->select('teams.*,files.*')
+                ->from('tbl_job_teams teams')
+                ->where("teams_id = '$id'")
+                ->leftJoin('tbl_job_files files', 'files.file_id = teams.image_id');
+        $team = $models->queryRow();
+          $this->render('teams_detail',array('team'=>$team));
     }
 
     public function actionTestimonials() {

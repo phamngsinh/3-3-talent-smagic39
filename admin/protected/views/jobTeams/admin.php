@@ -49,12 +49,6 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'name',
 		'positions',
 		'descriptions',
-		'link_twitter',
-		'link_facebook',
-		/*
-		'link_email',
-		'image_id',
-		*/
 		array(
 			'class'=>'CButtonColumn',
 		),
