@@ -41,6 +41,8 @@
                            
                     <?php
                         }
+                    } else {
+                        echo '<i>No results found.</i>';
                     }
                     ?>           
                     </ul>
