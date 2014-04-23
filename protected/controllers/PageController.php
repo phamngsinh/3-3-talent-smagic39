@@ -225,29 +225,30 @@ class PageController extends Controller
     public function actionRegister()
     {
         $model = new JobEmployees;
+        $model_file = new Files;
         if (isset($_GET['job']) && !empty($_GET['job'])) {
             $job = Jobs::model()->findByPk($_GET['job']);
             if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
 
                 //update and upload file cover not
                 $model->attributes = $_POST['JobEmployees'];
-                $model->resume_id = 0;
                 $model->save();
                 //upload file and upload resume
-
-                $model->resume_id = $this->updateResume($_POST['JobEmployees']['resume_id'], $model, $_GET['job'], $model->employ_id);
+                $this->updateResume($_POST['JobEmployees'], $model_file, $_GET['job'], $model->employ_id);
                 //cover leter
                 $type = $_POST['JobEmployees']['coverNoteType'];
-                $model->cover_id = $this->updateJobCovers($_POST['JobEmployees'], $model, $_GET['job'], $model->employ_id, $type);
+                $this->updateJobCovers($_POST['JobEmployees'], $model, $_GET['job'], $model->employ_id, $type);
                 // reupdate 
 
-                Yii::app()->user->setFlash('success', "Thank for Apply!");
+                Yii::app()->user->setFlash('success', "Thank You for Apply!");
+                $this->redirect(array('page/index#message-info'));
+
             }
         }else{
             $this->redirect(array('page/index#message-info'));
         }
 
-        $this->render('register', array('model' => $model, 'job' => $job));
+        $this->render('register', array('model' => $model, 'job' => $job,'model_file'=>$model_file));
 
 
     }
@@ -280,7 +281,7 @@ class PageController extends Controller
                     }
 
                 }
-            Yii::app()->user->setFlash('success', "Thank for Register!");
+            Yii::app()->user->setFlash('success', "Thank You for Register!");
             $this->redirect(array('page/index#message-info'));
         }
         $this->render('register_cv',array(
@@ -290,6 +291,7 @@ class PageController extends Controller
     public  function  updateAlert($cat_id,$sub_cat_id = array(),$worktype_id,$location_id,$employ_id){
         $job_alter = new JobAlerts;
         $cat = $cat_id ? $cat_id.'|' : '';
+        $sub_cat_id = $sub_cat_id ? $sub_cat_id : array(0);
         $cat .= join('|',$sub_cat_id);
         $job_alter_tmp = JobAlerts::model()->find("employ_id = '$employ_id'");
         if($job_alter_tmp){
@@ -353,7 +355,7 @@ class PageController extends Controller
 
             }
             Yii::app()->user->setFlash('success', "Thank for Register!");
-//            $this->redirect(array('page/index#message-info'));
+            $this->redirect(array('page/index#message-info'));
         }
         $this->render('registerAlert',array(
             'model'=> $model,
