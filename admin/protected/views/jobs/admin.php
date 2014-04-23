@@ -45,35 +45,16 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-//		'cat_id',
-                array(
-                         'name'=>'cat_id',
-                         'type'=>'raw',
-                         'value'=>'CHtml::encode(JobCategories::Model()->getCatName($data->cat_id))'
-                     ),
 //                array(
-//                         'name'=>'worktype_id',
+//                         'name'=>'cat_id',
 //                         'type'=>'raw',
-//                         'value'=>'CHtml::encode(JobWorktype::Model()->getName($data->worktype_id))'
+//                         'value'=>'CHtml::encode(JobCategories::Model()->getCatName($data->cat_id))',
 //                     ),
 		'job_id',
 		'base_salary',
 		'benefits',
 		'date_posted',
 		'education_requirements',
-		/*
-		'experience_requirements',
-		'incentives',
-		'industry',
-		'job_location_id',
-		'qualifications',
-		'responsibilities',
-		'salary_currency',
-		'skills',
-		'special_commitments',
-		'title',
-		'work_hours',
-		*/
 		array(
 			'class'=>'CButtonColumn',
 		),
