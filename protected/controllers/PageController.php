@@ -127,10 +127,10 @@ class PageController extends Controller
 
         $pages->applyLimit($criteria);
         $models = Yii::app()->db->createCommand()
-            ->select('teams.*,files.*')
-            ->from('tbl_job_teams teams')
-            ->limit(Yii::app()->params['listPerPage'], $page - 1)
-            ->leftJoin('tbl_job_files files', 'files.file_id = teams.image_id');
+                ->select('teams.*,files.*')
+                ->from('tbl_job_teams teams')
+                ->limit(Yii::app()->params['listPerPage'], $page - 1)
+                ->leftJoin('tbl_job_files files', 'files.file_id = teams.image_id');
         $data = $models->queryAll();
         $this->render('teams', array(
             'data' => $data,
@@ -148,7 +148,7 @@ class PageController extends Controller
      * @param type $employ_id
      * @return type
      */
-    public function updateResume($file, $model, $job_id, $employ_id)
+    public function updateResume($file, $model, $job_id, $employ_id,$type=null)
     {
 
         $file_tmp = CUploadedFile::getInstance($model, 'resume_id');
@@ -170,6 +170,7 @@ class PageController extends Controller
             $resume->employ_id = $employ_id;
             $resume->job_id = $job_id;
             $resume->file_id = $file_id;
+            $resume->type= $type;
             $resume->save();
             return $resume->resume_id;
         }
@@ -232,9 +233,10 @@ class PageController extends Controller
 
                 //update and upload file cover not
                 $model->attributes = $_POST['JobEmployees'];
+                $model->resume_id = 0;
                 $model->save();
                 //upload file and upload resume
-                $this->updateResume($_POST['JobEmployees'], $model_file, $_GET['job'], $model->employ_id);
+                $this->updateResume($_POST['JobEmployees'], $model_file, $_GET['job'], $model->employ_id,1);
                 //cover leter
                 $type = $_POST['JobEmployees']['coverNoteType'];
                 $this->updateJobCovers($_POST['JobEmployees'], $model, $_GET['job'], $model->employ_id, $type);
@@ -244,84 +246,92 @@ class PageController extends Controller
                 $this->redirect(array('page/index#message-info'));
 
             }
-        }else{
+        } else {
             $this->redirect(array('page/index#message-info'));
         }
 
-        $this->render('register', array('model' => $model, 'job' => $job,'model_file'=>$model_file));
+        $this->render('register', array('model' => $model, 'job' => $job, 'model_file' => $model_file));
 
 
     }
-    public function actionRegisterCV(){
+
+    public function actionRegisterCV()
+    {
         $model = new JobEmployees;
         if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
-                $model_tmp = JobEmployees::model()->find("email ='".$_POST['JobEmployees']['email']."'");
-                if($model_tmp){
+            $model_tmp = JobEmployees::model()->find("email ='" . $_POST['JobEmployees']['email'] . "'");
+            if ($model_tmp) {
 
-                    $employ_id = $model_tmp['employ_id'];
-                    $model_update = JobEmployees::model()->findByPk($employ_id);
-                    $model_update->employ_id = $model_tmp['employ_id'];
-                    $model_update->first_name = $_POST['JobEmployees']['first_name'];
-                    $model_update->last_name = $_POST['JobEmployees']['last_name'];
-                    $model_update->mobile = $_POST['JobEmployees']['mobile'];
-                    $model_update->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
-                    if($model_update->save()){
-                       $this->updateResume($_POST['JobEmployees']['resume_id'], $model,0, $employ_id);
-                    }
-
-                }else{
-
-                    $model->first_name = $_POST['JobEmployees']['first_name'];
-                    $model->email = $_POST['JobEmployees']['email'];
-                    $model->last_name = $_POST['JobEmployees']['last_name'];
-                    $model->mobile = $_POST['JobEmployees']['mobile'];
-                    $model->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
-                    if($model->save()){
-                      $this->updateResume($_POST['JobEmployees']['resume_id'], $model,0, $model->employ_id);
-                    }
-
+                $employ_id = $model_tmp['employ_id'];
+                $model_update = JobEmployees::model()->findByPk($employ_id);
+                $model_update->employ_id = $model_tmp['employ_id'];
+                $model_update->first_name = $_POST['JobEmployees']['first_name'];
+                $model_update->last_name = $_POST['JobEmployees']['last_name'];
+                $model_update->mobile = $_POST['JobEmployees']['mobile'];
+                $model_update->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
+                if ($model_update->save()) {
+                    $this->updateResume($_POST['JobEmployees']['resume_id'], $model, 0, $employ_id,2);
                 }
+
+            } else {
+
+                $model->first_name = $_POST['JobEmployees']['first_name'];
+                $model->email = $_POST['JobEmployees']['email'];
+                $model->last_name = $_POST['JobEmployees']['last_name'];
+                $model->mobile = $_POST['JobEmployees']['mobile'];
+                $model->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
+                if ($model->save()) {
+                    $this->updateResume($_POST['JobEmployees']['resume_id'], $model, 0, $model->employ_id,2);
+                }
+
+            }
             Yii::app()->user->setFlash('success', "Thank You for Register!");
             $this->redirect(array('page/index#message-info'));
         }
-        $this->render('register_cv',array(
-            'model'=> $model
+        $this->render('register_cv', array(
+            'model' => $model
         ));
     }
-    public  function  updateAlert($cat_id,$sub_cat_id = array(),$worktype_id,$location_id,$employ_id){
+
+    public function  updateAlert($cat_id, $sub_cat_id = array(), $worktype_id, $location_id, $employ_id,$type=null)
+    {
         $job_alter = new JobAlerts;
-        $cat = $cat_id ? $cat_id.'|' : '';
+        $cat = $cat_id ? $cat_id . '|' : '';
         $sub_cat_id = $sub_cat_id ? $sub_cat_id : array(0);
-        $cat .= join('|',$sub_cat_id);
+        $cat .= join('|', $sub_cat_id);
         $job_alter_tmp = JobAlerts::model()->find("employ_id = '$employ_id'");
-        if($job_alter_tmp){
+        if ($job_alter_tmp) {
             $model_update = JobAlerts::model()->findByPk($job_alter_tmp['alert_id']);
             $model_update->cat_id = $cat;
             $model_update->employ_id = $employ_id;
-            $model_update->job_location_id	 = $location_id;
+            $model_update->job_location_id = $location_id;
             $model_update->worktype_id = $worktype_id;
+            $model_update->type = $type;
+
             $model_update->save();
-        }else{
+        } else {
             $job_alter->cat_id = $cat;
             $job_alter->employ_id = $employ_id;
-            $job_alter->job_location_id	 = join('|',$location_id);
-            $job_alter->worktype_id = join('|',$worktype_id);
+            $job_alter->job_location_id = join('|', $location_id);
+            $job_alter->worktype_id = join('|', $worktype_id);
+            $job_alter->type = $type;
             $job_alter->save();
-
 
 
         }
 
     }
-    public function actionRegisterAlert(){
+
+    public function actionRegisterAlert()
+    {
         $model = new JobEmployees;
         $model_category = new JobCategories();
         $categories = CHtml::ListData(JobCategories::model()->findAll(), 'cat_id', 'cat_name');
-        $location =  CHtml::ListData(JobLocation::model()->findAll(), 'job_location_id', 'address');
-        $worktype =  CHtml::ListData(JobWorktype::model()->findAll(), 'worktype_id', 'name');
+        $location = CHtml::ListData(JobLocation::model()->findAll(), 'job_location_id', 'address');
+        $worktype = CHtml::ListData(JobWorktype::model()->findAll(), 'worktype_id', 'name');
 
         if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
-            $model_tmp = JobEmployees::model()->find("email ='".$_POST['JobEmployees']['email']."'");
+            $model_tmp = JobEmployees::model()->find("email ='" . $_POST['JobEmployees']['email'] . "'");
             $cat_id = isset($_POST['JobEmployees']["cat_id"]) ? $_POST['JobEmployees']["cat_id"] : 0;
             $sub_cat_id = isset($_POST['JobEmployees']["sub_cat_id"]) ? $_POST['JobEmployees']["sub_cat_id"] : 0;
             $worktype_id = isset($_POST['JobEmployees']["worktype_id"]) ? $_POST['JobEmployees']["worktype_id"] : 0;
@@ -330,7 +340,7 @@ class PageController extends Controller
             unset($_POST['JobEmployees']["sub_cat_id"]);
             unset($_POST['JobEmployees']["worktype_id"]);
             unset($_POST['JobEmployees']["location_id"]);
-            if($model_tmp){
+            if ($model_tmp) {
 
                 $employ_id = $model_tmp['employ_id'];
                 $model_update = JobEmployees::model()->findByPk($employ_id);
@@ -339,31 +349,32 @@ class PageController extends Controller
                 $model_update->email = $_POST['JobEmployees']['email'];
                 $model_update->last_name = $_POST['JobEmployees']['last_name'];
                 $model_update->mobile = $model_tmp['mobile'];
-                if($model_update->save()){
-                    $this->updateAlert($cat_id,$sub_cat_id,$worktype_id,$location_id,$employ_id);
+                if ($model_update->save()) {
+                    $this->updateAlert($cat_id, $sub_cat_id, $worktype_id, $location_id, $employ_id,1);
                 }
 
-            }else{
+            } else {
 
                 $model->first_name = $_POST['JobEmployees']['first_name'];
                 $model->email = $_POST['JobEmployees']['email'];
                 $model->last_name = $_POST['JobEmployees']['last_name'];
                 $model->mobile = 0;
-                if($model->save()){
-                    $this->updateAlert($cat_id,$sub_cat_id,$worktype_id,$location_id,$model->employ_id );
+                if ($model->save()) {
+                    $this->updateAlert($cat_id, $sub_cat_id, $worktype_id, $location_id, $model->employ_id,1);
                 }
 
             }
             Yii::app()->user->setFlash('success', "Thank for Register!");
             $this->redirect(array('page/index#message-info'));
         }
-        $this->render('registerAlert',array(
-            'model'=> $model,
-            'worktype'=>$worktype,
-            'location'=>$location,
-            'categories'=>$categories
+        $this->render('registerAlert', array(
+            'model' => $model,
+            'worktype' => $worktype,
+            'location' => $location,
+            'categories' => $categories
         ));
     }
+
     public function actionTeamsDetail($id)
     {
         $models = Yii::app()->db->createCommand()
