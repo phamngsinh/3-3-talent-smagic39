@@ -287,27 +287,26 @@ class PageController extends Controller
             'model'=> $model
         ));
     }
-    public  function  updateAlert($cat_id = '',$sub_cat_id = array(),$worktype_id,$location_id,$employ_id){
+    public  function  updateAlert($cat_id,$sub_cat_id = array(),$worktype_id,$location_id,$employ_id){
         $job_alter = new JobAlerts;
         $cat = $cat_id ? $cat_id.'|' : '';
         $cat .= join('|',$sub_cat_id);
         $job_alter_tmp = JobAlerts::model()->find("employ_id = '$employ_id'");
         if($job_alter_tmp){
-            $model_update = JobEmployees::model()->findByPk($job_alter_tmp['alert_id']);
+            $model_update = JobAlerts::model()->findByPk($job_alter_tmp['alert_id']);
             $model_update->cat_id = $cat;
+            $model_update->employ_id = $employ_id;
             $model_update->job_location_id	 = $location_id;
             $model_update->worktype_id = $worktype_id;
             $model_update->save();
-            echo $model_update->alert_id;
-            echo 'aaaaaaaaaaa';
         }else{
             $job_alter->cat_id = $cat;
-            $job_alter->job_location_id	 = $location_id;
-            $job_alter->worktype_id = $worktype_id;
+            $job_alter->employ_id = $employ_id;
+            $job_alter->job_location_id	 = join('|',$location_id);
+            $job_alter->worktype_id = join('|',$worktype_id);
             $job_alter->save();
-            echo 'bbbbbb';
 
-            echo $job_alter->alert_id;
+
 
         }
 
@@ -321,6 +320,14 @@ class PageController extends Controller
 
         if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
             $model_tmp = JobEmployees::model()->find("email ='".$_POST['JobEmployees']['email']."'");
+            $cat_id = isset($_POST['JobEmployees']["cat_id"]) ? $_POST['JobEmployees']["cat_id"] : 0;
+            $sub_cat_id = isset($_POST['JobEmployees']["sub_cat_id"]) ? $_POST['JobEmployees']["sub_cat_id"] : 0;
+            $worktype_id = isset($_POST['JobEmployees']["worktype_id"]) ? $_POST['JobEmployees']["worktype_id"] : 0;
+            $location_id = isset($_POST['JobEmployees']["location_id"]) ? $_POST['JobEmployees']["location_id"] : 0;
+            unset($_POST['JobEmployees']["cat_id"]);
+            unset($_POST['JobEmployees']["sub_cat_id"]);
+            unset($_POST['JobEmployees']["worktype_id"]);
+            unset($_POST['JobEmployees']["location_id"]);
             if($model_tmp){
 
                 $employ_id = $model_tmp['employ_id'];
@@ -331,25 +338,17 @@ class PageController extends Controller
                 $model_update->last_name = $_POST['JobEmployees']['last_name'];
                 $model_update->mobile = $model_tmp['mobile'];
                 if($model_update->save()){
-                    $this->updateAlert(
-                        isset($_POST['JobEmployees']["cat_id"]) ? $_POST['JobEmployees']["cat_id"] : 0,
-                        isset($_POST['JobEmployees']["sub_cat_id"]) ? $_POST['JobEmployees']["sub_cat_id"] : 0,
-                        isset($_POST['JobEmployees']["worktype_id"]) ? $_POST['JobEmployees']["worktype_id"] : 0,
-                        isset($_POST['JobEmployees']["location_id"]) ? $_POST['JobEmployees']["location_id"] : 0,
-                        $employ_id);
+                    $this->updateAlert($cat_id,$sub_cat_id,$worktype_id,$location_id,$employ_id);
                 }
 
             }else{
-                var_dump($_POST['JobEmployees']);exit;
 
                 $model->first_name = $_POST['JobEmployees']['first_name'];
                 $model->email = $_POST['JobEmployees']['email'];
                 $model->last_name = $_POST['JobEmployees']['last_name'];
-                $model->mobile = $_POST['JobEmployees']['mobile'];
-                $model->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
+                $model->mobile = 0;
                 if($model->save()){
-                    $this->updateAlert($_POST['JobEmployees']["cat_id"],$_POST['JobEmployees']["sub_cat_id"],
-                        $_POST['JobEmployees']["worktype_id"],$_POST['JobEmployees']["location_id"], $employ_id);
+                    $this->updateAlert($cat_id,$sub_cat_id,$worktype_id,$location_id,$model->employ_id );
                 }
 
             }
