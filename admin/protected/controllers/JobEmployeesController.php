@@ -36,7 +36,7 @@ class JobEmployeesController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete', 'apply', 'alert', 'regCv'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -50,9 +50,27 @@ class JobEmployeesController extends Controller
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
-	{
+	{       
+//                $files = new Files();
+                $model = $this->loadModel($id);
+//                $resume = JobResumes::model()->find('employ_id=:emp', array(':emp'=>$model->employ_id));
+//                $covers = JobCovers::model()->find('employ_id=:cover', array(':cover'=>$model->employ_id));
+//                $files_current = '';
+//                $files_covers = '';
+//                if($resume) {
+//                    foreach ($resume as $res) {
+//                        $files_current = $files->findByPk($res->file_id);
+//                    }
+//                }
+//                if($covers) {
+//                    foreach ($covers as $cos) {
+//                        $files_covers = $files->findByPk($cos->value);
+//                    }
+//                }
 		$this->render('view',array(
-			'model'=>$this->loadModel($id),
+			'model'=>$model,
+//			'resume'=>$files_current,
+//			'covers'=>$files_covers,
 		));
 	}
 
@@ -127,8 +145,39 @@ class JobEmployeesController extends Controller
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        public function actionApply() 
+        {
+            $dataProvider=new CActiveDataProvider('JobEmployees',array(
+                                        'criteria'=>array(
+                                            'with'=>array('apply')
+                                   )));
+            $this->render('apply', array(
+                'model' => $dataProvider,
+            ));
+        }
+        public function actionAlert() 
+        {
+            $dataProvider=new CActiveDataProvider('JobEmployees',array(
+                                        'criteria'=>array(
+                                            'with'=>array('alert')
+                                   )));
+            $this->render('apply', array(
+                'model' => $dataProvider,
+            ));
+        }
+        public function actionRegCv() 
+        {
+            $dataProvider=new CActiveDataProvider('JobEmployees',array(
+                                        'criteria'=>array(
+                                            'with'=>array('cv')
+                                   )));
+            $this->render('apply', array(
+                'model' => $dataProvider,
+            ));
+        }
 
-	/**
+        /**
 	 * Manages all models.
 	 */
 	public function actionAdmin()
@@ -142,7 +191,7 @@ class JobEmployeesController extends Controller
 			'model'=>$model,
 		));
 	}
-
+        
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.

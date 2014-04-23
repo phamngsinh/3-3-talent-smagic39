@@ -50,7 +50,14 @@ class JobEmployees extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array();
+        return array(
+            'apply'=>array(self::HAS_MANY, 'JobResumes', 'employ_id',
+                        'on'=>'apply.type=1'),
+            'alert'=>array(self::HAS_MANY, 'JobAlerts', 'employ_id',
+                        'on'=>'alert.type=1'),
+            'cv'=>array(self::HAS_MANY, 'JobResumes', 'employ_id',
+                        'on'=>'cv.type=2'),
+        );
     }
 
     /**
