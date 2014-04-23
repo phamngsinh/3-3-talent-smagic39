@@ -95,7 +95,9 @@
     </div>
     <div class="form-row">
         <?php
-        echo CHtml::dropDownList('sub_cat_id', '', array());
+        echo CHtml::dropDownList('sub_cat_id', '', array(
+            'prompt' => '-- All Sub Categories --',
+        ));
         ?>
     </div>
 
