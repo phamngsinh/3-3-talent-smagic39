@@ -77,7 +77,9 @@
                                         array('label' => 'Create Job Location', 'url' => array('/JobLocation/create')),
                                         array('label' => 'Manage Job Location', 'url' => array('/JobLocation/admin')),
                                     )),
-                                array('label' => 'Job Apply', 'url' => array('/jobEmployees/admin')),
+                                array('label' => 'Job Apply', 'url' => array('/jobEmployees/apply')),
+                                array('label' => 'Job Alerts', 'url' => array('/jobEmployees/alert')),
+                                array('label' => 'Job RegisterCV', 'url' => array('/jobEmployees/regCv')),
                                 array('label' => 'Team', 'url' => '#', 'items' => array(
                                         array('label' => 'Create Team', 'url' => array('/jobTeams/create')),
                                         array('label' => 'Manage Team', 'url' => array('/jobTeams/admin')),
