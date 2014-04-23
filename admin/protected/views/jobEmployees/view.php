@@ -22,7 +22,21 @@ $this->menu=array(
 	'data'=>$model,
 	'attributes'=>array(
 		'employ_id',
-		'full_name',
+		'first_name',
+		'last_name',
 		'email',
+		'phone',
+		'mobile',
+		'linkedin_profile',
+//                array(
+//                  'name'=>'Resume',
+//                  'type'=>'raw',
+//                  'value'=>$resume['uri'],
+//                ),
+//                array(
+//                  'name'=>'Covers',
+//                  'type'=>'raw',
+//                  'value'=>$covers['uri'],
+//                ),
 	),
 )); ?>
