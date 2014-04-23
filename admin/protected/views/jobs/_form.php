@@ -30,19 +30,18 @@
         <?php echo $form->textField($model, 'title', array('size' => 60, 'maxlength' => 255)); ?>
         <?php echo $form->error($model, 'title'); ?>
     </div>
-
+    
     <div class="row">
+        <?php echo $form->labelEx($model, 'cat_id'); ?>
         <?php
-// currency symbol
-        $locale = CLocale::getInstance('pl_PL');
-        $symbol = $locale->getCurrencySymbol('USD');
+        echo $form->dropDownList($model, 'cat_id', $categories, array(
+            'prompt' => '-- select categories --',
+            'selected' => true,
+        ));
         ?>
-        <?php echo $form->labelEx($model, 'base_salary'); ?>
-        <?php
-        echo $form->textField($model, 'base_salary');
-        echo $symbol;
-        ?>
-        <?php echo $form->error($model, 'base_salary'); ?>
+        <?php echo $form->error($model, 'cat_id'); ?>
+       <?php echo CHtml::link('Create Categories',array('JobCategories/create'),array('target'=>'_blank')); ?>
+
     </div>
     
     <div class="row">
@@ -57,6 +56,31 @@
        <?php echo CHtml::link('Create Work type',array('JobWorktype/create'),array('target'=>'_blank')); ?>
 
     </div>
+    <div class="row">
+        <?php echo $form->labelEx($model, 'job_location_id'); 
+       
+        echo $form->dropDownList($model, 'job_location_id', $location, array(
+            'prompt' => '-- select job location --',
+            'selected' => true,
+        ));
+        
+       echo $form->error($model, 'job_location_id'); ?>
+        <?php echo CHtml::link('Create Location',array('JobLocation/create'),array('target'=>'_blank')); ?>
+    </div>
+    <div class="row">
+        <?php
+// currency symbol
+        $locale = CLocale::getInstance('pl_PL');
+        $symbol = $locale->getCurrencySymbol('USD');
+        ?>
+        <?php echo $form->labelEx($model, 'base_salary'); ?>
+        <?php
+        echo $form->textField($model, 'base_salary');
+        echo $symbol;
+        ?>
+        <?php echo $form->error($model, 'base_salary'); ?>
+    </div>
+    
     <div class="row">
         <?php echo $form->labelEx($model, 'descriptions'); ?>
         <?php
@@ -174,18 +198,6 @@
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'job_location_id'); 
-       
-        echo $form->dropDownList($model, 'job_location_id', $location, array(
-            'prompt' => '-- select job location --',
-            'selected' => true,
-        ));
-        
-       echo $form->error($model, 'job_location_id'); ?>
-        <?php echo CHtml::link('Create Location',array('JobLocation/create'),array('target'=>'_blank')); ?>
-    </div>
-
-    <div class="row">
         <?php echo $form->labelEx($model, 'responsibilities'); ?>
         <?php echo $form->textField($model, 'responsibilities', array('size' => 60, 'maxlength' => 255)); ?>
         <?php echo $form->error($model, 'responsibilities'); ?>
@@ -197,19 +209,6 @@
         <?php echo $form->error($model, 'special_commitments'); ?>
     </div>
 
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'cat_id'); ?>
-        <?php
-        echo $form->dropDownList($model, 'cat_id', $categories, array(
-            'prompt' => '-- select categories --',
-            'selected' => true,
-        ));
-        ?>
-        <?php echo $form->error($model, 'cat_id'); ?>
-       <?php echo CHtml::link('Create Categories',array('JobCategories/create'),array('target'=>'_blank')); ?>
-
-    </div>
 
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
