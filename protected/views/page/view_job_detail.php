@@ -59,6 +59,7 @@
                 
                    	<div class="form-row">
                             <?php
+                            
                                 echo CHtml::dropDownList('cat_id', '', $categories, array(
                                     'prompt' => '-- All Categories --',
                                     'selected' => true,
@@ -106,4 +107,6 @@
         
         </div>
 <div class="clear"></div>
-<div class="job-buttons"><a href="<?php echo Yii::app()->createUrl('page/index'); ?>">Back to list jobs</a><a href="#">Apply Now</a></div>
+<div class="job-buttons"><a href="<?php echo Yii::app()->createUrl('page/index'); ?>">Back to list jobs</a>
+<?php echo CHtml::link('Apply Now',array('page/register','job'=>$job->job_id)); ?>
+</div>

@@ -16,9 +16,11 @@ include("./admin/protected/models/JobCovers.php");
 include("./admin/protected/models/JobCategories.php");
 include("./admin/protected/models/JobSubcategories.php");
 
-class PageController extends Controller {
+class PageController extends Controller
+{
 
-    public function actions() {
+    public function actions()
+    {
         return array(
             // captcha action renders the CAPTCHA image displayed on the contact page
             'captcha' => array(
@@ -33,22 +35,22 @@ class PageController extends Controller {
         );
     }
 
-  
-    public function actionIndex() {
+    public function actionIndex()
+    {
         // implement jobs board
         $criteria = new CDbCriteria();
-        $criteria->order='job_id DESC';
+        $criteria->order = 'job_id DESC';
         $item_count = Jobs::model()->count($criteria);
-        
+
         //implement dropdown search
         $jobs = new Jobs();
         $categories = CHtml::ListData(JobCategories::model()->findAll(), 'cat_id', 'cat_name');
         $location = CHtml::ListData(JobLocation::model()->findAll(), 'job_location_id', 'address');
         $worktype = CHtml::ListData(JobWorktype::model()->findAll(), 'worktype_id', 'name');
-        
+
         $pages = new CPagination($item_count);
         $pages->setPageSize(Yii::app()->params['listPerPage']);
-        $pages->applyLimit($criteria);  // the trick is here!
+        $pages->applyLimit($criteria); // the trick is here!
         $this->render('index', array(
             'dataProvider' => Jobs::model()->findAll($criteria),
             'item_count' => $item_count,
@@ -61,14 +63,15 @@ class PageController extends Controller {
         ));
     }
 
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $model = Jobs::model()->findByPk($id);
-        
-        
+
+
         $categories = CHtml::ListData(JobCategories::model()->findAll(), 'cat_id', 'cat_name');
         $location = CHtml::ListData(JobLocation::model()->findAll(), 'job_location_id', 'address');
         $worktype = CHtml::ListData(JobWorktype::model()->findAll(), 'worktype_id', 'name');
-        
+
         $this->render('view_job_detail', array(
             'job' => $model,
             'categories' => $categories,
@@ -76,12 +79,14 @@ class PageController extends Controller {
             'worktypes' => $worktype,
         ));
     }
-    public function actionApply($id) {
-        $this->render('apply_job', array(
-        ));
+
+    public function actionApply($id)
+    {
+        $this->render('apply_job', array());
     }
 
-    public function actionAbout() {
+    public function actionAbout()
+    {
         $dataProvider = new CActiveDataProvider('JobAbout', array(
             'pagination' => array(
                 'pageSize' => 8,
@@ -92,7 +97,8 @@ class PageController extends Controller {
         ));
     }
 
-    public function actionContact() {
+    public function actionContact()
+    {
         $model = new JobContactus;
         $ms = Ms::model()->findByAttributes(array('var_name' => 'admin_contact'));
         if (isset($_POST['JobContactus'])) {
@@ -111,7 +117,8 @@ class PageController extends Controller {
         ));
     }
 
-    public function actionTeams() {
+    public function actionTeams()
+    {
         $page = (isset($_GET['page']) ? $_GET['page'] : 1);
         $criteria = new CDbCriteria();
         $item_count = JobTeams::model()->count($criteria);
@@ -120,10 +127,10 @@ class PageController extends Controller {
 
         $pages->applyLimit($criteria);
         $models = Yii::app()->db->createCommand()
-                ->select('teams.*,files.*')
-                ->from('tbl_job_teams teams')
-                ->limit(Yii::app()->params['listPerPage'], $page - 1)
-                ->leftJoin('tbl_job_files files', 'files.file_id = teams.image_id');
+            ->select('teams.*,files.*')
+            ->from('tbl_job_teams teams')
+            ->limit(Yii::app()->params['listPerPage'], $page - 1)
+            ->leftJoin('tbl_job_files files', 'files.file_id = teams.image_id');
         $data = $models->queryAll();
         $this->render('teams', array(
             'data' => $data,
@@ -134,18 +141,18 @@ class PageController extends Controller {
     }
 
     /**
-     * 
+     *
      * @param type $file
      * @param type $model
      * @param type $job_id
      * @param type $employ_id
      * @return type
      */
-    public function updateResume($file, $model, $job_id, $employ_id) {
+    public function updateResume($file, $model, $job_id, $employ_id)
+    {
 
         $file_tmp = CUploadedFile::getInstance($model, 'resume_id');
         $fileName = uniqid(time()) . $job_id . $file_tmp;
-
         if ($file_tmp && is_object($file_tmp) && get_class($file_tmp) === 'CUploadedFile') {
             $file_tmp->saveAs(Yii::app()->basePath . '/../uploads/files/' . $fileName);
 
@@ -169,14 +176,15 @@ class PageController extends Controller {
     }
 
     /**
-     * 
+     *
      * @param type $file
      * @param type $model
      * @param type $job_id
      * @param type $employ_id
      * @param type $type
      */
-    public function updateJobCovers($file, $model, $job_id, $employ_id, $type) {
+    public function updateJobCovers($file, $model, $job_id, $employ_id, $type)
+    {
         if ($type == 'Attach') {
 
             $file_tmp = CUploadedFile::getInstance($model, 'cover_id');
@@ -204,6 +212,7 @@ class PageController extends Controller {
                 return $resume->cover_id;
             }
         }
+
         $resume = new JobCovers;
         $resume->employ_id = $employ_id;
         $resume->job_id = $job_id;
@@ -213,12 +222,12 @@ class PageController extends Controller {
         return $resume->cover_id;
     }
 
-    public function actionRegister() {
+    public function actionRegister()
+    {
         $model = new JobEmployees;
         if (isset($_GET['job']) && !empty($_GET['job'])) {
             $job = Jobs::model()->findByPk($_GET['job']);
             if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
-
 
                 //update and upload file cover not
                 $model->attributes = $_POST['JobEmployees'];
@@ -231,28 +240,142 @@ class PageController extends Controller {
                 $type = $_POST['JobEmployees']['coverNoteType'];
                 $model->cover_id = $this->updateJobCovers($_POST['JobEmployees'], $model, $_GET['job'], $model->employ_id, $type);
                 // reupdate 
-                $model->updateAll(
-                        array('resume_id' => $model->resume_id, 'cover_id' => $model->cover_id), 'employ_id =' . $model->employ_id
-                );
+
+                Yii::app()->user->setFlash('success', "Thank for Apply!");
             }
-        } else {
-            $this->redirect('index');
+        }else{
+            $this->redirect(array('page/index#message-info'));
         }
 
         $this->render('register', array('model' => $model, 'job' => $job));
-    }
 
-    public function actionTeamsDetail($id) {
+
+    }
+    public function actionRegisterCV(){
+        $model = new JobEmployees;
+        if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
+                $model_tmp = JobEmployees::model()->find("email ='".$_POST['JobEmployees']['email']."'");
+                if($model_tmp){
+
+                    $employ_id = $model_tmp['employ_id'];
+                    $model_update = JobEmployees::model()->findByPk($employ_id);
+                    $model_update->employ_id = $model_tmp['employ_id'];
+                    $model_update->first_name = $_POST['JobEmployees']['first_name'];
+                    $model_update->last_name = $_POST['JobEmployees']['last_name'];
+                    $model_update->mobile = $_POST['JobEmployees']['mobile'];
+                    $model_update->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
+                    if($model_update->save()){
+                       $this->updateResume($_POST['JobEmployees']['resume_id'], $model,0, $employ_id);
+                    }
+
+                }else{
+
+                    $model->first_name = $_POST['JobEmployees']['first_name'];
+                    $model->email = $_POST['JobEmployees']['email'];
+                    $model->last_name = $_POST['JobEmployees']['last_name'];
+                    $model->mobile = $_POST['JobEmployees']['mobile'];
+                    $model->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
+                    if($model->save()){
+                      $this->updateResume($_POST['JobEmployees']['resume_id'], $model,0, $model->employ_id);
+                    }
+
+                }
+            Yii::app()->user->setFlash('success', "Thank for Register!");
+            $this->redirect(array('page/index#message-info'));
+        }
+        $this->render('register_cv',array(
+            'model'=> $model
+        ));
+    }
+    public  function  updateAlert($cat_id = '',$sub_cat_id = array(),$worktype_id,$location_id,$employ_id){
+        $job_alter = new JobAlerts;
+        $cat = $cat_id ? $cat_id.'|' : '';
+        $cat .= join('|',$sub_cat_id);
+        $job_alter_tmp = JobAlerts::model()->find("employ_id = '$employ_id'");
+        if($job_alter_tmp){
+            $model_update = JobEmployees::model()->findByPk($job_alter_tmp['alert_id']);
+            $model_update->cat_id = $cat;
+            $model_update->job_location_id	 = $location_id;
+            $model_update->worktype_id = $worktype_id;
+            $model_update->save();
+            echo $model_update->alert_id;
+            echo 'aaaaaaaaaaa';
+        }else{
+            $job_alter->cat_id = $cat;
+            $job_alter->job_location_id	 = $location_id;
+            $job_alter->worktype_id = $worktype_id;
+            $job_alter->save();
+            echo 'bbbbbb';
+
+            echo $job_alter->alert_id;
+
+        }
+
+    }
+    public function actionRegisterAlert(){
+        $model = new JobEmployees;
+        $model_category = new JobCategories();
+        $categories = CHtml::ListData(JobCategories::model()->findAll(), 'cat_id', 'cat_name');
+        $location =  CHtml::ListData(JobLocation::model()->findAll(), 'job_location_id', 'address');
+        $worktype =  CHtml::ListData(JobWorktype::model()->findAll(), 'worktype_id', 'name');
+
+        if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
+            $model_tmp = JobEmployees::model()->find("email ='".$_POST['JobEmployees']['email']."'");
+            if($model_tmp){
+
+                $employ_id = $model_tmp['employ_id'];
+                $model_update = JobEmployees::model()->findByPk($employ_id);
+                $model_update->employ_id = $employ_id;
+                $model_update->first_name = $_POST['JobEmployees']['first_name'];
+                $model_update->email = $_POST['JobEmployees']['email'];
+                $model_update->last_name = $_POST['JobEmployees']['last_name'];
+                $model_update->mobile = $model_tmp['mobile'];
+                if($model_update->save()){
+                    $this->updateAlert(
+                        isset($_POST['JobEmployees']["cat_id"]) ? $_POST['JobEmployees']["cat_id"] : 0,
+                        isset($_POST['JobEmployees']["sub_cat_id"]) ? $_POST['JobEmployees']["sub_cat_id"] : 0,
+                        isset($_POST['JobEmployees']["worktype_id"]) ? $_POST['JobEmployees']["worktype_id"] : 0,
+                        isset($_POST['JobEmployees']["location_id"]) ? $_POST['JobEmployees']["location_id"] : 0,
+                        $employ_id);
+                }
+
+            }else{
+                var_dump($_POST['JobEmployees']);exit;
+
+                $model->first_name = $_POST['JobEmployees']['first_name'];
+                $model->email = $_POST['JobEmployees']['email'];
+                $model->last_name = $_POST['JobEmployees']['last_name'];
+                $model->mobile = $_POST['JobEmployees']['mobile'];
+                $model->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
+                if($model->save()){
+                    $this->updateAlert($_POST['JobEmployees']["cat_id"],$_POST['JobEmployees']["sub_cat_id"],
+                        $_POST['JobEmployees']["worktype_id"],$_POST['JobEmployees']["location_id"], $employ_id);
+                }
+
+            }
+            Yii::app()->user->setFlash('success', "Thank for Register!");
+//            $this->redirect(array('page/index#message-info'));
+        }
+        $this->render('registerAlert',array(
+            'model'=> $model,
+            'worktype'=>$worktype,
+            'location'=>$location,
+            'categories'=>$categories
+        ));
+    }
+    public function actionTeamsDetail($id)
+    {
         $models = Yii::app()->db->createCommand()
-                ->select('teams.*,files.*')
-                ->from('tbl_job_teams teams')
-                ->where("teams_id = '$id'")
-                ->leftJoin('tbl_job_files files', 'files.file_id = teams.image_id');
+            ->select('teams.*,files.*')
+            ->from('tbl_job_teams teams')
+            ->where("teams_id = '$id'")
+            ->leftJoin('tbl_job_files files', 'files.file_id = teams.image_id');
         $team = $models->queryRow();
         $this->render('teams_detail', array('team' => $team));
     }
 
-    public function actionTestimonials() {
+    public function actionTestimonials()
+    {
         //paginator
 
         $page = (isset($_GET['page']) ? $_GET['page'] : 1);
@@ -263,10 +386,10 @@ class PageController extends Controller {
 
         $pages->applyLimit($criteria);
         $models = Yii::app()->db->createCommand()
-                ->select('testimonials.*,files.*')
-                ->from('tbl_job_testimonials testimonials')
-                ->limit(Yii::app()->params['listPerPage'], $page - 1)
-                ->leftJoin('tbl_job_files files', 'files.file_id = testimonials.image_id');
+            ->select('testimonials.*,files.*')
+            ->from('tbl_job_testimonials testimonials')
+            ->limit(Yii::app()->params['listPerPage'], $page - 1)
+            ->leftJoin('tbl_job_files files', 'files.file_id = testimonials.image_id');
         $data = $models->queryAll();
         $this->render('testimonials', array(
             'data' => $data,
@@ -275,67 +398,66 @@ class PageController extends Controller {
             'pages' => $pages
         ));
     }
-    public function actionDynamicsubCategories() {
-        $data=  JobSubcategories::model()->findAll('parent=:parent_id', 
-           array(':parent_id'=>(int) $_POST['cat_id']));
- 
-        $data=CHtml::listData($data,'id','cat_id');
+
+    public function actionDynamicsubCategories()
+    {
+        $data = JobSubcategories::model()->findAll('parent=:parent_id', array(':parent_id' => (int)$_POST['cat_id']));
+        $data = CHtml::listData($data, 'id', 'cat_id');
         echo "<option value=''>All</option>";
-            foreach($data as $value=>$id)
-            {
-                $name = JobCategories::model()->getCatName($id);
-                echo CHtml::tag('option',
-                           array('value'=>$value),CHtml::encode($name),true);
-            }
+        foreach ($data as $value => $id) {
+            $name = JobCategories::model()->getCatName($id);
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
     }
-    public function actionBrowserJob() {
-        if(isset($_GET['Jobs']['job_location_id'])) {
+
+    public function actionBrowserJob()
+    {
+        if (isset($_GET['Jobs']['job_location_id'])) {
             $job_location = $_GET['Jobs']['job_location_id'];
         }
-        if(isset($_GET['Jobs']['worktype_id'])) {
+        if (isset($_GET['Jobs']['worktype_id'])) {
             $job_worktype = $_GET['Jobs']['worktype_id'];
         }
-        if(isset($_GET['cat_id'])) {
+        if (isset($_GET['cat_id'])) {
             $job_cat = $_GET['cat_id'];
         }
-        if(isset($_GET['sub_cat_id'])) {
+        if (isset($_GET['sub_cat_id'])) {
             $job_subcat = $_GET['sub_cat_id'];
         }
-        if(isset($_GET['Keywords'])) {
+        if (isset($_GET['Keywords'])) {
             $job_keyword = $_GET['Keywords'];
         }
-        
+
         $criteria = new CDbCriteria();
-        if($job_location) {
-            $criteria->condition = 't.job_location_id='.$job_location;
+        if ($job_location) {
+            $criteria->condition = 't.job_location_id=' . $job_location;
         }
-        if($job_worktype) {
-            $criteria->condition = 't.worktype_id='.$job_worktype;
+        if ($job_worktype) {
+            $criteria->condition = 't.worktype_id=' . $job_worktype;
         }
-        if(isset($_GET['sub_cat_id'])) {
-            $criteria->condition = 't.cat_id='.$job_subcat.' OR t.cat_id='.$job_cat;
+        if (isset($_GET['sub_cat_id'])) {
+            $criteria->condition = 't.cat_id=' . $job_subcat . ' OR t.cat_id=' . $job_cat;
         }
-        if($job_cat) {
-            $criteria->condition = 't.cat_id='.$job_cat;
+        if ($job_cat) {
+            $criteria->condition = 't.cat_id=' . $job_cat;
         }
-        if($job_keyword) {
-            $criteria->condition = 't.title LIKE "%'.$job_keyword.'%"';
-        } 
-        else if($job_location && $job_worktype && $job_subcat && $job_keyword){
-            $criteria->condition = 't.job_location_id='.$job_location.' AND t.cat_id='.$job_subcat.' AND t.worktype_id='.$job_worktype.' AND t.title LIKE "%'.$job_keyword.'%"';
+        if ($job_keyword) {
+            $criteria->condition = 't.title LIKE "%' . $job_keyword . '%"';
+        } else if ($job_location && $job_worktype && $job_subcat && $job_keyword) {
+            $criteria->condition = 't.job_location_id=' . $job_location . ' AND t.cat_id=' . $job_subcat . ' AND t.worktype_id=' . $job_worktype . ' AND t.title LIKE "%' . $job_keyword . '%"';
         }
-        $criteria->order='job_id DESC';
+        $criteria->order = 'job_id DESC';
         $item_count = Jobs::model()->count($criteria);
-        
+
         //implement dropdown search
         $jobs = new Jobs();
         $categories = CHtml::ListData(JobCategories::model()->findAll(), 'cat_id', 'cat_name');
         $location = CHtml::ListData(JobLocation::model()->findAll(), 'job_location_id', 'address');
         $worktype = CHtml::ListData(JobWorktype::model()->findAll(), 'worktype_id', 'name');
-        
+
         $pages = new CPagination($item_count);
         $pages->setPageSize(Yii::app()->params['listPerPage']);
-        $pages->applyLimit($criteria);  // the trick is here!
+        $pages->applyLimit($criteria); // the trick is here!
         $this->render('index', array(
             'dataProvider' => Jobs::model()->findAll($criteria),
             'item_count' => $item_count,
