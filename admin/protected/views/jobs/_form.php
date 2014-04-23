@@ -63,7 +63,7 @@
         $this->widget('application.extensions.tinymce.ETinyMce', array(
             'model' => $model,
             'attribute' => 'descriptions',
-            'htmlOptions' => array('size' => 60, 'maxlength' => 255),
+            'htmlOptions' => array('size' => 60),
             'plugins' => array('safari', 'pagebreak', 'style', 'layer', 'table', 'save', 'advhr', 'advlink', 'emotions', 'iespell', 'inlinepopups', 'preview', 'searchreplace', 'print', 'contextmenu', 'paste', 'directionality', 'fullscreen', 'noneditable', 'visualchars', 'nonbreaking', 'xhtmlxtras', 'template'),
             'options' => array(
                 'theme_advanced_toolbar_location' => 'top',
@@ -88,7 +88,7 @@
         $this->widget('application.extensions.tinymce.ETinyMce', array(
             'model' => $model,
             'attribute' => 'benefits',
-            'htmlOptions' => array('size' => 60, 'maxlength' => 255),
+            'htmlOptions' => array('size' => 60),
             'plugins' => array('safari', 'pagebreak', 'style', 'layer', 'table', 'save', 'advhr', 'advlink', 'emotions', 'iespell', 'inlinepopups', 'preview', 'searchreplace', 'print', 'contextmenu', 'paste', 'directionality', 'fullscreen', 'noneditable', 'visualchars', 'nonbreaking', 'xhtmlxtras', 'template'),
             'options' => array(
                 'theme_advanced_toolbar_location' => 'top',
@@ -110,7 +110,7 @@
               $this->widget('application.extensions.tinymce.ETinyMce', array(
             'model' => $model,
             'attribute' => 'experience_requirements',
-            'htmlOptions' => array('size' => 60, 'maxlength' => 255),
+            'htmlOptions' => array('size' => 60),
             'plugins' => array('safari', 'pagebreak', 'style', 'layer', 'table', 'save', 'advhr', 'advlink', 'emotions', 'iespell', 'inlinepopups', 'preview', 'searchreplace', 'print', 'contextmenu', 'paste', 'directionality', 'fullscreen', 'noneditable', 'visualchars', 'nonbreaking', 'xhtmlxtras', 'template'),
             'options' => array(
                 'theme_advanced_toolbar_location' => 'top',
@@ -153,7 +153,7 @@
                  $this->widget('application.extensions.tinymce.ETinyMce', array(
             'model' => $model,
             'attribute' => 'incentives',
-            'htmlOptions' => array('size' => 60, 'maxlength' => 255),
+            'htmlOptions' => array('size' => 60),
             'plugins' => array('safari', 'pagebreak', 'style', 'layer', 'table', 'save', 'advhr', 'advlink', 'emotions', 'iespell', 'inlinepopups', 'preview', 'searchreplace', 'print', 'contextmenu', 'paste', 'directionality', 'fullscreen', 'noneditable', 'visualchars', 'nonbreaking', 'xhtmlxtras', 'template'),
             'options' => array(
                 'theme_advanced_toolbar_location' => 'top',
