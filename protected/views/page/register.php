@@ -47,9 +47,9 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 
 <div class="row">
-    <?php echo $form->label($model, 'resume_id'); ?>
-    <?php echo $form->fileField($model, 'resume_id'); ?>
-    <?php echo $form->error($model, 'resume_id'); ?>
+    <?php echo $form->label($model_file, 'resume_id'); ?>
+    <?php echo $form->fileField($model_file, 'resume_id'); ?>
+    <?php echo $form->error($model_file, 'resume_id'); ?>
 </div>
 
 
