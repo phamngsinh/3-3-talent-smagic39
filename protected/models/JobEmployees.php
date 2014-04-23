@@ -10,7 +10,6 @@
  */
 class JobEmployees extends CActiveRecord
 {
-
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -42,7 +41,6 @@ class JobEmployees extends CActiveRecord
             array('employ_id, first_name, last_name,email,mobile', 'safe', 'on' => 'search'),
         );
     }
-
     /**
      * @return array relational rules.
      */

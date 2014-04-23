@@ -233,7 +233,6 @@ class PageController extends Controller
 
                 //update and upload file cover not
                 $model->attributes = $_POST['JobEmployees'];
-                $model->resume_id = 0;
                 $model->save();
                 //upload file and upload resume
                 $this->updateResume($_POST['JobEmployees'], $model_file, $_GET['job'], $model->employ_id,1);
