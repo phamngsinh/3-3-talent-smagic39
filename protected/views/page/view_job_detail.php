@@ -38,7 +38,7 @@
     </div>
     <div>
         <strong>Other...?</strong><br/>
-        <p><?php echo $job->hiring_organization_descriptions; ?></p>
+        <p><?php echo $job->responsibilities; ?></p>
     </div>
     <div>
         <strong>How to get touch:</strong><br/>

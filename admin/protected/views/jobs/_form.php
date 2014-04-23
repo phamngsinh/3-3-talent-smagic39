@@ -128,27 +128,6 @@
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'hiring_organization_descriptions'); 
-             $this->widget('application.extensions.tinymce.ETinyMce', array(
-            'model' => $model,
-            'attribute' => 'hiring_organization_descriptions',
-            'htmlOptions' => array('size' => 60, 'maxlength' => 255),
-            'plugins' => array('safari', 'pagebreak', 'style', 'layer', 'table', 'save', 'advhr', 'advlink', 'emotions', 'iespell', 'inlinepopups', 'preview', 'searchreplace', 'print', 'contextmenu', 'paste', 'directionality', 'fullscreen', 'noneditable', 'visualchars', 'nonbreaking', 'xhtmlxtras', 'template'),
-            'options' => array(
-                'theme_advanced_toolbar_location' => 'top',
-                'theme' => 'advanced',
-                'skin' => 'o2k7',
-                'theme_advanced_buttons1' => 'preview,bold,italic,underline,fontselect,fontsizeselect,link,justifyfull,justifyleft,justifycenter,justifyright,pasteword,pastetext,table,|,bullist,numlist,|,undo,redo,|,code,fullscreen',
-                'theme_advanced_buttons2' => '',
-                'theme_advanced_buttons3' => '',
-                'height' => '100',
-            ),
-        ));
-        
-      echo $form->error($model, 'hiring_organization_descriptions'); ?>
-    </div>
-
-    <div class="row">
         <?php echo $form->labelEx($model, 'incentives');
                  $this->widget('application.extensions.tinymce.ETinyMce', array(
             'model' => $model,
@@ -175,17 +154,23 @@
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'education_requirements'); ?>
-        <?php echo $form->textField($model, 'education_requirements', array('size' => 60, 'maxlength' => 255)); ?>
-        <?php echo $form->error($model, 'education_requirements'); ?>
-    </div>
-
-    
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'industry'); ?>
-        <?php echo $form->textField($model, 'industry', array('size' => 60, 'maxlength' => 255)); ?>
-        <?php echo $form->error($model, 'industry'); ?>
+        <?php echo $form->labelEx($model, 'education_requirements');
+                 $this->widget('application.extensions.tinymce.ETinyMce', array(
+            'model' => $model,
+            'attribute' => 'education_requirements',
+            'htmlOptions' => array('size' => 60),
+            'plugins' => array('safari', 'pagebreak', 'style', 'layer', 'table', 'save', 'advhr', 'advlink', 'emotions', 'iespell', 'inlinepopups', 'preview', 'searchreplace', 'print', 'contextmenu', 'paste', 'directionality', 'fullscreen', 'noneditable', 'visualchars', 'nonbreaking', 'xhtmlxtras', 'template'),
+            'options' => array(
+                'theme_advanced_toolbar_location' => 'top',
+                'theme' => 'advanced',
+                'skin' => 'o2k7',
+                'theme_advanced_buttons1' => 'preview,bold,italic,underline,fontselect,fontsizeselect,link,justifyfull,justifyleft,justifycenter,justifyright,pasteword,pastetext,table,|,bullist,numlist,|,undo,redo,|,code,fullscreen',
+                'theme_advanced_buttons2' => '',
+                'theme_advanced_buttons3' => '',
+                'height' => '100',
+            ),
+        ));
+         echo $form->error($model, 'education_requirements'); ?>
     </div>
 
     <div class="row">
@@ -201,22 +186,9 @@
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'qualifications'); ?>
-        <?php echo $form->textField($model, 'qualifications', array('size' => 60, 'maxlength' => 255)); ?>
-        <?php echo $form->error($model, 'qualifications'); ?>
-    </div>
-
-    <div class="row">
         <?php echo $form->labelEx($model, 'responsibilities'); ?>
         <?php echo $form->textField($model, 'responsibilities', array('size' => 60, 'maxlength' => 255)); ?>
         <?php echo $form->error($model, 'responsibilities'); ?>
-    </div>
-
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'skills'); ?>
-        <?php echo $form->textField($model, 'skills', array('size' => 60, 'maxlength' => 255)); ?>
-        <?php echo $form->error($model, 'skills'); ?>
     </div>
 
     <div class="row">
@@ -225,12 +197,6 @@
         <?php echo $form->error($model, 'special_commitments'); ?>
     </div>
 
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'work_hours'); ?>
-        <?php echo $form->textField($model, 'work_hours', array('size' => 60, 'maxlength' => 255)); ?>
-        <?php echo $form->error($model, 'work_hours'); ?>
-    </div>
 
     <div class="row">
         <?php echo $form->labelEx($model, 'cat_id'); ?>
