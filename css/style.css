@@ -587,3 +587,6 @@ select
     width: 30px;
     padding: 5px;
 }
+.errorMessage{
+    color:red;
+}
