@@ -33,6 +33,34 @@ class PageController extends Controller {
         );
     }
 
+    public function getAllCategory() {
+        $models = Yii::app()->db->createCommand()
+                ->select('JobCategories.*')
+                ->from('tbl_job_categories JobCategories')
+                ->where('JobSubcategories.parent=0')
+                ->leftJoin('tbl_job_subcategories JobSubcategories', 'JobSubcategories.cat_id = JobCategories.cat_id')
+                ->queryAll();
+        $tmp = array();
+        foreach ($models as $key) {
+            $tmp[$key['cat_id']] = $key['cat_name'];
+        }
+        return $tmp;
+    }
+
+    public function getListSubCategory($id) {
+        $models = Yii::app()->db->createCommand()
+                ->select('JobCategories.*')
+                ->from('tbl_job_categories JobCategories')
+                ->where('JobSubcategories.parent=' . $id)
+                ->leftJoin('tbl_job_subcategories JobSubcategories', 'JobSubcategories.cat_id = JobCategories.cat_id')
+                ->queryAll();
+        $tmp = array();
+        foreach ($models as $key) {
+            $tmp[$key['cat_id']] = $key['cat_name'];
+        }
+        return $tmp;
+    }
+
     public function actionIndex() {
         // implement jobs board
         $criteria = new CDbCriteria();
@@ -41,7 +69,8 @@ class PageController extends Controller {
 
         //implement dropdown search
         $jobs = new Jobs();
-        $categories = CHtml::ListData(JobCategories::model()->findAll(), 'cat_id', 'cat_name');
+//        $categories = CHtml::ListData(JobCategories::model()->findAll(), 'cat_id', 'cat_name');
+        $categories = $this->getAllCategory();
         $location = CHtml::ListData(JobLocation::model()->findAll(), 'job_location_id', 'address');
         $worktype = CHtml::ListData(JobWorktype::model()->findAll(), 'worktype_id', 'name');
 
@@ -254,9 +283,8 @@ class PageController extends Controller {
         $message->view = "view";
         $message->subject = $title;
         $message->setBody($content, 'text/html');
-        if($to){
+        if ($to) {
             $message->addTo($to);
-            
         }
         $message->addTo($from);
         $message->from = $from;
@@ -416,13 +444,17 @@ class PageController extends Controller {
     }
 
     public function actionDynamicsubCategories() {
-        $data = JobSubcategories::model()->findAll('parent=:parent_id', array(':parent_id' => (int) $_POST['cat_id']));
-        $data = CHtml::listData($data, 'id', 'cat_id');
-        echo "<option value=''>All</option>";
-        foreach ($data as $value => $id) {
-            $name = JobCategories::model()->getCatName($id);
-            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+//        $data = JobSubcategories::model()->findAll('parent=:parent_id', array(':parent_id' => (int) $_POST['cat_id']));
+
+
+        $data = $this->getListSubCategory($_POST['cat_id']);
+        $str = "<option value=''>All</option>";
+        if ($data) {
+            foreach ($data as $id => $value) {
+                $str .=CHtml::tag('option', array('value' => $id), CHtml::encode($value), true);
+            }
         }
+        echo $str;
     }
 
     public function actionBrowserJob() {
