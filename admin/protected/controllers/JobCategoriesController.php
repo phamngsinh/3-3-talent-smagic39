@@ -76,6 +76,7 @@ class JobCategoriesController extends Controller
                             $sub_cat->cat_id = $model->cat_id;
                             $sub_cat->parent = $_POST['JobCategories']['cat_id'] ? $_POST['JobCategories']['cat_id'] : 0;
                             $sub_cat->save();
+                            Yii::app()->user->setFlash('success', "New Category is created");
                             $this->redirect(array('admin'));
 		}
 

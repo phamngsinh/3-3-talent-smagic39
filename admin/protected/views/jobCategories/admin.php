@@ -25,7 +25,11 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-
+<?php if(Yii::app()->user->hasFlash('success')):?>
+    <div class="info" style="text-align: center;color:#0074c7">
+        <?php echo Yii::app()->user->getFlash('success'); ?>
+    </div>
+<?php endif; ?>
 <h1>Manage Job Categories</h1>
 
 <p>

@@ -73,7 +73,7 @@ class JobTeams extends CActiveRecord
 			'positions' => 'Positions',
 			'descriptions' => 'Descriptions',
 			'link_twitter' => 'Link Twitter',
-			'link_facebook' => 'Link Facebook',
+			'link_facebook' => 'Link Linkedin',
 			'link_email' => 'Link Email',
 			'image_id' => 'Image',
 		);
