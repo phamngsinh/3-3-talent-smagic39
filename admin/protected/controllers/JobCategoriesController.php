@@ -63,7 +63,7 @@ class JobCategoriesController extends Controller
 	public function actionCreate()
 	{
 		$model=new JobCategories;
-
+                var_dump($model);exit;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
                 
