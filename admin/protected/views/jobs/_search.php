@@ -47,18 +47,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'hiring_organization_descriptions'); ?>
-		<?php echo $form->textField($model,'hiring_organization_descriptions'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'incentives'); ?>
 		<?php echo $form->textField($model,'incentives',array('size'=>60,'maxlength'=>255)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'industry'); ?>
-		<?php echo $form->textField($model,'industry',array('size'=>60,'maxlength'=>255)); ?>
 	</div>
 
 	<div class="row">
@@ -67,18 +57,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'qualifications'); ?>
-		<?php echo $form->textField($model,'qualifications',array('size'=>60,'maxlength'=>255)); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'responsibilities'); ?>
 		<?php echo $form->textField($model,'responsibilities',array('size'=>60,'maxlength'=>255)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'skills'); ?>
-		<?php echo $form->textField($model,'skills',array('size'=>60,'maxlength'=>255)); ?>
 	</div>
 
 	<div class="row">
@@ -91,10 +71,6 @@
 		<?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>255)); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->label($model,'work_hours'); ?>
-		<?php echo $form->textField($model,'work_hours',array('size'=>60,'maxlength'=>255)); ?>
-	</div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Search'); ?>
