@@ -9,7 +9,6 @@
         'enableAjaxValidation' => false,
     ));
     ?>    
-    <?php echo $form->errorSummary($model); ?>
     <div class="enquiry-title">
         Your Name<span class="required"> * </span>
     </div>
@@ -50,14 +49,14 @@
 
     <div class="enquiry-box">
         <?php echo $form->textArea($model, 'content'); ?>
-      <?php echo $form->error($model, 'phone'); ?>
+      <?php echo $form->error($model, 'content'); ?>
 
     </div>
     <div class="clear"></div>
 
     <div class="enquiry-box">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-        <input name="" type="button" value="Cancel">
+        <input type="reset" value="Cancel" onclick="location.href='index.php?r=page/index'">
     </div>                            
 
     <?php $this->endWidget(); ?>

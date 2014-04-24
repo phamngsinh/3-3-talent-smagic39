@@ -29,15 +29,12 @@
         <?php echo $job->descriptions; ?>
     </div>
     <div>
-        <strong>The Role...?</strong><br/>
         <p><?php echo strip_tags($job->benefits); ?></p>
     </div>
     <div>
-        <strong>You...?</strong><br/>
         <p><?php echo strip_tags($job->experience_requirements); ?></p>
     </div>
     <div>
-        <strong>Other...?</strong><br/>
         <p><?php echo $job->responsibilities; ?></p>
     </div>
     <div>

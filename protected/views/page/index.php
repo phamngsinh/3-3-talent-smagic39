@@ -1,5 +1,5 @@
 <h1>33talent Currents Jobs Details</h1>
-<div class="job-list">
+<div class="job-list front-page">
     <ul>
         <?php
         if ($dataProvider) {

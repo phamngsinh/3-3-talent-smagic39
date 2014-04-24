@@ -47,9 +47,9 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 
 <div class="row">
-    <?php echo $form->label($model_file, 'resume_id'); ?>
-    <?php echo $form->fileField($model_file, 'resume_id'); ?>
-    <?php echo $form->error($model_file, 'resume_id'); ?>
+    <label for="JobEmployees_file_id">Resume </label>
+    <?php echo $form->fileField($model_file, 'file_id',array('accept'=>'.pdf,.docs,.docx')); ?>
+    <?php echo $form->error($model_file, 'file_id'); ?>
 </div>
 
 
@@ -65,7 +65,7 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 <div class="row" style="clear:both">
 
-    <?php echo $form->fileField($model, 'cover_id'); ?>
+    <?php echo $form->fileField($model, 'cover_id',array('accept'=>'.pdf,.docs,.docx')); ?>
     <textarea id="CandidateCoverNote" maxlength="1000" name="JobEmployees[CandidateCoverNote]" rows="4" cols="50"
               style="display: none;"></textarea>
 </div>
