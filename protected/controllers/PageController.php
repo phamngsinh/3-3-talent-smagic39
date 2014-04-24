@@ -16,11 +16,9 @@ include("./admin/protected/models/JobCovers.php");
 include("./admin/protected/models/JobCategories.php");
 include("./admin/protected/models/JobSubcategories.php");
 
-class PageController extends Controller
-{
+class PageController extends Controller {
 
-    public function actions()
-    {
+    public function actions() {
         return array(
             // captcha action renders the CAPTCHA image displayed on the contact page
             'captcha' => array(
@@ -35,8 +33,7 @@ class PageController extends Controller
         );
     }
 
-    public function actionIndex()
-    {
+    public function actionIndex() {
         // implement jobs board
         $criteria = new CDbCriteria();
         $criteria->order = 'job_id DESC';
@@ -63,8 +60,7 @@ class PageController extends Controller
         ));
     }
 
-    public function actionView($id)
-    {
+    public function actionView($id) {
         $model = Jobs::model()->findByPk($id);
 
 
@@ -80,13 +76,11 @@ class PageController extends Controller
         ));
     }
 
-    public function actionApply($id)
-    {
+    public function actionApply($id) {
         $this->render('apply_job', array());
     }
 
-    public function actionAbout()
-    {
+    public function actionAbout() {
         $dataProvider = new CActiveDataProvider('JobAbout', array(
             'pagination' => array(
                 'pageSize' => 8,
@@ -97,16 +91,16 @@ class PageController extends Controller
         ));
     }
 
-    public function actionContact()
-    {
+    public function actionContact() {
         $model = new JobContactus;
-        $ms = Ms::model()->findByAttributes(array('var_name' => 'admin_contact'));
         if (isset($_POST['JobContactus'])) {
 
             $model->attributes = $_POST['JobContactus'];
             $model['date_created'] = date('Y-m-d H:i:s');
             if ($model->validate()) {
                 $model->save();
+                $this->sendEmail('User have been contact at 33Talent', null, 'Contact at 33Talent');
+                Yii::app()->user->setFlash('success', "Thank you for Contact Us");
                 $this->redirect(array('index'));
             }
         }
@@ -117,8 +111,7 @@ class PageController extends Controller
         ));
     }
 
-    public function actionTeams()
-    {
+    public function actionTeams() {
         $page = (isset($_GET['page']) ? $_GET['page'] : 1);
         $criteria = new CDbCriteria();
         $item_count = JobTeams::model()->count($criteria);
@@ -148,8 +141,7 @@ class PageController extends Controller
      * @param type $employ_id
      * @return type
      */
-    public function updateResume($file, $model, $job_id, $employ_id,$type=null)
-    {
+    public function updateResume($file, $model, $job_id, $employ_id, $type = null) {
 
         $file_tmp = CUploadedFile::getInstance($model, 'file_id');
         $fileName = uniqid(time()) . $job_id . $file_tmp;
@@ -170,7 +162,7 @@ class PageController extends Controller
             $resume->employ_id = $employ_id;
             $resume->job_id = $job_id;
             $resume->file_id = $file_id;
-            $resume->type= $type;
+            $resume->type = $type;
             $resume->save();
             return $resume->resume_id;
         }
@@ -184,8 +176,7 @@ class PageController extends Controller
      * @param type $employ_id
      * @param type $type
      */
-    public function updateJobCovers($file, $model, $job_id, $employ_id, $type)
-    {
+    public function updateJobCovers($file, $model, $job_id, $employ_id, $type) {
         if ($type == 'Attach') {
 
             $file_tmp = CUploadedFile::getInstance($model, 'cover_id');
@@ -223,47 +214,64 @@ class PageController extends Controller
         return $resume->cover_id;
     }
 
-    public function actionRegister()
-    {
+    public function actionRegister() {
         $model = new JobEmployees;
         $resume = new JobResumes;
 
         if (isset($_GET['job']) && !empty($_GET['job'])) {
             $job = Jobs::model()->findByPk($_GET['job']);
             if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
-
                 //update and upload file cover not
                 $model->attributes = $_POST['JobEmployees'];
                 $model->save();
                 //upload file and upload resume
-                $this->updateResume($_POST['JobEmployees'], $resume, $_GET['job'], $model->employ_id,1);
+                $this->updateResume($_POST['JobEmployees'], $resume, $_GET['job'], $model->employ_id, 1);
                 //cover leter
                 $type = $_POST['JobEmployees']['coverNoteType'];
                 $this->updateJobCovers($_POST['JobEmployees'], $model, $_GET['job'], $model->employ_id, $type);
                 // reupdate 
 
                 Yii::app()->user->setFlash('success', "Thank you for Applying");
+                $this->sendEmail('Thank You for Applying at The 33Talent', $_POST['JobEmployees']['email'], 'Thank You for Register' . $job['title']);
                 $this->redirect(array('page/index#message-info'));
-
             }
         } else {
             $this->redirect(array('page/index#message-info'));
         }
 
         $this->render('register', array('model' => $model, 'job' => $job, 'model_file' => $resume));
-
-
     }
 
-    public function actionRegisterCV()
-    {
+    /**
+     * 
+     * @param type $content
+     * @param type $to
+     */
+    public function sendEmail($content, $to, $title) {
+
+        $from = Ms::model()->findByAttributes(array('var_name' => 'adminEmail'))->value4_text;
+        $message = new YiiMailMessage;
+        $message->view = "view";
+        $message->subject = $title;
+        $message->setBody($content, 'text/html');
+        if($to){
+            $message->addTo($to);
+            
+        }
+        $message->addTo($from);
+        $message->from = $from;
+        Yii::app()->mail->send($message);
+    }
+
+    public function actionRegisterCV() {
         $model = new JobEmployees;
         $resume = new JobResumes;
-
 
         if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
             $model_tmp = JobEmployees::model()->find("email ='" . $_POST['JobEmployees']['email'] . "'");
             if ($model_tmp) {
+
+
 
                 $employ_id = $model_tmp['employ_id'];
                 $model_update = JobEmployees::model()->findByPk($employ_id);
@@ -273,9 +281,8 @@ class PageController extends Controller
                 $model_update->mobile = $_POST['JobEmployees']['mobile'];
                 $model_update->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
                 if ($model_update->save()) {
-                    $this->updateResume($_POST['JobEmployees']['resume_id'], $resume, 0, $employ_id,2);
+                    $this->updateResume($_POST['JobResumes']['file_id'], $resume, 0, $employ_id, 2);
                 }
-
             } else {
 
                 $model->first_name = $_POST['JobEmployees']['first_name'];
@@ -284,21 +291,22 @@ class PageController extends Controller
                 $model->mobile = $_POST['JobEmployees']['mobile'];
                 $model->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
                 if ($model->save()) {
-                    $this->updateResume($_POST['JobEmployees']['resume_id'], $resume, 0, $model->employ_id,2);
+                    $this->updateResume($_POST['JobResumes']['file_id'], $resume, 0, $model->employ_id, 2);
                 }
-
             }
+            $this->sendEmail('Thank You for Registering at The 33Talent', $_POST['JobEmployees']['email'], 'Thank You for Register');
+
+
             Yii::app()->user->setFlash('success', "Thank You for Register!");
             $this->redirect(array('page/index#message-info'));
         }
         $this->render('register_cv', array(
             'model' => $model,
-            'model_file'=>$resume
+            'model_file' => $resume
         ));
     }
 
-    public function  updateAlert($cat_id, $sub_cat_id = array(), $worktype_id, $location_id, $employ_id,$type=null)
-    {
+    public function updateAlert($cat_id, $sub_cat_id = array(), $worktype_id, $location_id, $employ_id, $type = null) {
         $job_alter = new JobAlerts;
         $cat = $cat_id ? $cat_id . '|' : '';
         $sub_cat_id = $sub_cat_id ? $sub_cat_id : array(0);
@@ -320,14 +328,10 @@ class PageController extends Controller
             $job_alter->worktype_id = join('|', $worktype_id);
             $job_alter->type = $type;
             $job_alter->save();
-
-
         }
-
     }
 
-    public function actionRegisterAlert()
-    {
+    public function actionRegisterAlert() {
         $model = new JobEmployees;
         $model_category = new JobCategories();
         $categories = CHtml::ListData(JobCategories::model()->findAll(), 'cat_id', 'cat_name');
@@ -354,9 +358,8 @@ class PageController extends Controller
                 $model_update->last_name = $_POST['JobEmployees']['last_name'];
                 $model_update->mobile = $model_tmp['mobile'];
                 if ($model_update->save()) {
-                    $this->updateAlert($cat_id, $sub_cat_id, $worktype_id, $location_id, $employ_id,1);
+                    $this->updateAlert($cat_id, $sub_cat_id, $worktype_id, $location_id, $employ_id, 1);
                 }
-
             } else {
 
                 $model->first_name = $_POST['JobEmployees']['first_name'];
@@ -364,9 +367,8 @@ class PageController extends Controller
                 $model->last_name = $_POST['JobEmployees']['last_name'];
                 $model->mobile = 0;
                 if ($model->save()) {
-                    $this->updateAlert($cat_id, $sub_cat_id, $worktype_id, $location_id, $model->employ_id,1);
+                    $this->updateAlert($cat_id, $sub_cat_id, $worktype_id, $location_id, $model->employ_id, 1);
                 }
-
             }
             Yii::app()->user->setFlash('success', "Thank for Register!");
             $this->redirect(array('page/index#message-info'));
@@ -379,19 +381,17 @@ class PageController extends Controller
         ));
     }
 
-    public function actionTeamsDetail($id)
-    {
+    public function actionTeamsDetail($id) {
         $models = Yii::app()->db->createCommand()
-            ->select('teams.*,files.*')
-            ->from('tbl_job_teams teams')
-            ->where("teams_id = '$id'")
-            ->leftJoin('tbl_job_files files', 'files.file_id = teams.image_id');
+                ->select('teams.*,files.*')
+                ->from('tbl_job_teams teams')
+                ->where("teams_id = '$id'")
+                ->leftJoin('tbl_job_files files', 'files.file_id = teams.image_id');
         $team = $models->queryRow();
         $this->render('teams_detail', array('team' => $team));
     }
 
-    public function actionTestimonials()
-    {
+    public function actionTestimonials() {
         //paginator
 
         $page = (isset($_GET['page']) ? $_GET['page'] : 1);
@@ -402,10 +402,10 @@ class PageController extends Controller
 
         $pages->applyLimit($criteria);
         $models = Yii::app()->db->createCommand()
-            ->select('testimonials.*,files.*')
-            ->from('tbl_job_testimonials testimonials')
-            ->limit(Yii::app()->params['listPerPage'], $page - 1)
-            ->leftJoin('tbl_job_files files', 'files.file_id = testimonials.image_id');
+                ->select('testimonials.*,files.*')
+                ->from('tbl_job_testimonials testimonials')
+                ->limit(Yii::app()->params['listPerPage'], $page - 1)
+                ->leftJoin('tbl_job_files files', 'files.file_id = testimonials.image_id');
         $data = $models->queryAll();
         $this->render('testimonials', array(
             'data' => $data,
@@ -415,9 +415,8 @@ class PageController extends Controller
         ));
     }
 
-    public function actionDynamicsubCategories()
-    {
-        $data = JobSubcategories::model()->findAll('parent=:parent_id', array(':parent_id' => (int)$_POST['cat_id']));
+    public function actionDynamicsubCategories() {
+        $data = JobSubcategories::model()->findAll('parent=:parent_id', array(':parent_id' => (int) $_POST['cat_id']));
         $data = CHtml::listData($data, 'id', 'cat_id');
         echo "<option value=''>All</option>";
         foreach ($data as $value => $id) {
@@ -426,8 +425,7 @@ class PageController extends Controller
         }
     }
 
-    public function actionBrowserJob()
-    {
+    public function actionBrowserJob() {
         if (isset($_GET['Jobs']['job_location_id'])) {
             $job_location = $_GET['Jobs']['job_location_id'];
         }
