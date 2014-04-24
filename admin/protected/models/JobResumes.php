@@ -39,7 +39,7 @@ class JobResumes extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('employ_id, job_id, file_id', 'required'),
-			array('employ_id, job_id, file_id', 'numerical', 'integerOnly'=>true),
+			array('employ_id, job_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('resume_id, employ_id, job_id, file_id', 'safe', 'on'=>'search'),
