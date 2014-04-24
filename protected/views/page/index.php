@@ -43,7 +43,7 @@
 
                 </li>
 
-            <?php
+                <?php
             }
         } else {
             echo '<i>No results found.</i>';
@@ -52,7 +52,6 @@
     </ul>
 
     <?php
-
     // the pagination widget with some options to mess
     $this->widget('CLinkPager', array(
         'currentPage' => $pages->getCurrentPage(),
@@ -72,7 +71,6 @@
         'enableAjaxValidation' => false,
         'method' => 'GET',
         'action' => Yii::app()->createUrl('page/browserJob'),
-
     ));
     ?>
     <div class="search-job-title">Search Jobs</div>
@@ -90,7 +88,6 @@
                 'data' => array('cat_id' => 'js:this.value', 'YII_CSRF_TOKEN' => Yii::app()->request->csrfToken),
             )
         ));
-
         ?>
     </div>
     <div class="form-row">
@@ -130,5 +127,4 @@
 </div>
 <!--home-enquiry-->
 <div class="clear"></div>
-            
-            
+
