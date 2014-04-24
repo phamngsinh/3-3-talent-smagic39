@@ -37,6 +37,7 @@ class JobEmployees extends CActiveRecord
         // will receive user inputs.
         return array(
             array('first_name, last_name,email,mobile', 'required'),
+            array('mobile,phone', 'numerical'),
             array('email', 'email'),
             array('employ_id, first_name, last_name,email,mobile', 'safe', 'on' => 'search'),
         );

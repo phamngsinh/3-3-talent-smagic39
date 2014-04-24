@@ -151,7 +151,7 @@ class PageController extends Controller
     public function updateResume($file, $model, $job_id, $employ_id,$type=null)
     {
 
-        $file_tmp = CUploadedFile::getInstance($model, 'resume_id');
+        $file_tmp = CUploadedFile::getInstance($model, 'file_id');
         $fileName = uniqid(time()) . $job_id . $file_tmp;
         if ($file_tmp && is_object($file_tmp) && get_class($file_tmp) === 'CUploadedFile') {
             $file_tmp->saveAs(Yii::app()->basePath . '/../uploads/files/' . $fileName);
@@ -226,7 +226,8 @@ class PageController extends Controller
     public function actionRegister()
     {
         $model = new JobEmployees;
-        $model_file = new Files;
+        $resume = new JobResumes;
+
         if (isset($_GET['job']) && !empty($_GET['job'])) {
             $job = Jobs::model()->findByPk($_GET['job']);
             if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
@@ -235,13 +236,13 @@ class PageController extends Controller
                 $model->attributes = $_POST['JobEmployees'];
                 $model->save();
                 //upload file and upload resume
-                $this->updateResume($_POST['JobEmployees'], $model_file, $_GET['job'], $model->employ_id,1);
+                $this->updateResume($_POST['JobEmployees'], $resume, $_GET['job'], $model->employ_id,1);
                 //cover leter
                 $type = $_POST['JobEmployees']['coverNoteType'];
                 $this->updateJobCovers($_POST['JobEmployees'], $model, $_GET['job'], $model->employ_id, $type);
                 // reupdate 
 
-                Yii::app()->user->setFlash('success', "Thank You for Apply!");
+                Yii::app()->user->setFlash('success', "Thank you for Applying");
                 $this->redirect(array('page/index#message-info'));
 
             }
@@ -249,7 +250,7 @@ class PageController extends Controller
             $this->redirect(array('page/index#message-info'));
         }
 
-        $this->render('register', array('model' => $model, 'job' => $job, 'model_file' => $model_file));
+        $this->render('register', array('model' => $model, 'job' => $job, 'model_file' => $resume));
 
 
     }
@@ -257,6 +258,9 @@ class PageController extends Controller
     public function actionRegisterCV()
     {
         $model = new JobEmployees;
+        $resume = new JobResumes;
+
+
         if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
             $model_tmp = JobEmployees::model()->find("email ='" . $_POST['JobEmployees']['email'] . "'");
             if ($model_tmp) {
@@ -269,7 +273,7 @@ class PageController extends Controller
                 $model_update->mobile = $_POST['JobEmployees']['mobile'];
                 $model_update->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
                 if ($model_update->save()) {
-                    $this->updateResume($_POST['JobEmployees']['resume_id'], $model, 0, $employ_id,2);
+                    $this->updateResume($_POST['JobEmployees']['resume_id'], $resume, 0, $employ_id,2);
                 }
 
             } else {
@@ -280,7 +284,7 @@ class PageController extends Controller
                 $model->mobile = $_POST['JobEmployees']['mobile'];
                 $model->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
                 if ($model->save()) {
-                    $this->updateResume($_POST['JobEmployees']['resume_id'], $model, 0, $model->employ_id,2);
+                    $this->updateResume($_POST['JobEmployees']['resume_id'], $resume, 0, $model->employ_id,2);
                 }
 
             }
@@ -288,7 +292,8 @@ class PageController extends Controller
             $this->redirect(array('page/index#message-info'));
         }
         $this->render('register_cv', array(
-            'model' => $model
+            'model' => $model,
+            'model_file'=>$resume
         ));
     }
 
