@@ -66,18 +66,19 @@ class JobCategoriesController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-                $sub_cat = new JobSubcategories();
                 
 		if(isset($_POST['JobCategories']))
 		{
 			$model->attributes=$_POST['JobCategories'];
-			if($model->save())
+			if($model->save()) {
                             // create sub cateogries
+                            $sub_cat = new JobSubcategories();
                             $sub_cat->cat_id = $model->cat_id;
                             $sub_cat->parent = $_POST['JobCategories']['cat_id'] ? $_POST['JobCategories']['cat_id'] : 0;
                             $sub_cat->save();
                             Yii::app()->user->setFlash('success', "New Category is created");
                             $this->redirect(array('admin'));
+                        }
 		}
 
 		$this->render('create',array(
