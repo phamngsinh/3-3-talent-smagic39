@@ -10,6 +10,12 @@ jQuery(function ($) {
       $('#registration-form #CandidateCoverNote').show();
       $('#registration-form  #JobEmployees_cover_id').hide();
   });
+  $('#JobEmployees_mobile').on('focusout',function(){
+      $(this).attr('placeholder','');
+  });
+  $('#JobEmployees_mobile').click(function(){
+      $(this).attr('placeholder','(___) ___-____');
+  });
 
 
 });
