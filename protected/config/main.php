@@ -14,14 +14,15 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>$appTitle,
 	'defaultController' => 'page',
-	
+
 	// preloading 'log' component
 	'preload'=>array('log'),
 
 	// autoloading model and component classes
 	'import'=>array(
-		'application.models.*',
+		'application.models.*',                
 		'application.components.*',
+                'ext.yii-mail.YiiMailMessage',
 		'application.extensions/phpthumb.*',  // <--- here!
 	    'application.extensions.jformvalidate.EHtml',
 	),
@@ -51,6 +52,17 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
+            	'mail' => array(
+                'class' => 'ext.yii-mail.YiiMail',
+                'transportType'=>'smtp',
+                'transportOptions'=>array(
+                        'host'=>'smtp.sendgrid.net',
+                        'username'=>'dayseven',
+                        'password'=>'123sendgrid',
+                        'port'=>'25',                       
+                ),
+                'viewPath' => 'application.views.mail',             
+                ),
 		// uncomment the following to enable URLs in path-format
 		/*
 		'urlManager'=>array(
