@@ -8,37 +8,34 @@
  * @property string $full_name
  * @property string $email
  */
-class JobEmployees extends CActiveRecord
-{
+class JobEmployees extends CActiveRecord {
 
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return JobEmployees the static model class
      */
-    public static function model($className = __CLASS__)
-    {
+    public static function model($className = __CLASS__) {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName()
-    {
+    public function tableName() {
         return 'tbl_job_employees';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules()
-    {
+    public function rules() {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
             array('first_name, last_name,email,mobile', 'required'),
             array('email', 'email'),
+            array('mobile,phone', 'numerical'),
             array('employ_id, first_name, last_name,email,mobile', 'safe', 'on' => 'search'),
         );
     }
@@ -46,22 +43,20 @@ class JobEmployees extends CActiveRecord
     /**
      * @return array relational rules.
      */
-    public function relations()
-    {
+    public function relations() {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'apply'=>array(self::HAS_MANY, 'JobResumes', 'employ_id','on'=>'apply.type=1'),
-            'alert'=>array(self::HAS_MANY, 'JobAlerts', 'employ_id','on'=>'alert.type=1'),
-            'cv'=>array(self::HAS_MANY, 'JobResumes', 'employ_id','on'=>'cv.type=2'),
+            'apply' => array(self::HAS_MANY, 'JobResumes', 'employ_id', 'on' => 'apply.type=1'),
+            'alert' => array(self::HAS_MANY, 'JobAlerts', 'employ_id', 'on' => 'alert.type=1'),
+            'cv' => array(self::HAS_MANY, 'JobResumes', 'employ_id', 'on' => 'cv.type=2'),
         );
     }
 
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return array(
             'employ_id' => 'Employ',
             'cover_note_id' => 'Cover note',
@@ -79,8 +74,7 @@ class JobEmployees extends CActiveRecord
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search()
-    {
+    public function search() {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 

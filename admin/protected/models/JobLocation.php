@@ -31,7 +31,7 @@ class JobLocation extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('address, telephone', 'required'),
-			array('address, fax_number, geo, map, opening_hours_specification, telephone', 'length', 'max'=>255),
+			array('address, fax_number, geo, map,zip,country,city, opening_hours_specification, telephone', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('job_location_id, address, fax_number, geo, map, opening_hours_specification, telephone', 'safe', 'on'=>'search'),
@@ -57,6 +57,9 @@ class JobLocation extends CActiveRecord
 		return array(
 			'job_location_id' => 'Job Location',
 			'address' => 'Physical address of the item.',
+                        'city'=>'City',
+                        'zip'=>'Zip Code',
+                        'country'=>'Country',
 			'fax_number' => 'The fax number.',
 			'geo' => 'The geo coordinates of the place.',
 			'map' => 'A URL to a map of the place. Supercedes maps.',
