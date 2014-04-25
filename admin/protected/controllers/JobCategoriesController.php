@@ -61,6 +61,11 @@ class JobCategoriesController extends Controller {
         $model = new JobCategories;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->condition = 'JobSubcategories.parent=0';
+        $criteria->join = ' LEFT JOIN tbl_job_subcategories as  JobSubcategories ON  JobSubcategories.cat_id = t.cat_id ';
+        $tmp_cat_parent = JobCategories::model()->findAll($criteria);
 
         if (isset($_POST['JobCategories'])) {
             $model->attributes = $_POST['JobCategories'];
@@ -77,6 +82,7 @@ class JobCategoriesController extends Controller {
 
         $this->render('create', array(
             'model' => $model,
+            'tmp_cat_parent' => $tmp_cat_parent
         ));
     }
 
@@ -87,10 +93,12 @@ class JobCategoriesController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->loadModel($id);
-        $tmp_cat_parent = JobSubcategories::model()->find('cat_id ='.$id);
-        $cat_parent = $this->loadModel($tmp_cat_parent['cat_id']);
-        $except_current = JobCategories::model()->find('cat_id !='.$id);;
-
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->condition = 't.cat_id !=' . $id;
+        $criteria->join = ' LEFT JOIN tbl_job_subcategories as  JobSubcategories ON  JobSubcategories.cat_id = t.cat_id ';
+        $tmp_cat_parent = JobCategories::model()->findAll($criteria);
+        $parent = JobSubcategories::model()->find('cat_id=' . $id);
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
@@ -102,8 +110,8 @@ class JobCategoriesController extends Controller {
 
         $this->render('update', array(
             'model' => $model,
-            'except_current'=>$except_current,
-            'cat_parent'=>$cat_parent
+            'parent' => $parent ? $parent['parent'] : '',
+            'tmp_cat_parent' => $tmp_cat_parent,
         ));
     }
 
