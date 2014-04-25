@@ -14,7 +14,6 @@ $this->menu = array(
     array('label' => 'Manage JobEmployees', 'url' => array('admin')),
 );
 ?>
-
 <h1>View JobEmployees #<?php echo $model['employ_id']; ?></h1>
 
 <?php
@@ -34,17 +33,16 @@ $this->widget('zii.widgets.CDetailView', array(
 <?php if ($employee): ?>
     <table class="detail-view" id="yw0">
         <tbody>
-
             <?php foreach ($employee as $value) : ?>
-
-                <tr class="even"><th>Job title</th><td>
-                        <?php echo $value['title'] ?> 
-                        <?php if ($type_view != 'alert'): ?>
-                            ||<a href="./../<?php echo $value['uri'] ?>" target="_blank">CV</a>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-
+                <?php if (isset($value['title'])): ?>
+                    <tr class="even"><th>Job title</th><td>
+                            <?php echo $value['title'] ?> 
+                            <?php if ($type_view != 'alert'): ?>
+                                ||<a href="./../<?php echo $value['uri'] ?>" target="_blank">CV</a>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endif ?>
             <?php endforeach; ?>
         </tbody>
 

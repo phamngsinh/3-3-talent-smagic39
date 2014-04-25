@@ -24,9 +24,13 @@
     <div class="row">
         <?php // echo $form->labelEx($model,'cat_name'); ?>
         <?php
+            var_dump($except_current);
+        $option = isset($cat_parent['cat_id']) ? array($cat_parent['cat_id'] => array('selected' => true)) : array('selected' => true);
+        $model = isset($except_current) ? $except_current : $model;
         echo $form->dropDownList($model, 'cat_id', CHtml::listData(JobCategories::model()->findAll(), 'cat_id', 'cat_name'), array(
             'prompt' => '-- select categories --',
             'selected' => true,
+            'options' => $option
         ));
         ?>
     </div>
