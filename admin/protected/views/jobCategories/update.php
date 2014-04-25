@@ -18,4 +18,4 @@ $this->menu=array(
 
 <h1>Update JobCategories <?php echo $model->cat_id; ?></h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model,'cat_parent'=>$cat_parent,'except_current'=>$except_current)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model,'tmp_cat_parent'=>$tmp_cat_parent,'parent'=>$parent)); ?>
