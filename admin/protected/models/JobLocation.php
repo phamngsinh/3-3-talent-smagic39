@@ -111,6 +111,7 @@ class JobLocation extends CActiveRecord
 	}
          public static function getLocation($id) {
             $location = JobLocation::model()->findByPk($id);
-            return $location->address;
+            $location = $location->city ? $location->city : $location->address;
+            return $location;
         }
 }
