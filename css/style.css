@@ -433,7 +433,7 @@ input[type="text"]
 	color: #464442;
 	border-radius:5px;
 }
-
+input[type="reset"],
 input[type="submit"],
 input[type="button"]
 {
@@ -443,7 +443,7 @@ input[type="button"]
 	border:none;
 	border-radius:5px;
 }
-
+input[type="reset"],
 input[type="button"]
 {
 	background:#34b6e7;
@@ -489,7 +489,11 @@ input[type="button"]
 	font-size:14px;
 	margin-bottom:10px;
 }
-
+.job-description ul li,
+.front-page .job-para ul li{
+	background:none;
+	list-style:none;
+}
 .job-para
 {
 	margin-bottom:26px;
@@ -587,6 +591,8 @@ select
     width: 30px;
     padding: 5px;
 }
+.apply-form .error,
 .errorMessage{
     color:red;
+    clear:both;
 }
