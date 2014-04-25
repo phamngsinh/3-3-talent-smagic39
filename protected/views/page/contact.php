@@ -1,5 +1,6 @@
 <h1>Contact Us</h1>
 
+
 <div class="page-enquiry">       
     <p class="note">Fields with <span class="required">*</span> are required.</p>
 
@@ -49,14 +50,14 @@
 
     <div class="enquiry-box">
         <?php echo $form->textArea($model, 'content'); ?>
-      <?php echo $form->error($model, 'content'); ?>
+        <?php echo $form->error($model, 'content'); ?>
 
     </div>
     <div class="clear"></div>
 
     <div class="enquiry-box">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-        <input type="reset" value="Cancel" onclick="location.href='index.php?r=page/index'">
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Submit'); ?>
+        <!--<input type="reset" value="Cancel" onclick="location.href='index.php?r=page/index'">-->
     </div>                            
 
     <?php $this->endWidget(); ?>
@@ -65,7 +66,14 @@
 <!--home-enquiry-->
 
 <div class="page-enquiry-details">
-    <?php echo $ms;?>
+    <?php echo $ms; ?>
 </div>
 <!--page-enquiry-details-->
 <div class="clear"></div>
+<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.maskedinput.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+         $("#JobContactus_phone").mask("(999) 999-9999");
+    });
+</script>

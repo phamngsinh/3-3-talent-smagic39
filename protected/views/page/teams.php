@@ -21,7 +21,7 @@
                             <h3><?php echo $team['name']; ?></h3>
                             <div class="our-team-social">
                                 <?php if($team['link_twitter']){?> <a  target="_blank" href="<?php echo $team['link_twitter']; ?>" class="twitter"></a><?php }?>
-                                        <?php if($team['link_facebook']){?><a  target="_blank" href="<?php echo $team['link_facebook']; ?>" class="linkedin"></a><?php }?>
+                                <?php if($team['link_facebook']){?><a  target="_blank" href="<?php echo $team['link_facebook']; ?>" class="linkedin"></a><?php }?>
                                  <?php if($team['link_email']){?><a href="mailto:<?php echo $team['link_email']; ?>" class="mail"></a><?php }?>
                             </div>
                             <div class="clear"></div>

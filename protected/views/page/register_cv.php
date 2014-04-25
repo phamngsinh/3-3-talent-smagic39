@@ -3,6 +3,8 @@
         float: left;
     }
 </style>
+
+
 <h1>Register Your CV</h1>
 <?php
 $form = $this->beginWidget('CActiveForm', array(
@@ -40,7 +42,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="row">
     <label for="JobEmployees_file_id">Resume </label>
-    <?php echo $form->fileField($model_file, 'file_id',array('accept'=>'.pdf,.docs,.docx')); ?>
+    <?php echo $form->fileField($model_file, 'file_id', array('accept' => '.pdf,.docs,.docx')); ?>
     <?php echo $form->error($model_file, 'file_id'); ?>
 
 </div>
@@ -59,4 +61,13 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <?php $this->endWidget(); ?>
 <div class="clear"></div>
+<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.maskedinput.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $("#JobEmployees_mobile").mask("(999) 999-9999");
+        $("#JobEmployees_mobile").mask("(999) 999-9999");
+
+    });
+</script>
 

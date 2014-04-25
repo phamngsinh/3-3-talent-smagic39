@@ -70,7 +70,7 @@
         'id' => 'search-form',
         'enableAjaxValidation' => false,
         'method' => 'GET',
-        'action' => Yii::app()->createUrl('page/browserJob'),
+        'action' => Yii::app()->createUrl('page'),
     ));
     ?>
     <div class="search-job-title">Search Jobs</div>
@@ -78,8 +78,10 @@
 
     <div class="form-row">
         <?php
+        $tmp_cat_id = (isset($_GET['cat_id']) && $_GET['cat_id'] ) ? $_GET['cat_id'] : '';
         echo CHtml::dropDownList('cat_id', '', $categories, array(
             'prompt' => '-- All Categories --',
+            'options' => array($tmp_cat_id => array('selected' => true)),
             'selected' => true,
             'ajax' => array(
                 'type' => 'POST', //request type
@@ -92,29 +94,35 @@
     </div>
     <div class="form-row">
         <?php
-        echo CHtml::dropDownList('sub_cat_id', '', array(
+        $tmp_cat_id = (isset($_GET['sub_cat_id']) && $_GET['sub_cat_id'] ) ? $_GET['sub_cat_id'] : '';
+        echo CHtml::dropDownList('sub_cat_id', '', $sub_categories, array(
             'prompt' => '-- All Sub Categories --',
+            'options' => array($tmp_cat_id=> array('selected' => true)),
         ));
         ?>
     </div>
 
     <div class="form-row"><?php
-        echo $form->dropDownList($model, 'job_location_id', $locations, array(
+        $tmp_job_location = (isset($_GET['JobLocation']['city']) && $_GET['JobLocation']['city']) ? $_GET['JobLocation']['city'] : '';
+        echo $form->dropDownList($local, 'city', $locations, array(
             'prompt' => '-- All Locations --',
+            'options' => array($tmp_job_location => array('selected' => true)),
             'selected' => true,
         ));
         ?>
     </div>
 
     <div class="form-row"><?php
-        echo $form->dropDownList($model, 'worktype_id', $worktypes, array(
+        $tmp_work_type = (isset($_GET['JobWorktype']['worktype_id']) && $_GET['JobWorktype']['worktype_id']) ? $_GET['JobWorktype']['worktype_id'] : '';
+        echo $form->dropDownList($workTy, 'worktype_id', $worktypes, array(
             'prompt' => '-- All Work Types --',
+            'options' => array($tmp_work_type => array('selected' => true)),
             'selected' => true,
         ));
         ?>
     </div>
-
-    <div class="form-row"><input name="Keywords" type="text" placeholder="Keywords"></div>
+    <?php $tmp_keywords = (isset($_GET['Keywords']) && $_GET['Keywords']) ? $_GET['Keywords'] : ''; ?>
+    <div class="form-row"><input name="Keywords" type="text" placeholder="Keywords" value="<?php echo $tmp_keywords ?>"></div>
 
     <div class="form-row submit-button"><input type="submit" value="Search Jobs"></div>
 
