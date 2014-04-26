@@ -332,11 +332,12 @@ class PageController extends Controller {
             $this->redirect(array('page/index#message-info'));
         }
     }
+
     // 2 register cv
-        public function checkExistentCVUser($type) {
+    public function checkExistentCVUser($type) {
         $criteria = new CDbCriteria();
         $criteria->select = 't.employ_id';
-        $criteria->condition = " JobEmployees.email='" . $_POST['JobEmployees']['email'] ."' AND t.type=". $type;
+        $criteria->condition = " JobEmployees.email='" . $_POST['JobEmployees']['email'] . "' AND t.type=" . $type;
         $criteria->join = ' LEFT JOIN tbl_job_employees as JobEmployees ON  JobEmployees.employ_id = t.employ_id';
         $resume_tmp = JobResumes::model()->find($criteria);
         if ($resume_tmp) {
@@ -344,6 +345,7 @@ class PageController extends Controller {
             $this->redirect(array('page/index#message-info'));
         }
     }
+
     /**
      * view for apply
      */
@@ -653,13 +655,14 @@ class PageController extends Controller {
      */
     public function actionDynamicsubCategories() {
         //  $data = JobSubcategories::model()->findAll('parent=:parent_id', array(':parent_id' => (int) $_POST['cat_id']));
-
+        $str = '';
         $data = $this->getListSubCategory($_POST['cat_id']);
-        $str = "<option value=''>--All Sub Categories--</option>";
-        if ($data) {
+        if (!empty($_POST['cat_id']) && $data) {
             foreach ($data as $id => $value) {
                 $str .=CHtml::tag('option', array('value' => $id), CHtml::encode($value), true);
             }
+        } else {
+            $str .= "<option value=''>--All Sub Categories--</option>";
         }
         echo $str;
     }
@@ -692,11 +695,10 @@ class PageController extends Controller {
                 $select .= ',JobCategories.cat_id,JobCategories.cat_name';
                 $condition .= ' AND  JobCategories.cat_id = ' . $_GET['sub_cat_id'];
                 $join .= ' LEFT JOIN tbl_job_categories AS JobCategories ON JobCategories.cat_id = t.cat_id';
-            }else{
+            } else {
 
                 $condition .= ' OR JobCategories.cat_id = ' . $_GET['sub_cat_id'];
             }
-            
         }
         if (isset($_GET['Keywords']) && $_GET['Keywords']) {
             $condition .= ' AND  t.title LIKE "%' . $_GET['Keywords'] . '%"';
