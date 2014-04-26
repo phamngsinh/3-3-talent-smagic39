@@ -29,14 +29,14 @@ class JobContactus extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, email, content, date_created', 'required'),
+			array('name, email, content', 'required'),
 			array('name, email', 'length', 'max'=>255),
                         array('email','email'),
 			array('phone', 'length', 'max'=>100),
 			array('content', 'length', 'max'=>500),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('contactus_id, name, phone, email, content, date_created', 'safe', 'on'=>'search'),
+			array('contactus_id, name, phone, email, content', 'safe', 'on'=>'search'),
 		);
 	}
 
