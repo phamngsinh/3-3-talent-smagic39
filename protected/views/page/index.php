@@ -102,7 +102,7 @@
             ));
         } else {
             echo CHtml::dropDownList('sub_cat_id', '', array(
-                'prompt' => '-- All Sub Categories --',
+                '' => '-- All Sub Categories --',
             ));
         }
         ?>
