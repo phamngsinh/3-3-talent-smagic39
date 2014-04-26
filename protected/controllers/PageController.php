@@ -108,13 +108,9 @@ class PageController extends Controller {
         $workTy = new JobWorktype();
 
         $categories = $this->getAllCategory();
-        
         $parent = (isset($_GET['cat_id']) && is_int($_GET['cat_id'])) ? $_GET['cat_id'] : null;
         $sub_cat_id = (isset($_GET['sub_cat_id']) && is_int($_GET['sub_cat_id'])) ? $_GET['sub_cat_id'] : null;
-        $sub_categories = null;
-        if($parent || $sub_cat_id){
-                    $sub_categories = $this->getSubAllCategory($parent, $sub_cat_id);
-        }
+        $sub_categories = $this->getSubAllCategory($parent, $sub_cat_id);
 
         $location = CHtml::ListData(JobLocation::model()->findAll('city IS NOT NULL GROUP BY city'), 'city', 'city');
         $worktype = CHtml::ListData(JobWorktype::model()->findAll(), 'worktype_id', 'name');
@@ -190,6 +186,7 @@ class PageController extends Controller {
             $reg_cv = array();
             if ($model->validate()) {
                 if ($model->save()) {
+                    Yii::app()->user->setFlash('success', "Thank you for Contact Us");
                     $reg_cv['name'] = $_POST['JobContactus']['name'];
                     $reg_cv['email'] = trim($_POST['JobContactus']['email']);
                     $reg_cv['content'] = 'Thank You for Contact Us at The 33Talent';
@@ -199,7 +196,6 @@ class PageController extends Controller {
                     $reg_cv['content'] = 'User Contact Us at The 33Talent';
                     $reg_cv['title'] = 'User Contact Us at The 33Talent';
                     $this->sendEmailAdmin($reg_cv);
-                    Yii::app()->user->setFlash('success', 'Thank You for Contacting Us');
                 }
 
                 $this->redirect(array('index'));
@@ -384,13 +380,13 @@ class PageController extends Controller {
                     $reg_cv['link'] = Yii::app()->getBaseUrl(true) . '/admin/index.php?r=jobEmployees/view&id=' . $model->employ_id . '&type=apply';
                     $reg_cv['name'] = $_POST['JobEmployees']['first_name'] . ' ' . $_POST['JobEmployees']['last_name'];
                     $reg_cv['email'] = trim($_POST['JobEmployees']['email']);
-                    $reg_cv['content'] = 'Thank You for Applying at The 33Talent';
-                    $reg_cv['title'] = 'Thank You for Applying ' . $job['title'];
+                    $reg_cv['content'] = 'Thank you for sending your resume for the following job post';
+                    $reg_cv['title'] = $job['title'];
                     $reg_cv['recruiter_name'] = $job['recruiter_name'];
                     $reg_cv['recruiter_email'] = $job['recruiter_email'];
                     $status = $this->sendEmail($reg_cv);
                     $reg_cv['content'] = 'Applying User CV at The 33Talent';
-                    $reg_cv['title'] = 'Applying User CV at The 33Talent' . $job['title'];
+                    $reg_cv['title'] = 'Applying User CV at The 33Talent ' . $job['title'];
                     $this->sendEmailAdmin($reg_cv);
                 }
 
