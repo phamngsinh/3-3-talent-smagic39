@@ -14,9 +14,12 @@ $this->menu = array(
     array('label' => 'Manage JobEmployees', 'url' => array('admin')),
 );
 ?>
+
 <h1>View JobEmployees #<?php echo $model['employ_id']; ?></h1>
 
 <?php
+// get covers of employees
+$covers = JobCovers::model()->findAll('employ_id=:employ', array(':employ'=>$model->employ_id));
 $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
     'attributes' => array(
@@ -33,18 +36,42 @@ $this->widget('zii.widgets.CDetailView', array(
 <?php if ($employee): ?>
     <table class="detail-view" id="yw0">
         <tbody>
+            
             <?php foreach ($employee as $value) : ?>
-                <?php if (isset($value['title'])): ?>
-                    <tr class="even"><th>Job title</th><td>
-                            <?php echo $value['title'] ?> 
-                            <?php if ($type_view != 'alert'): ?>
-                                ||<a href="./../<?php echo $value['uri'] ?>" target="_blank">CV</a>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                <?php endif ?>
+
+                <tr class="even"><th>Job title</th><td>
+                        <?php echo $value['title'] ?> 
+                        <?php if ($type_view != 'alert'): ?>
+                            ||<a href="./../<?php echo $value['uri'] ?>" target="_blank">CV</a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
             <?php endforeach; ?>
         </tbody>
 
     </table>
+<?php endif; ?>
+
+<?php if ($covers): ?>
+<table class="detail-view" id="yw0">
+    <tbody>
+    <?php foreach ($covers as $cover) : 
+    if ($cover['cover_id']):
+        ?>
+        <tr class="old">
+            <th>Job Covers</th><td>
+                <?php if ($cover['type'] == 'Attach'): 
+                    $file = Files::model()->findByPk($cover['value']);
+                    ?>
+                    <a href="./../<?php echo $file['uri']; ?>">Covers Attach</a>
+                <?php
+                else:
+                    echo strip_tags($cover['value']);
+                    ?>
+        <?php endif; ?></td>
+        </tr>
+        <?php endif; ?> 
+       <?php endforeach; ?>
+    </tbody>
+</table>
 <?php endif; ?>
