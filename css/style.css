@@ -591,6 +591,7 @@ select
     width: 30px;
     padding: 5px;
 }
+.contact-us label.error,
 .apply-form .error,
 .errorMessage{
     color:red;

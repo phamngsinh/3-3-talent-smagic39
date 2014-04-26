@@ -60,15 +60,36 @@ jQuery(function($) {
             'JobResumes[file_id]': 'Resume cannot be blank.',
         }
     });
+      //validate at contact form
+      $("#contact-us").validate({
+        rules: {
+            'JobContactus[name]': {
+                required: true
+            },
+          
+            'JobContactus[email]': {
+                required: true,
+                email:true,
+                        
+            },
+            'JobContactus[content]': {
+                required: true
+            },
     
-
-    //end validate for register/apply
-    $('#JobEmployees_mobile').on('focusout', function() {
-        $(this).attr('placeholder', '');
+            
+        },
+        messages: {
+            'JobEmployees[name]': 'Name cannot be blank.',
+            'JobContactus[email]': {
+                required:'Email address cannot be blank.',
+                email:'Email address is not a valid email address.'
+            },
+            'JobContactus[content]': 'Content cannot be blank.',
+        }
     });
-    $('#JobEmployees_mobile').click(function() {
-        $(this).attr('placeholder', '(___) ___-____');
-    });
 
+  
+     
+   
 
 });
