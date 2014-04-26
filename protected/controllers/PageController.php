@@ -42,11 +42,11 @@ class PageController extends Controller {
      * get All Category for Select
      */
 
-    public function getSubAllCategory($parent=null,$sub_cat_id=null) {
+    public function getSubAllCategory($parent = null, $sub_cat_id = null) {
         $condition = 'JobSubcategories.parent !=0 ';
-        $condition .= $sub_cat_id ? ' AND JobSubcategories.cat_id='.$sub_cat_id :''; 
-        $condition .= $parent ? ' AND JobSubcategories.parent='.$parent :''; 
-        
+        $condition .= $sub_cat_id ? ' AND JobSubcategories.cat_id=' . $sub_cat_id : '';
+        $condition .= $parent ? ' AND JobSubcategories.parent=' . $parent : '';
+
         $models = Yii::app()->db->createCommand()
                 ->select('JobCategories.*')
                 ->from('tbl_job_categories JobCategories')
@@ -59,6 +59,7 @@ class PageController extends Controller {
         }
         return $tmp;
     }
+
     public function getAllCategory() {
         $models = Yii::app()->db->createCommand()
                 ->select('JobCategories.*')
@@ -72,6 +73,7 @@ class PageController extends Controller {
         }
         return $tmp;
     }
+
     /**
      * 
      * @param type $id
@@ -104,12 +106,12 @@ class PageController extends Controller {
         $jobs = new Jobs();
         $local = new JobLocation();
         $workTy = new JobWorktype();
-        
+
         $categories = $this->getAllCategory();
         $parent = (isset($_GET['cat_id']) && $_GET['cat_id']) ? $_GET['cat_id'] : null;
         $sub_cat_id = (isset($_GET['sub_cat_id']) && $_GET['sub_cat_id']) ? $_GET['sub_cat_id'] : null;
-        $sub_categories = $this->getSubAllCategory($parent,$sub_cat_id);
-        
+        $sub_categories = $this->getSubAllCategory($parent, $sub_cat_id);
+
         $location = CHtml::ListData(JobLocation::model()->findAll('city IS NOT NULL GROUP BY city'), 'city', 'city');
         $worktype = CHtml::ListData(JobWorktype::model()->findAll(), 'worktype_id', 'name');
         $pages = new CPagination($item_count);
@@ -120,9 +122,9 @@ class PageController extends Controller {
             'item_count' => $item_count,
             'page_size' => Yii::app()->params['listPerPage'],
             'pages' => $pages,
-            'workTy'=>$workTy,
-            'local'=>$local,
-            'sub_categories'=>$sub_categories,
+            'workTy' => $workTy,
+            'local' => $local,
+            'sub_categories' => $sub_categories,
             'categories' => $categories,
             'locations' => $location,
             'worktypes' => $worktype,
@@ -315,6 +317,34 @@ class PageController extends Controller {
     }
 
     /**
+     * type =1 apply,
+     * @param type $type
+     */
+    public function checkExistentUser($type) {
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.employ_id';
+        $criteria->condition = " JobEmployees.email='" . $_POST['JobEmployees']['email'] .
+                "' AND t.job_id=" . $_GET['job'] . ' AND t.type=' . $type;
+        $criteria->join = ' LEFT JOIN tbl_job_employees as JobEmployees ON  JobEmployees.employ_id = t.employ_id';
+        $resume_tmp = JobResumes::model()->find($criteria);
+        if ($resume_tmp) {
+            Yii::app()->user->setFlash('success', "Email already exists");
+            $this->redirect(array('page/index#message-info'));
+        }
+    }
+    // 2 register cv
+        public function checkExistentCVUser($type) {
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.employ_id';
+        $criteria->condition = " JobEmployees.email='" . $_POST['JobEmployees']['email'] ."' AND t.type=". $type;
+        $criteria->join = ' LEFT JOIN tbl_job_employees as JobEmployees ON  JobEmployees.employ_id = t.employ_id';
+        $resume_tmp = JobResumes::model()->find($criteria);
+        if ($resume_tmp) {
+            Yii::app()->user->setFlash('success', "Email already exists");
+            $this->redirect(array('page/index#message-info'));
+        }
+    }
+    /**
      * view for apply
      */
     public function actionRegister() {
@@ -324,8 +354,15 @@ class PageController extends Controller {
 
         if (isset($_GET['job']) && !empty($_GET['job'])) {
             $job = Jobs::model()->findByPk($_GET['job']);
+            if (!$job) {
+
+                $this->redirect(array('page/index'));
+            }
+
             if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
-                //check existent 
+                //check existent via job
+                $this->checkExistentUser(1);
+
                 //update and upload file cover not
                 $model->attributes = $_POST['JobEmployees'];
                 $model->save();
@@ -415,6 +452,9 @@ class PageController extends Controller {
         $resume = new JobResumes;
         $reg_cv = array();
         if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
+
+            $this->checkExistentCVUser(2); //check exist
+
             $model_tmp = JobEmployees::model()->find("email ='" . trim($_POST['JobEmployees']['email']) . "'");
 
             if ($model_tmp) {
@@ -629,30 +669,29 @@ class PageController extends Controller {
         $condition = '1=1  ';
         $select = 't.*';
         $join = '';
-        
+
         if (isset($_GET['JobLocation']['city']) && !empty($_GET['JobLocation']['city'])) {
-            
+
             $select .= ',JobLocation.city';
-            $condition .= " AND JobLocation.city LIKE '%" . $_GET['JobLocation']['city']."%'";
+            $condition .= " AND JobLocation.city LIKE '%" . $_GET['JobLocation']['city'] . "%'";
             $join .= ' LEFT JOIN tbl_job_location AS JobLocation ON JobLocation.job_location_id= t.job_location_id';
         }
-        if (isset($_GET['JobWorktype']['worktype_id']) && (int)$_GET['JobWorktype']['worktype_id']) {
-        
+        if (isset($_GET['JobWorktype']['worktype_id']) && (int) $_GET['JobWorktype']['worktype_id']) {
+
             $select .= ',JobWorktype.worktype_id,JobWorktype.name';
             $condition .= ' AND  JobWorktype.worktype_id = ' . $_GET['JobWorktype']['worktype_id'];
             $join .= ' LEFT JOIN tbl_job_worktype AS JobWorktype ON JobWorktype.worktype_id = t.worktype_id';
-            
         }
-        if (isset($_GET['cat_id']) && (int)$_GET['cat_id']) {
+        if (isset($_GET['cat_id']) && (int) $_GET['cat_id']) {
             $select .= ',JobCategories.cat_id,JobCategories.cat_name';
             $condition .= ' AND  JobCategories.cat_id = ' . $_GET['cat_id'];
             $join .= ' LEFT JOIN tbl_job_categories AS JobCategories ON JobCategories.cat_id = t.cat_id';
         }
-        if (isset($_GET['sub_cat_id']) && (int)$_GET['sub_cat_id']) {
+        if (isset($_GET['sub_cat_id']) && (int) $_GET['sub_cat_id']) {
             $condition .= ' OR JobCategories.cat_id = ' . $_GET['sub_cat_id'];
         }
         if (isset($_GET['Keywords']) && $_GET['Keywords']) {
-            $condition .=  ' AND  t.title LIKE "%' . $_GET['Keywords'] . '%"';
+            $condition .= ' AND  t.title LIKE "%' . $_GET['Keywords'] . '%"';
         }
         $criteria->select = $select;
         $criteria->condition = $condition;
@@ -660,8 +699,6 @@ class PageController extends Controller {
         $criteria->order = 't.job_id DESC';
         return $criteria;
     }
-
-  
 
     // Uncomment the following methods and override them if needed
     /*
