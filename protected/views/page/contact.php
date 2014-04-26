@@ -1,13 +1,15 @@
 <h1>Contact Us</h1>
 
-
 <div class="page-enquiry">       
     <p class="note">Fields with <span class="required">*</span> are required.</p>
 
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'contact-us',
-        'enableAjaxValidation' => false,
+        'enableAjaxValidation' => true,
+        'clientOptions' => array(
+            'validateOnSubmit' => true,
+        ),
     ));
     ?>    
     <div class="enquiry-title">
@@ -73,7 +75,7 @@
 <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.maskedinput.min.js"></script>
 <script type="text/javascript">
-    $(function(){
-         $("#JobContactus_phone").mask("(999) 999-9999");
+    $(function() {
+        $("#JobContactus_phone").mask("(999) 999-9999");
     });
 </script>
