@@ -94,10 +94,15 @@
     </div>
     <div class="form-row">
         <?php
-        $tmp_cat_id = (isset($_GET['sub_cat_id']) && $_GET['sub_cat_id'] ) ? $_GET['sub_cat_id'] : '';
+        $tmp_cat_id = '';
+        $prompt = array('prompt' => '-- All Sub Categories --');
+        if (isset($_GET['sub_cat_id']) && $_GET['sub_cat_id']) {
+            $tmp_cat_id = $_GET['sub_cat_id'];
+            $prompt = array();
+        }
         echo CHtml::dropDownList('sub_cat_id', '', $sub_categories, array(
-            'prompt' => '-- All Sub Categories --',
-            'options' => array($tmp_cat_id=> array('selected' => true)),
+            $prompt,
+            'options' => array($tmp_cat_id => array('selected' => true)),
         ));
         ?>
     </div>
@@ -121,12 +126,12 @@
         ));
         ?>
     </div>
-    <?php $tmp_keywords = (isset($_GET['Keywords']) && $_GET['Keywords']) ? $_GET['Keywords'] : ''; ?>
+        <?php $tmp_keywords = (isset($_GET['Keywords']) && $_GET['Keywords']) ? $_GET['Keywords'] : ''; ?>
     <div class="form-row"><input name="Keywords" type="text" placeholder="Keywords" value="<?php echo $tmp_keywords ?>"></div>
 
     <div class="form-row submit-button"><input type="submit" value="Search Jobs"></div>
 
-    <?php $this->endWidget(); ?>
+<?php $this->endWidget(); ?>
 
     <div><a href="<?php echo Yii::app()->createUrl('page/registerCV'); ?>">
             <img src="images/register-cv.png" width="276" height="98" alt=""></a></div>
