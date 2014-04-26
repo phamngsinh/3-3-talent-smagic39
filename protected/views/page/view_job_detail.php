@@ -42,69 +42,10 @@
         <p><?php echo $job->incentives; ?></p>
     </div>
 </div>
-<div class="search-jobs">    
-<?php
-    $form = $this->beginWidget('CActiveForm', array(
-        'id' => 'search-form',
-        'enableAjaxValidation' => false,
-        'method'=>'GET',
-        'action'=>Yii::app()->createUrl('page/browserJob'),
-    ));
-    ?>
-                <div class="search-job-title">Seach Jobs</div>	    
-                <div class="search-job-para">Find the right job for you.</div>
-                
-                   	<div class="form-row">
-                            <?php
-                            
-                                echo CHtml::dropDownList('cat_id', '', $categories, array(
-                                    'prompt' => '-- All Categories --',
-                                    'selected' => true,
-                                    'ajax' => array(
-                                        'type'=>'POST', //request type
-                                        'url'=>Yii::app()->createUrl('page/dynamicsubCategories'), //url to call 
-                                        'update'=>'#sub_cat_id', 
-                                        'data' => array('cat_id' => 'js:this.value', 'YII_CSRF_TOKEN' => Yii::app()->request->csrfToken),
-                                    )
-                                ));
 
-                        ?>
-                        </div>
-                    <div class="form-row">
-                        <?php
-                         echo CHtml::dropDownList('sub_cat_id', '',  array(
-                             'prompt' => '-- All Locations --',
-                         ));
-                        ?>
-                    </div>
-                    
-                   	<div class="form-row"><?php
-                            echo $form->dropDownList($job, 'job_location_id', $locations, array(
-                                'prompt' => '-- All Locations --',
-                                'selected' => true,
-                            ));
-                            ?>
-                        </div>   
-                    
-                   	<div class="form-row"><?php
-                            echo $form->dropDownList($job, 'worktype_id', $worktypes, array(
-                                'prompt' => '-- All Work Types --',
-                                'selected' => true,
-                            ));
-                            ?>
-                        </div>   
-                                        
-                    <div class="form-row"><input name="Keywords" type="text" placeholder="Keywords"></div>
-                    
-                  <div class="form-row submit-button"><input type="submit" value="Search Jobs"></div>
-                    
-    <?php $this->endWidget(); ?>
-              
-              
-            <div><a href="#"><img src="images/job-alert.png" width="276" height="98" alt=""></a></div>
-            <div><a href="#"><img src="images/register-cv.png" width="276" height="98" alt=""></a></div>
-        
-        </div>
+<?php 
+    $this->renderPartial('_search_right', array(), FALSE, TRUE);
+?>
 <div class="clear"></div>
 <div class="job-buttons"><a href="<?php echo Yii::app()->createUrl('page/index'); ?>">Back to list jobs</a>
 <?php echo CHtml::link('Apply Now',array('page/register','job'=>$job->job_id)); ?>

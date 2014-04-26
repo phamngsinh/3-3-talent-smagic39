@@ -11,6 +11,7 @@
     }
 </style>
 <h1>Sign Up for Job Alerts</h1>
+<div class="job-list">
 <?php
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'registration-form',
@@ -90,4 +91,8 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <?php $this->endWidget(); ?>
 <div class="clear"></div>
+</div>
+<?php 
+    $this->renderPartial('_search_right', array(), FALSE, TRUE);
+?>
 

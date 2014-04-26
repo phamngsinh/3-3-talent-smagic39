@@ -6,6 +6,7 @@
 
 
 <h1>Register Your CV</h1>
+<div class="job-list">
 <?php
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'registration-form',
@@ -61,6 +62,11 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <?php $this->endWidget(); ?>
 <div class="clear"></div>
+</div>
+
+<?php 
+    $this->renderPartial('_search_right', array(), FALSE, TRUE);
+?>
 <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.maskedinput.min.js"></script>
 <script type="text/javascript">
