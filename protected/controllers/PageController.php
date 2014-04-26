@@ -688,7 +688,15 @@ class PageController extends Controller {
             $join .= ' LEFT JOIN tbl_job_categories AS JobCategories ON JobCategories.cat_id = t.cat_id';
         }
         if (isset($_GET['sub_cat_id']) && (int) $_GET['sub_cat_id']) {
-            $condition .= ' OR JobCategories.cat_id = ' . $_GET['sub_cat_id'];
+            if (empty($_GET['cat_id'])) {
+                $select .= ',JobCategories.cat_id,JobCategories.cat_name';
+                $condition .= ' AND  JobCategories.cat_id = ' . $_GET['sub_cat_id'];
+                $join .= ' LEFT JOIN tbl_job_categories AS JobCategories ON JobCategories.cat_id = t.cat_id';
+            }else{
+
+                $condition .= ' OR JobCategories.cat_id = ' . $_GET['sub_cat_id'];
+            }
+            
         }
         if (isset($_GET['Keywords']) && $_GET['Keywords']) {
             $condition .= ' AND  t.title LIKE "%' . $_GET['Keywords'] . '%"';
