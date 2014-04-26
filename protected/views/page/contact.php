@@ -66,12 +66,15 @@
 
 </div>
 <!--home-enquiry-->
-
+<?php 
+    $this->renderPartial('_search_right', array(), FALSE, TRUE);
+?>
 <div class="page-enquiry-details">
     <?php echo $ms; ?>
 </div>
 <!--page-enquiry-details-->
 <div class="clear"></div>
+
 <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.maskedinput.min.js"></script>
 <script type="text/javascript">
