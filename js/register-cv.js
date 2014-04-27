@@ -4,7 +4,7 @@ jQuery(function($) {
 
     jQuery('body').on('change', '#JobEmployees_email', function() {
         check = false;
-        jQuery.post(siteUrl + siteAjaxUrl + '?r=page/CheckEmailRegister', {email: $('#JobEmployees_email').val()}, function(data) {
+        jQuery.post(siteUrl + '/index.php?r=page/CheckEmailRegister', {email: $('#JobEmployees_email').val()}, function(data) {
             if (data == 'false') {
                 check = true;
             }

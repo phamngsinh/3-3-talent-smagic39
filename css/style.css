@@ -593,7 +593,7 @@ select
 }
 #register-cv-form label.error,
 .contact-us label.error,
-.apply-form .error,
+.apply-form label.error,
 .errorMessage{
     color:red;
     clear:both;
