@@ -9,11 +9,11 @@
 <div class="job-list">
 <?php
 $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'registration-form',
-    'enableClientValidation' => true,
-    'htmlOptions' => array('enctype' => 'multipart/form-data'),
+    'id' => 'register-cv-form',
+    'enableClientValidation' => false,
+    'htmlOptions' => array('enctype' => 'multipart/form-data','class'=>'register-cv-form'),
     'clientOptions' => array(
-        'validateOnSubmit' => true,
+        'validateOnSubmit' => false,
     ),
         ));
 ?>
@@ -22,23 +22,23 @@ $form = $this->beginWidget('CActiveForm', array(
     <?php echo $form->label($model, 'first_name'); ?>
     <?php echo $form->textField($model, 'first_name'); ?>
     <?php echo $form->error($model, 'first_name'); ?>
-</div>
+</div><br/>
 
 <div class="row">
     <?php echo $form->label($model, 'last_name'); ?>
     <?php echo $form->textField($model, 'last_name'); ?>
     <?php echo $form->error($model, 'last_name'); ?>
-</div>
+</div><br/>
 <div class="row">
     <?php echo $form->label($model, 'email'); ?>
     <?php echo $form->textField($model, 'email'); ?>
     <?php echo $form->error($model, 'email'); ?>
-</div>
+</div><br/>
 <div class="row">
     <?php echo $form->label($model, 'mobile'); ?>
     <?php echo $form->textField($model, 'mobile'); ?>
     <?php echo $form->error($model, 'mobile'); ?>
-</div>
+</div><br/>
 
 
 <div class="row">
@@ -46,13 +46,13 @@ $form = $this->beginWidget('CActiveForm', array(
     <?php echo $form->fileField($model_file, 'file_id', array('accept' => '.pdf,.docs,.docx')); ?>
     <?php echo $form->error($model_file, 'file_id'); ?>
 
-</div>
+</div><br/>
 
 <div class="row">
     <?php echo $form->label($model, 'linkedin_profile'); ?>
     <?php echo $form->textField($model, 'linkedin_profile'); ?>
     <?php echo $form->error($model, 'linkedin_profile'); ?>
-</div>
+</div><br/>
 
 
 
@@ -68,7 +68,11 @@ $form = $this->beginWidget('CActiveForm', array(
     $this->renderPartial('_search_right', array(), FALSE, TRUE);
 ?>
 <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/additional-methods.min.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.maskedinput.min.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/register-cv.js"></script>
+
 <script type="text/javascript">
     $(function() {
         $("#JobEmployees_mobile").mask("(999) 999-9999");

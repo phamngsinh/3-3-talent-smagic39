@@ -25,19 +25,22 @@ class PageController extends Controller {
      */
     public function actions() {
         return array(
-            // captcha action renders the CAPTCHA image displayed on the contact page
+// captcha action renders the CAPTCHA image displayed on the contact page
             'captcha' => array(
                 'class' => 'CCaptchaAction',
                 'backColor' => 0xFFFFFF,
             ),
             // page action renders "static" pages stored under 'protected/views/site/pages'
-            // They can be accessed via: index.php?r=site/page&view=FileName
+// They can be accessed via: index.php?r=site/page&view=FileName
             'page' => array(
                 'class' => 'CViewAction',
             ),
         );
     }
-
+    public function filters() {
+        parent::filters();
+   
+    }
     /*
      * get All Category for Select
      */
@@ -99,10 +102,10 @@ class PageController extends Controller {
      */
 
     public function actionIndex() {
-        // implement jobs board
+// implement jobs board
         $criteria = $this->getParameter();
         $item_count = Jobs::model()->count($criteria);
-        //implement dropdown search
+//implement dropdown search
         $jobs = new Jobs();
         $local = new JobLocation();
         $workTy = new JobWorktype();
@@ -189,9 +192,7 @@ class PageController extends Controller {
                     Yii::app()->user->setFlash('success', "Thank you for Contact Us");
                     $reg_cv['name'] = $_POST['JobContactus']['name'];
                     $reg_cv['email'] = trim($_POST['JobContactus']['email']);
-                    $reg_cv['content'] = 'Thank You for Contact Us at The 33Talent';
-                    $reg_cv['title'] = 'Thank You for Contact Us at The 33Talent';
-                    $this->sendEmail($reg_cv);
+                    $this->sendEmailContact($reg_cv);
                     $reg_cv['link'] = Yii::app()->getBaseUrl(true) . '/admin/index.php?r=jobContactus/view&id=' . $model->contactus_id;
                     $reg_cv['content'] = 'User Contact Us at The 33Talent';
                     $reg_cv['title'] = 'User Contact Us at The 33Talent';
@@ -258,7 +259,7 @@ class PageController extends Controller {
             ));
 
             $command->execute();
-            //insert to db
+//insert to db
             $file_id = Yii::app()->db->getLastInsertID();
             $resume = new JobResumes;
             $resume->employ_id = $employ_id;
@@ -293,9 +294,9 @@ class PageController extends Controller {
                     'uri' => $uri,
                     'timestamp' => date('Y-m-d H:i:s', time()),
                 ));
-                
+
                 $command->execute();
-                //insert to db
+//insert to db
                 $file_id = Yii::app()->db->getLastInsertID();
                 $resume = new JobCovers;
                 $resume->employ_id = $employ_id;
@@ -321,21 +322,37 @@ class PageController extends Controller {
      * @param type $type
      */
     public function checkExistentUser($type) {
-        
+
         $criteria = new CDbCriteria();
-        
+
         $criteria->select = 't.employ_id';
         $criteria->condition = " JobEmployees.email='" . $_POST['JobEmployees']['email'] .
                 "' AND t.job_id=" . $_GET['job'] . ' AND t.type=' . $type;
         $criteria->join = ' LEFT JOIN tbl_job_employees as JobEmployees ON  JobEmployees.employ_id = t.employ_id';
         $resume_tmp = JobResumes::model()->find($criteria);
         if ($resume_tmp) {
-            Yii::app()->user->setFlash('success', "Email already exists");
+            Yii::app()->user->setFlash('error', "Email already Applied");
             $this->redirect(array('page/index#message-info'));
         }
     }
 
-    // 2 register cv
+    public function actionCheckEmailRegister() {
+        if (CHtml::encode($_POST['email'])) {
+            $criteria = new CDbCriteria();
+            $criteria->select = 't.employ_id';
+            $criteria->condition = " JobEmployees.email='" .$_POST['email']. "' AND t.type=2";
+            $criteria->join = ' LEFT JOIN tbl_job_employees as JobEmployees ON  JobEmployees.employ_id = t.employ_id';
+            $resume_tmp = JobResumes::model()->find($criteria);
+            if ($resume_tmp) {
+                echo 'false';die;
+            }
+            echo 'true';die;
+        }
+        Yii::app()->end();
+  
+    }
+
+// 2 register cv
     public function checkExistentCVUser($type) {
         $criteria = new CDbCriteria();
         $criteria->select = 't.employ_id';
@@ -343,7 +360,7 @@ class PageController extends Controller {
         $criteria->join = ' LEFT JOIN tbl_job_employees as JobEmployees ON  JobEmployees.employ_id = t.employ_id';
         $resume_tmp = JobResumes::model()->find($criteria);
         if ($resume_tmp) {
-            Yii::app()->user->setFlash('success', "Email already exists");
+            Yii::app()->user->setFlash('error', "Email already exists");
             $this->redirect(array('page/index#message-info'));
         }
     }
@@ -364,15 +381,15 @@ class PageController extends Controller {
             }
 
             if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
-                //check existent via job
+//check existent via job
                 $this->checkExistentUser(1);
 
-                //update and upload file cover not
+//update and upload file cover not
                 $model->attributes = $_POST['JobEmployees'];
                 $model->save();
-                //upload file and upload resume
+//upload file and upload resume
                 $check[] = $this->updateResume($_POST['JobResumes'], $resume, $_GET['job'], $model->employ_id, 1);
-                //cover leter
+//cover leter
                 $type = $_POST['JobEmployees']['coverNoteType'];
                 $check[] = $this->updateJobCovers($_POST['JobCovers'], $model, $_GET['job'], $model->employ_id, $type);
 
@@ -380,13 +397,13 @@ class PageController extends Controller {
                     $reg_cv['link'] = Yii::app()->getBaseUrl(true) . '/admin/index.php?r=jobEmployees/view&id=' . $model->employ_id . '&type=apply';
                     $reg_cv['name'] = $_POST['JobEmployees']['first_name'] . ' ' . $_POST['JobEmployees']['last_name'];
                     $reg_cv['email'] = trim($_POST['JobEmployees']['email']);
-                    $reg_cv['content'] = 'Thank you for sending your resume for the following job post';
                     $reg_cv['title'] = $job['title'];
                     $reg_cv['recruiter_name'] = $job['recruiter_name'];
                     $reg_cv['recruiter_email'] = $job['recruiter_email'];
-                    $status = $this->sendEmail($reg_cv);
-                    $reg_cv['content'] = 'Applying User CV at The 33Talent';
-                    $reg_cv['title'] = 'Applying User CV at The 33Talent ' . $job['title'];
+                    $status = $this->sendEmailApply($reg_cv);
+                    $reg_cv['content'] = 'User Apply User CV at The 33Talent  ' . $job['title'];
+                    ;
+                    $reg_cv['title'] = 'User Apply User CV at The 33Talent  ' . $job['title'];
                     $this->sendEmailAdmin($reg_cv);
                 }
 
@@ -410,7 +427,7 @@ class PageController extends Controller {
         $from = Ms::model()->findByAttributes(array('var_name' => 'adminEmail'))->value4_text;
         $message = new YiiMailMessage;
         $message->view = "admin";
-        $message->subject = $data['title'];
+        $message->subject = $data['content'];
         $body = "<tbody>";
         $body .="<tr>";
         $body .="<td>" . $data['content'] . "</td>";
@@ -436,7 +453,54 @@ class PageController extends Controller {
      * @param type $data
      * @return type
      */
-    public function sendEmail($data) {
+    public function sendEmailApply($data) {
+        $title = $data['title'];
+        $name = $data['name'];
+
+        $recruiter = isset($data['recruiter_name']) ? $data['recruiter_name'] : '';
+        $recruiter_email = isset($data['recruiter_email']) ? $data['recruiter_email'] : '';
+        $from = Ms::model()->findByAttributes(array('var_name' => 'adminEmail'))->value4_text;
+        $message = new YiiMailMessage;
+        $message->view = "apply";
+        $message->subject = $title;
+        $message->setBody(array(
+            'name' => $name,
+            'job_title' => $title,
+            'recruiter' => $recruiter,
+            'recruiter_email' => $recruiter_email), 'text/html');
+        $message->addTo($data['email']);
+        $message->from = $from;
+        return Yii::app()->mail->send($message);
+    }
+
+    public function sendEmailContact($data) {
+        $name = $data['name'];
+        $from = Ms::model()->findByAttributes(array('var_name' => 'adminEmail'))->value4_text;
+        $message = new YiiMailMessage;
+        $message->view = "contact";
+        $message->subject = 'Email Contact at 33Talent';
+        $message->setBody(array(
+            'name' => $name), 'text/html');
+        $message->addTo($data['email']);
+        $message->from = $from;
+        return Yii::app()->mail->send($message);
+    }
+
+    public function sendEmailRegisterCV($data) {
+        $name = $data['name'];
+        $from = Ms::model()->findByAttributes(array('var_name' => 'adminEmail'))->value4_text;
+        $message = new YiiMailMessage;
+        $message->view = "registercv";
+        $message->subject = 'Register Your CV at The 33Talent';
+        $message->setBody(array(
+            'name' => $name,
+            'title' => 'Register Your CV at The 33Talent'), 'text/html');
+        $message->addTo($data['email']);
+        $message->from = $from;
+        return Yii::app()->mail->send($message);
+    }
+
+    public function sendEmailSample($data) {
         $content = $data['content'];
         $title = $data['title'];
         $name = $data['name'];
@@ -448,9 +512,21 @@ class PageController extends Controller {
         $message->subject = $title;
         $message->setBody(array('content' => $content,
             'name' => $name,
-            'title' => $title, 
+            'title' => $title,
             'recruiter' => $recruiter,
             'recruiter_email' => $recruiter_email), 'text/html');
+        $message->addTo($data['email']);
+        $message->from = $from;
+        return Yii::app()->mail->send($message);
+    }
+
+    public function sendEmailAlert($data) {
+        $name = $data['name'];
+        $from = Ms::model()->findByAttributes(array('var_name' => 'adminEmail'))->value4_text;
+        $message = new YiiMailMessage;
+        $message->view = "alert";
+        $message->subject = ' Signing up for Job Alerts at The 33Talent';
+        $message->setBody(array('name' => $name), 'text/html');
         $message->addTo($data['email']);
         $message->from = $from;
         return Yii::app()->mail->send($message);
@@ -466,9 +542,8 @@ class PageController extends Controller {
         if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
 
             $this->checkExistentCVUser(2); //check exist
-
             $model_tmp = JobEmployees::model()->find("email ='" . trim($_POST['JobEmployees']['email']) . "'");
-
+            $employ_id = '';
             if ($model_tmp) {
 
                 $employ_id = $model_tmp['employ_id'];
@@ -481,9 +556,6 @@ class PageController extends Controller {
                 if ($model_update->save()) {
                     $this->updateResume($_POST['JobResumes']['file_id'], $resume, 0, $employ_id, 2);
                 }
-                $reg_cv['link'] = Yii::app()->getBaseUrl(true) . '/admin/index.php?r=jobEmployees/view&id=' . $employ_id . '&type=regcv';
-                $reg_cv['name'] = $_POST['JobEmployees']['first_name'] . ' ' . $_POST['JobEmployees']['last_name'];
-                $reg_cv['email'] = trim($_POST['JobEmployees']['email']);
             } else {
 
                 $model->first_name = $_POST['JobEmployees']['first_name'];
@@ -491,22 +563,19 @@ class PageController extends Controller {
                 $model->last_name = $_POST['JobEmployees']['last_name'];
                 $model->mobile = $_POST['JobEmployees']['mobile'];
                 $model->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
+                $employ_id = $model->employ_id;
                 if ($model->save()) {
-                    $this->updateResume($_POST['JobResumes']['file_id'], $resume, 0, $model->employ_id, 2);
+                    $this->updateResume($_POST['JobResumes']['file_id'], $resume, 0, $model->employ_id, 2); //2 for register cv
                 }
-                $reg_cv['link'] = Yii::app()->getBaseUrl(true) . '/admin/index.php?r=jobEmployees/view&id=' . $model->employ_id . '&type=regcv';
-                $reg_cv['name'] = $_POST['JobEmployees']['first_name'] . ' ' . $_POST['JobEmployees']['last_name'];
-                $reg_cv['email'] = trim($_POST['JobEmployees']['email']);
             }
-            $reg_cv['content'] = 'Thank You for Registering at The 33Talent';
-            $reg_cv['title'] = 'Thank You for Register CV';
-            $this->sendEmail($reg_cv);
-            $reg_cv['content'] = 'Register User CV at The 33Talent';
-            $reg_cv['title'] = 'Register User CV at The 33Talent';
+            $reg_cv['link'] = Yii::app()->getBaseUrl(true) . '/admin/index.php?r=jobEmployees/view&id=' . $employ_id . '&type=regcv';
+            $reg_cv['name'] = $_POST['JobEmployees']['first_name'] . ' ' . $_POST['JobEmployees']['last_name'];
+            $reg_cv['email'] = trim($_POST['JobEmployees']['email']);
+            $reg_cv['content'] ='User have already registed CV';
             $this->sendEmailAdmin($reg_cv);
+            $this->sendEmailRegisterCV($reg_cv);
 
-
-            Yii::app()->user->setFlash('success', "Thank You for Register");
+            Yii::app()->user->setFlash('success', "You have already Registered your CV with Us. We will contact you if we have a suitable vacancy for you");
             $this->redirect(array('page/index#message-info'));
         }
         $this->render('register_cv', array(
@@ -556,26 +625,33 @@ class PageController extends Controller {
      */
     public function actionRegisterAlert() {
         $model = new JobEmployees;
-        $model_category = new JobCategories();
+        $job_alert = new JobAlerts;
         $categories = CHtml::ListData(JobCategories::model()->findAll(), 'cat_id', 'cat_name');
         $location = CHtml::ListData(JobLocation::model()->findAll('city IS NOT NULL GROUP BY city'), 'job_location_id', 'city');
         $worktype = CHtml::ListData(JobWorktype::model()->findAll(), 'worktype_id', 'name');
 
         if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
-            $model_tmp = JobEmployees::model()->find("email ='" . $_POST['JobEmployees']['email'] . "'");
-            $cat_id = isset($_POST['JobEmployees']["cat_id"]) ? $_POST['JobEmployees']["cat_id"] : 0;
-            $sub_cat_id = isset($_POST['JobEmployees']["sub_cat_id"]) ? $_POST['JobEmployees']["sub_cat_id"] : 0;
-            $worktype_id = isset($_POST['JobEmployees']["worktype_id"]) ? $_POST['JobEmployees']["worktype_id"] : 0;
-            $location_id = isset($_POST['JobEmployees']["location_id"]) ? $_POST['JobEmployees']["location_id"] : 0;
-            //maybe update to other model then to update data
-            unset($_POST['JobEmployees']["cat_id"]);
-            unset($_POST['JobEmployees']["sub_cat_id"]);
-            unset($_POST['JobEmployees']["worktype_id"]);
-            unset($_POST['JobEmployees']["location_id"]);
-            //
-            $reg_cv = array();
-            if ($model_tmp) {
 
+
+            $model_tmp = JobEmployees::model()->find("email ='" . $_POST['JobEmployees']['email'] . "'");
+            $check_alert = JobAlerts::model()->find("employ_id ='" . $model_tmp['employ_id'] . "'");
+            if ($check_alert) {
+
+                Yii::app()->user->setFlash('success', "Email address registed");
+                $this->redirect(array('page/index#message-info'));
+            }
+
+
+            $cat_id = isset($_POST['JobAlerts']["cat_id"]) ? $_POST['JobAlerts']["cat_id"] : 0;
+            $sub_cat_id = isset($_POST['JobAlerts']["sub_cat_id"]) ? $_POST['JobAlerts']["sub_cat_id"] : 0;
+            $worktype_id = isset($_POST['JobAlerts']["worktype_id"]) ? $_POST['JobAlerts']["worktype_id"] : 0;
+            $location_id = isset($_POST['JobAlerts']["location_id"]) ? $_POST['JobAlerts']["location_id"] : 0;
+//
+            $reg_cv = array();
+            $employ_id = '';
+            $check = false;
+
+            if ($model_tmp) {
                 $employ_id = $model_tmp['employ_id'];
                 $model_update = JobEmployees::model()->findByPk($employ_id);
                 $model_update->employ_id = $employ_id;
@@ -583,10 +659,8 @@ class PageController extends Controller {
                 $model_update->email = $_POST['JobEmployees']['email'];
                 $model_update->last_name = $_POST['JobEmployees']['last_name'];
                 $model_update->mobile = $model_tmp['mobile'];
-                $reg_cv['link'] = Yii::app()->getBaseUrl(true) . '/admin/index.php?r=jobEmployees/view&id=' . $employ_id . '&type=alert';
-                $reg_cv['name'] = $_POST['JobEmployees']['first_name'] . ' ' . $_POST['JobEmployees']['last_name'];
-                $reg_cv['email'] = trim($_POST['JobEmployees']['email']);
                 if ($model_update->save()) {
+                    $check = true;
                     $this->updateAlert($cat_id, $sub_cat_id, $worktype_id, $location_id, $employ_id, 1);
                 }
             } else {
@@ -595,25 +669,28 @@ class PageController extends Controller {
                 $model->email = $_POST['JobEmployees']['email'];
                 $model->last_name = $_POST['JobEmployees']['last_name'];
                 $model->mobile = 0;
-                $reg_cv['link'] = Yii::app()->getBaseUrl(true) . '/admin/index.php?r=jobEmployees/view&id=' . $model->employ_id . '&type=alert';
-                $reg_cv['name'] = $_POST['JobEmployees']['first_name'] . ' ' . $_POST['JobEmployees']['last_name'];
-                $reg_cv['email'] = trim($_POST['JobEmployees']['email']);
+                $employ_id = $model->employ_id;
                 if ($model->save()) {
-                    $this->updateAlert($cat_id, $sub_cat_id, $worktype_id, $location_id, $model->employ_id, 1);
+                    $check = true;
+                    $this->updateAlert($cat_id, $sub_cat_id, $worktype_id, $location_id, $employ_id, 1);
                 }
             }
-            Yii::app()->user->setFlash('success', "Thank for Register!");
-            $reg_cv['content'] = 'Thank You for Registering at The 33Talent';
-            $reg_cv['title'] = 'Thank You for Register Alert Job';
-            $this->sendEmail($reg_cv);
-            $reg_cv['content'] = 'Register User Alert Job at The 33Talent';
-            $reg_cv['title'] = 'Register User Alert Job at The 33Talent';
-            $this->sendEmailAdmin($reg_cv);
+
+            if ($check) {
+                $reg_cv['link'] = Yii::app()->getBaseUrl(true) . '/admin/index.php?r=jobEmployees/view&id=' . $employ_id . '&type=alert';
+                $reg_cv['name'] = $_POST['JobEmployees']['first_name'] . ' ' . $_POST['JobEmployees']['last_name'];
+                $reg_cv['email'] = trim($_POST['JobEmployees']['email']);
+                $this->sendEmailAlert($reg_cv);
+                $reg_cv['content'] = ' User Register Alert Job at The 33Talent';
+                $this->sendEmailAdmin($reg_cv);
+            }
+            Yii::app()->user->setFlash('success', "Thank for Signing Up at Job Alerts!");
             $this->redirect(array('page/index#message-info'));
         }
         $this->render('registerAlert', array(
             'model' => $model,
             'worktype' => $worktype,
+            'job_alert' => $job_alert,
             'location' => $location,
             'categories' => $categories
         ));
@@ -637,7 +714,7 @@ class PageController extends Controller {
      * view List Testimonial
      */
     public function actionTestimonials() {
-        //paginator
+//paginator
 
         $page = (isset($_GET['page']) ? $_GET['page'] : 1);
         $criteria = new CDbCriteria();
@@ -664,7 +741,7 @@ class PageController extends Controller {
      * ajax to get list Sub Cateogry
      */
     public function actionDynamicsubCategories() {
-        //  $data = JobSubcategories::model()->findAll('parent=:parent_id', array(':parent_id' => (int) $_POST['cat_id']));
+//  $data = JobSubcategories::model()->findAll('parent=:parent_id', array(':parent_id' => (int) $_POST['cat_id']));
         $str = '';
         $data = $this->getListSubCategory($_POST['cat_id']);
         if (!empty($_POST['cat_id']) && $data) {
@@ -720,7 +797,7 @@ class PageController extends Controller {
         return $criteria;
     }
 
-    // Uncomment the following methods and override them if needed
+// Uncomment the following methods and override them if needed
     /*
       public function filters()
       {

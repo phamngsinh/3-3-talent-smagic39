@@ -13,6 +13,7 @@
  */
 class JobContactus extends CActiveRecord
 {
+    
 	/**
 	 * @return string the associated database table name
 	 */

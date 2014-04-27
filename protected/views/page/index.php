@@ -1,4 +1,8 @@
-<h1>33talent Currents Jobs Details</h1>
+<?php if (isset($_GET['cat_id'])): ?>
+    <h1>33talent Search Results</h1>
+<?php else: ?>
+    <h1>33talent Currents Jobs Details</h1>
+<?php endif; ?>
 <div class="job-list front-page">
     <ul>
         <?php
@@ -6,12 +10,6 @@
             foreach ($dataProvider as $job) {
                 ?>
                 <li>
-                    <!--                        <div class="job-buttons">
-                                                <a href="#" class="view-more">View More</a>
-                                                <a href="#">Apply Now</a>
-                                                <a href="#">Share</a>
-
-                                            </div>-->
 
                     <h4><?php echo $job->title ?></h4>
 
@@ -45,8 +43,8 @@
 
                 <?php
             }
-        } else {
-            echo '<i>No results found.</i>';
+        }else{
+            echo '<strong>No Results found<strong>';
         }
         ?>
     </ul>

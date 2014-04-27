@@ -42,7 +42,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <h3>Job Criteria</h3>
     <label for="cat_id">Category</label>
    <?php
-   echo CHtml::dropDownList('JobEmployees[cat_id]', '', $categories, array(
+   echo CHtml::dropDownList('JobAlerts[cat_id]', '', $categories, array(
        'prompt' => '-- All Categories --',
        'selected' => true,
        'ajax' => array(
@@ -60,7 +60,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="row">
     <label for="sub_cat_id">Sub Categories</label>
     <?php
-    echo CHtml::dropDownList('JobEmployees[sub_cat_id]', '', $location, array(
+    echo CHtml::dropDownList('JobAlerts[sub_cat_id]', '', $location, array(
         'prompt' => '-- All Location --',
         'multiple' => 'multiple'
     ));
@@ -71,7 +71,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="row">
     <label for="location_id">Location</label>
     <?php
-    echo CHtml::dropDownList('JobEmployees[location_id]', '', $location, array(
+    echo CHtml::dropDownList('JobAlerts[location_id]', '', $location, array(
         'prompt' => '-- All Location --',
         'multiple' => 'multiple'
     ));
@@ -79,7 +79,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
     <label for="worktype_id">Work Type</label>
     <?php
-    echo CHtml::dropDownList('JobEmployees[worktype_id]', '', $worktype, array(
+    echo CHtml::dropDownList('JobAlerts[worktype_id]', '', $worktype, array(
         'prompt' => '-- All Work Types --',
         'multiple' => 'multiple'
     ));
