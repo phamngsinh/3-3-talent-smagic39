@@ -37,10 +37,11 @@ class PageController extends Controller {
             ),
         );
     }
+
     public function filters() {
         parent::filters();
-   
     }
+
     /*
      * get All Category for Select
      */
@@ -340,16 +341,34 @@ class PageController extends Controller {
         if (CHtml::encode($_POST['email'])) {
             $criteria = new CDbCriteria();
             $criteria->select = 't.employ_id';
-            $criteria->condition = " JobEmployees.email='" .$_POST['email']. "' AND t.type=2";
+            $criteria->condition = " JobEmployees.email='" . $_POST['email'] . "' AND t.type=2";
             $criteria->join = ' LEFT JOIN tbl_job_employees as JobEmployees ON  JobEmployees.employ_id = t.employ_id';
             $resume_tmp = JobResumes::model()->find($criteria);
             if ($resume_tmp) {
-                echo 'false';die;
+                echo 'false';
+                die;
             }
-            echo 'true';die;
+            echo 'true';
+            die;
         }
         Yii::app()->end();
-  
+    }
+
+    public function actionCheckEmailRegisterJob() {
+        if (CHtml::encode($_POST['email'])) {
+            $criteria = new CDbCriteria();
+            $criteria->select = 't.employ_id';
+            $criteria->condition = " JobEmployees.email='" . $_POST['email'] . "' AND t.type=1";
+            $criteria->join = ' LEFT JOIN tbl_job_employees as JobEmployees ON  JobEmployees.employ_id = t.employ_id';
+            $resume_tmp = JobResumes::model()->find($criteria);
+            if ($resume_tmp) {
+                echo 'false';
+                die;
+            }
+            echo 'true';
+            die;
+        }
+        Yii::app()->end();
     }
 
 // 2 register cv
@@ -553,6 +572,7 @@ class PageController extends Controller {
                 $model_update->last_name = $_POST['JobEmployees']['last_name'];
                 $model_update->mobile = $_POST['JobEmployees']['mobile'];
                 $model_update->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
+
                 if ($model_update->save()) {
                     $this->updateResume($_POST['JobResumes']['file_id'], $resume, 0, $employ_id, 2);
                 }
@@ -563,15 +583,17 @@ class PageController extends Controller {
                 $model->last_name = $_POST['JobEmployees']['last_name'];
                 $model->mobile = $_POST['JobEmployees']['mobile'];
                 $model->linkedin_profile = $_POST['JobEmployees']['linkedin_profile'];
-                $employ_id = $model->employ_id;
+
                 if ($model->save()) {
+                    $employ_id = $model->employ_id;
+
                     $this->updateResume($_POST['JobResumes']['file_id'], $resume, 0, $model->employ_id, 2); //2 for register cv
                 }
             }
             $reg_cv['link'] = Yii::app()->getBaseUrl(true) . '/admin/index.php?r=jobEmployees/view&id=' . $employ_id . '&type=regcv';
             $reg_cv['name'] = $_POST['JobEmployees']['first_name'] . ' ' . $_POST['JobEmployees']['last_name'];
             $reg_cv['email'] = trim($_POST['JobEmployees']['email']);
-            $reg_cv['content'] ='User have already registed CV';
+            $reg_cv['content'] = 'User have already registed CV';
             $this->sendEmailAdmin($reg_cv);
             $this->sendEmailRegisterCV($reg_cv);
 
