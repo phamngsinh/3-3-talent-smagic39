@@ -260,13 +260,19 @@ class PageController extends Controller {
             ));
 
             $command->execute();
-//insert to db
+            //insert to db
             $file_id = Yii::app()->db->getLastInsertID();
             $resume = new JobResumes;
             $resume->employ_id = $employ_id;
             $resume->job_id = $job_id;
             $resume->file_id = $file_id;
             $resume->type = $type;
+            if ($type == 1) {
+                $resume->confirm_apply = sha1($employ_id + $job_id + $type);
+            } else {
+                $resume->confirm_register = sha1($employ_id + $job_id + $type);
+            }
+
             $resume->save();
             return $resume->resume_id;
         }
@@ -371,7 +377,7 @@ class PageController extends Controller {
         Yii::app()->end();
     }
 
-// 2 register cv
+    // 2 register cv
     public function checkExistentCVUser($type) {
         $criteria = new CDbCriteria();
         $criteria->select = 't.employ_id';
@@ -400,18 +406,21 @@ class PageController extends Controller {
             }
 
             if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
-//check existent via job
+                //check existent via job
                 $this->checkExistentUser(1);
 
-//update and upload file cover not
+                //update and upload file cover not
                 $model->attributes = $_POST['JobEmployees'];
                 $model->save();
-//upload file and upload resume
-                $check[] = $this->updateResume($_POST['JobResumes'], $resume, $_GET['job'], $model->employ_id, 1);
-//cover leter
-                $type = $_POST['JobEmployees']['coverNoteType'];
-                $check[] = $this->updateJobCovers($_POST['JobCovers'], $model, $_GET['job'], $model->employ_id, $type);
+                $reg_cv = array();
 
+                //upload file and upload resume
+                $check[] = $this->updateResume($_POST['JobResumes'], $resume, $_GET['job'], $model->employ_id, 1);
+                $reg_cv['confirm_link'] = Yii::app()->getBaseUrl(true) . '/index.php?r=page/confirm&id=' . $_GET['job'] . '&confirm_code=' . sha1($model->employ_id + $_GET['job'] + 1);
+
+                //cover leter
+                $type = $_POST['JobEmployees']['coverNoteType'];
+                $check[] = $this->updateJobCovers($_POST['JobCovers'], $cover, $_GET['job'], $model->employ_id, $type);
                 if (!in_array(null, $check)) {
                     $reg_cv['link'] = Yii::app()->getBaseUrl(true) . '/admin/index.php?r=jobEmployees/view&id=' . $model->employ_id . '&type=apply';
                     $reg_cv['name'] = $_POST['JobEmployees']['first_name'] . ' ' . $_POST['JobEmployees']['last_name'];
@@ -421,12 +430,11 @@ class PageController extends Controller {
                     $reg_cv['recruiter_email'] = $job['recruiter_email'];
                     $status = $this->sendEmailApply($reg_cv);
                     $reg_cv['content'] = 'User Apply User CV at The 33Talent  ' . $job['title'];
-                    ;
                     $reg_cv['title'] = 'User Apply User CV at The 33Talent  ' . $job['title'];
                     $this->sendEmailAdmin($reg_cv);
                 }
 
-                Yii::app()->user->setFlash('success', "Thank you for Applying");
+                Yii::app()->user->setFlash('success', "You have already applied for this Job");
                 $this->redirect(array('page/index#message-info'));
             }
         } else {
@@ -436,6 +444,44 @@ class PageController extends Controller {
         $this->render('register', array('model' => $model, 'job' => $job, 'model_file' => $resume, 'cover' => $cover));
     }
 
+    public function actionConfirm() {
+
+        if (!empty($_GET['id']) && (int) $_GET['id'] && !empty($_GET['confirm_code'])) {
+            $criteria = new CDbCriteria();
+            $criteria->select = 't.resume_id ';
+            $criteria->condition ="t.job_id='".$_GET['id']."'AND t.confirm_apply='".$_GET['confirm_code']."'";
+            $data = JobResumes::model()->find($criteria);
+            if(!$data || (isset($data['confirm_apply']) && $data['confirm_apply']==1)){
+                $this->redirect(array('index'));
+            }
+            $model = JobResumes::model()->findByPk($data['resume_id']);
+            $model->confirm_apply= 1;
+            $model->save();
+        } else {
+            $this->redirect(array('index'));
+        }
+        $this->render('confirm');
+    }
+    public function actionConfirmAlert() {
+
+        if (!empty($_GET['id']) && (int) $_GET['id'] && !empty($_GET['confirm_code'])) {
+            $criteria = new CDbCriteria();
+            $criteria->select = 't.employ_id,t.alert_id,t.type';
+            $criteria->condition ="t.employ_id='".$_GET['id']."'AND t.confirm_code='".$_GET['confirm_code']."'";
+            $data = JobAlerts::model()->find($criteria);
+            if(!$data || (isset($data['confirm_code']) && $data['confirm_code']==1)){
+                $this->redirect(array('index'));
+            }
+            $model = JobAlerts::model()->findByPk($data['alert_id']);
+            $model->confirm_code = '1';
+            $model->type= $data['type'];
+            $model->save();
+        } else {
+            $this->redirect(array('index'));
+        }
+        $this->render('confirmalert');
+    }
+    
     /**
      * 
      * @param type $content
@@ -475,7 +521,7 @@ class PageController extends Controller {
     public function sendEmailApply($data) {
         $title = $data['title'];
         $name = $data['name'];
-
+        $confirm_link = $data['confirm_link'];
         $recruiter = isset($data['recruiter_name']) ? $data['recruiter_name'] : '';
         $recruiter_email = isset($data['recruiter_email']) ? $data['recruiter_email'] : '';
         $from = Ms::model()->findByAttributes(array('var_name' => 'adminEmail'))->value4_text;
@@ -485,6 +531,7 @@ class PageController extends Controller {
         $message->setBody(array(
             'name' => $name,
             'job_title' => $title,
+            'confirm_link' => $confirm_link,
             'recruiter' => $recruiter,
             'recruiter_email' => $recruiter_email), 'text/html');
         $message->addTo($data['email']);
@@ -541,11 +588,12 @@ class PageController extends Controller {
 
     public function sendEmailAlert($data) {
         $name = $data['name'];
+        $confirm_link = $data['confirm_link'];
         $from = Ms::model()->findByAttributes(array('var_name' => 'adminEmail'))->value4_text;
         $message = new YiiMailMessage;
         $message->view = "alert";
         $message->subject = ' Signing up for Job Alerts at The 33Talent';
-        $message->setBody(array('name' => $name), 'text/html');
+        $message->setBody(array('name' => $name,'confirm_link'=>$confirm_link), 'text/html');
         $message->addTo($data['email']);
         $message->from = $from;
         return Yii::app()->mail->send($message);
@@ -629,6 +677,7 @@ class PageController extends Controller {
             $model_update->job_location_id = join('|', $location_id);
             $model_update->worktype_id = join('|', $worktype_id);
             $model_update->type = $type;
+            $model_update->confirm_code = sha1($employ_id);
             return $model_update->save();
         } else {
             $job_alter = new JobAlerts;
@@ -637,6 +686,8 @@ class PageController extends Controller {
             $job_alter->job_location_id = join('|', $location_id);
             $job_alter->worktype_id = join('|', $worktype_id);
             $job_alter->type = $type;
+            $job_alter->confirm_code = sha1($employ_id);
+
             return $job_alter->save();
         }
         return true;
@@ -668,7 +719,7 @@ class PageController extends Controller {
             $sub_cat_id = isset($_POST['JobAlerts']["sub_cat_id"]) ? $_POST['JobAlerts']["sub_cat_id"] : 0;
             $worktype_id = isset($_POST['JobAlerts']["worktype_id"]) ? $_POST['JobAlerts']["worktype_id"] : 0;
             $location_id = isset($_POST['JobAlerts']["location_id"]) ? $_POST['JobAlerts']["location_id"] : 0;
-//
+             
             $reg_cv = array();
             $employ_id = '';
             $check = false;
@@ -699,6 +750,7 @@ class PageController extends Controller {
             }
 
             if ($check) {
+                $reg_cv['confirm_link'] = Yii::app()->getBaseUrl(true) . '/index.php?r=page/confirmalert&id=' .$employ_id . '&confirm_code=' . sha1($employ_id);
                 $reg_cv['link'] = Yii::app()->getBaseUrl(true) . '/admin/index.php?r=jobEmployees/view&id=' . $employ_id . '&type=alert';
                 $reg_cv['name'] = $_POST['JobEmployees']['first_name'] . ' ' . $_POST['JobEmployees']['last_name'];
                 $reg_cv['email'] = trim($_POST['JobEmployees']['email']);

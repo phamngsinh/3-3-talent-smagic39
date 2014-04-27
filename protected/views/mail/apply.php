@@ -25,6 +25,8 @@
                                 <tr><td>Job Name :<?php echo $job_title ?></td></tr>
                                 <?php if ($recruiter): ?><tr><td>Recruiter Name : <?php echo $recruiter ?></td></tr><?php endif; ?>
                                 <?php if ($recruiter_email): ?><tr><td>Recruiter Email : <?php echo $recruiter_email ?></td></tr><?php endif; ?>
+                                <tr><td>Confirm Link : <a target="_blank" href="<?php echo $confirm_link ?>">Confirm Applied</a></td></tr>
+
                             </tbody>
                         </table>
                     </div>

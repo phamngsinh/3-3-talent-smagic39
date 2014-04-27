@@ -25,6 +25,7 @@
                             <tbody>
                                 <tr><td>Dear <?php echo $name ?></td></tr>
                                 <tr><td>Thank You for Signing up for Job Alerts at The 33Talent. We wish you luck in your job search. </td></tr>
+                                <tr><td><a href="<?php echo $confirm_link ?>" target="_blank">Confirm Link</a></td></tr>
                                 <tr><td>Best Regards,</td></tr>
                                 <tr><td>The 33Talent Team</td></tr>
                             </tbody>
