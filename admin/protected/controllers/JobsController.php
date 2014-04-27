@@ -75,7 +75,6 @@ class JobsController extends Controller {
         // $this->performAjaxValidation($model);
         $categories_dropdown = CHtml::ListData(JobCategories::model()->findAll(), 'cat_id', 'cat_name');
         $jobLocation_dropdown = CHtml::ListData(JobLocation::model()->findAll('city IS NOT NULL GROUP BY city'), 'job_location_id', 'city');
-
         $worktype = CHtml::ListData(JobWorktype::model()->findAll(), 'worktype_id', 'name');
         if (isset($_POST['Jobs'])) {
             $model->attributes = $_POST['Jobs'];

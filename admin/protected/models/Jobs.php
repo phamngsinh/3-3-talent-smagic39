@@ -35,10 +35,12 @@ class Jobs extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('descriptions,date_posted, experience_requirements, job_location_id, responsibilities, special_commitments, title, descriptions, worktype_id', 'required'),
+			array('descriptions,date_posted, experience_requirements,cat_id, job_location_id, responsibilities, special_commitments, title, descriptions, worktype_id,recruiter_name,recruiter_email', 'required'),
 			array('cat_id, base_salary, job_location_id', 'numerical', 'integerOnly'=>true),
 			array('benefits, education_requirements, incentives, responsibilities, special_commitments, descriptions', 'length'),
 			array('title', 'length', 'max'=>300),
+                        array('recruiter_email', 'email'),
+                    
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('cat_id, job_id, base_salary, benefits, date_posted, education_requirements, experience_requirements, incentives, job_location_id, responsibilities, special_commitments, title, descriptions, worktype_id', 'safe', 'on'=>'search'),
