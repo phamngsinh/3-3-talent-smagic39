@@ -32,8 +32,7 @@
                         <a href="<?php echo Yii::app()->createUrl('page/register', array('job' => $job->job_id)); ?>">Apply
                             Now</a>
 
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(Yii::app()->getBaseUrl(true)); ?>?r=page/view&id=<?php echo $job->job_id; ?>"
-                           data-href="<?php echo Yii::app()->getBaseUrl(true); ?>?r=page/view&id=<?php echo $job->job_id;?>" target="_blank">
+                        <a href="https://www.facebook.com/sharer/sharer.php?s=100&p[title]=<?php echo $job->title; ?>&p[url]=<?php echo Yii::app()->getBaseUrl(true); ?>?r=page/view&id=<?php echo $job->job_id;?>&p[summary]=<?php echo $job->descriptions; ?>" target="_blank">
                             Share on Facebook
                         </a>
 
