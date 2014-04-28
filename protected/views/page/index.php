@@ -33,7 +33,7 @@
                             Now</a>
 
                         <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(Yii::app()->getBaseUrl(true)); ?>?r=page/view&id=<?php echo $job->job_id; ?>"
-                           data-href="<?php echo Yii::app()->getBaseUrl(true); ?>" target="_blank">
+                           data-href="<?php echo Yii::app()->getBaseUrl(true); ?>?r=page/view&id=<?php echo $job->job_id;?>" target="_blank">
                             Share on Facebook
                         </a>
 
