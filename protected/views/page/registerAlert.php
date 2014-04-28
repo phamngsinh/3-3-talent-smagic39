@@ -48,7 +48,7 @@ $form = $this->beginWidget('CActiveForm', array(
        'ajax' => array(
            'type' => 'POST', //request type
            'url' => Yii::app()->createUrl('page/dynamicsubCategories'), //url to call
-           'update' => '#JobEmployees_sub_cat_id',
+           'update' => '#JobAlerts_sub_cat_id',
            'data' => array('cat_id' => 'js:this.value', 'YII_CSRF_TOKEN' => Yii::app()->request->csrfToken),
        )
    ));
@@ -60,8 +60,8 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="row">
     <label for="sub_cat_id">Sub Categories</label>
     <?php
-    echo CHtml::dropDownList('JobAlerts[sub_cat_id]', '', $location, array(
-        'prompt' => '-- All Location --',
+    echo CHtml::dropDownList('JobAlerts[sub_cat_id]', '', array(), array(
+        'prompt' => '-- All Sub Categories --',
         'multiple' => 'multiple'
     ));
 
