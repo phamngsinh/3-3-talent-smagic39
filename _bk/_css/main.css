@@ -1,0 +1,89 @@
+body{ width:810px; margin:0 auto;}
+
+.wrapper{ width:750px; margin:0 auto; padding:30px; background:#f0f0f0;}
+
+.header{}
+
+.left_header{ float:left; width:370px;}
+.left_header p{ font-family:Arial; font-size:13px; line-height:16px; color:#666666;}
+
+.right_header{ float:left; width:380px;}
+.right_header a{ float:right; margin-top:36px;}
+
+.second_header{ background:#fff; height:174px;}
+
+.second_header_left{ float:left; width:483px; margin-left:28px; font-size:20px; color:#000; line-height:28px; font-family:Arial; padding-top:65px;}
+
+.second_header_right{ float:left; width:239px; text-align:center; padding-top:10px;}
+
+.video_portion{ padding-top:23px;}
+
+.favour_video{ float:left; width:306px; padding-top:26px; /*overflow:hidden;*/}
+.video{}
+
+.text_video{ margin-top:14px; height:92px; overflow:hidden;}
+.text_video_favour{ height:81px;}
+.text_video p{ font-family:Arial; font-size:11px; color:#333333; line-height:13px;margin-bottom:5px;}
+.text_video p.head{ font-weight:bold; font-size:12px; margin-bottom:10px;}
+
+.vote_btn{ border-bottom:3px solid #666666; height:31px; cursor:pointer; position:relative;}
+
+/*.vote_in_against p{ position:absolute; background:url("../images/friend_list.png") no-repeat; width:323px; height:84px; bottom:25px;}
+
+.vote_in_against p ul{ width:300px; padding:5px; overflow:hidden;}
+.vote_in_against p ul li{ float:left; width:32px; height:32px;}
+.vote_in_against p ul li a{ text-decoration:none;}*/
+
+.vote_in_favour:hover .favour_fr{ display:block;}
+
+.vote_in_against:hover .against_fr{ display:block;}
+
+.favour_fr{ display:none;}
+
+.against_fr{display:none;}
+
+.popup_friends{ position:absolute; background:url("../images/friend_list.png") no-repeat; width:323px; height:84px; bottom:25px;}
+
+.popup_friends ul{ width:300px; padding:11px; height:22px; overflow:hidden;}
+.popup_friends ul li{ float:left; width:32px; height:32px;}
+.popup_friends ul li a{ text-decoration:none;}
+
+.popup_friends p{ color:366666; font-size:11px; padding:5px 20px;}
+
+.performanace_meter{ float:left; width:135px; text-align:center; margin-top:10px;}
+.performanace_meter p.timer{ background: url("../images/timer.jpg") no-repeat scroll 2px 0 transparent; width:140px; height:33px;color:#fff; line-height:34px; font-size:12px;}
+
+.performanace_meter p.timer_2{  width:140px; height:33px;color:#fff; line-height:34px; font-size:12px;margin-top: -65px; margin-bottom:35px;}
+.performanace_meter p.timer_2 span{ color:#fff; line-height:12px;}
+
+.performanace_meter p.timer span{ color:#fff; line-height:12px;}
+#chart_div{ background:#f0f0f0 !important; width:135px; height:135px;}
+.owl{ margin-bottom:-4px;}
+.balance{ }
+#line{ background:url("../images/line.png") repeat-y scroll 65px -25px transparent; height:119px; position:relative;margin-top: -50px;}
+
+.againt_video{ float:left; width:306px;padding-top:13px;}
+
+.margin_left{ padding-top:47px !important;}
+.margin_right{padding-top: 6px !important;}
+
+.comments_portions{  padding-top:22px; margin-bottom:17px;}
+
+.comments_portions p{ padding-left:10px;background:#fff; font-family:Arial; font-size:13px; color:#666666; line-height:28px; border-bottom:1px dotted #666666; margin-bottom:5px;}
+
+.comments_area{ float:left; width:365px; background:#fff;}
+
+.cmt_right{ margin-left:20px;}
+
+.slider{ background:#fff; margin-bottom:58px;}
+.slider p{ padding-left:10px;background:#fff; font-family:Arial; font-size:13px; color:#666666; line-height:28px; border-bottom:1px dotted #666666; margin-bottom:5px;}
+
+.grand_btm_slider{ float:left; padding-bottom:10px;}
+.slider_left{ float:left; width:49px; text-align:center;  cursor:pointer; padding-top:25px; }
+.slider_middle{ float:left; width:650px;}
+.slider_middle ul{ float:left;}
+.slider_middle ul li{ float:left;margin: 0 5px;width: 200px;max-height:100px;}
+.slider_middle ul li span{ float:left; width:100px;  text-align:center; }
+.slider_middle ul li img{ max-width:100px;max-height:94px; }
+.slider_middle ul li p.slide_text{ padding-top:24px; font-family:Arial; font-size:12px; color:#666666; line-height:12px; border:none; margin-bottom:5px; float:left; width:95px; padding-left:5px;}
+.slider_right{ float:left; width:49px; text-align:center;  cursor:pointer; padding-top:25px;}
