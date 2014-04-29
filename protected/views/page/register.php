@@ -20,7 +20,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="row" style="text-align: center">
     <h3><?php echo $job['title'] ?></h3>
 
-    <p>Please complete the form below to apply for this position</p>
+    <p style="color:red">Please complete the form below to apply for this position</p>
 </div>
 <div class="row">
     <?php echo $form->label($model, 'first_name'); ?>
@@ -55,7 +55,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <br/>
 <div class="row">
     <label for="JobEmployees_file_id">Resume </label>
-    <?php echo $form->fileField($model_file, 'file_id', array('accept' => '.pdf,.docs,.docx,.doc')); ?>
+    <?php echo $form->fileField($model_file, 'file_id'); ?>
     <?php echo $form->error($model_file, 'file_id'); ?>
 </div>
 <br/>
@@ -72,7 +72,7 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 <br/>
 <div class="row" style="clear:both">
-    <?php echo $form->fileField($cover, 'value', array('accept' => '.pdf,.docs,.docx,.doc','class'=>'show')); ?>
+    <?php echo $form->fileField($cover, 'value', array('class'=>'show')); ?>
     <?php echo $form->textArea($cover, 'value', array('rows' => 6, 'cols' => 50,'class'=>'hiden', 'id' => 'CandidateCoverNote', 'maxlength' => "1000", 'style' => 'display: none')); ?>
     <div id="validate_cover_value" class="errorPrivate" style="display: none;">Please enter a value for Cover Note</div>
 
