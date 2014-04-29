@@ -338,7 +338,7 @@ class PageController extends Controller {
         $criteria->join = ' LEFT JOIN tbl_job_employees as JobEmployees ON  JobEmployees.employ_id = t.employ_id';
         $resume_tmp = JobResumes::model()->find($criteria);
         if ($resume_tmp) {
-            Yii::app()->user->setFlash('error', "Email already Applied");
+            Yii::app()->user->setFlash('error', "You have already applied for this Job");
             $this->redirect(array('page/index#message-info'));
         }
     }
