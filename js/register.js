@@ -23,6 +23,7 @@ jQuery(function($) {
         $('#registration-form #CandidateCoverNote').hide();
         $('#registration-form #CandidateCoverNote').addClass('hiden');
         $('#registration-form #CandidateCoverNote').val('');
+
     });
     $('#registration-form #coverNoteType1').click(function(e) {
         $('#registration-form #CandidateCoverNote').show();
@@ -53,10 +54,17 @@ jQuery(function($) {
                 required: true
             },
             'JobResumes[file_id]': {
-                required: true
+                required: true,
+                extension: 'doc|docx|pdf|docs'
+
             },
             'JobCovers[value]': {
-                required: true
+                required: true,
+                extension: {
+                    depends: function(element) {
+                        return $(" input[type='radio']:checked #coverNoteType0").val() == '';
+                    }
+                }
             },
         },
         messages: {
@@ -68,7 +76,10 @@ jQuery(function($) {
             },
             'JobCovers[value]': 'Cover note cannot be blank.',
             'JobEmployees[mobile]': 'Mobile cannot be blank.',
-            'JobResumes[file_id]': 'Resume cannot be blank.',
+            'JobResumes[file_id]': {
+                required: 'Resume cannot be blank.',
+                extension: 'Resume support doc,docs,docx,pdf'
+            },
         }
     });
 

@@ -29,7 +29,8 @@ jQuery(function($) {
                         required: true,
                     },
                     'JobResumes[file_id]': {
-                        required: true
+                        required: true,
+                        extension:'doc|docx|pdf|docs'
                     },
                     'JobEmployees[email]': {
                         required: true,
@@ -41,7 +42,10 @@ jQuery(function($) {
                     'JobEmployees[first_name]': 'First name cannot be blank',
                     'JobEmployees[last_name]': 'Last name cannot be blank.',
                     'JobEmployees[mobile]': 'Mobile cannot be blank.',
-                    'JobResumes[file_id]': 'Resume cannot be blank.',
+                    'JobResumes[file_id]': {
+                        required:'Resume cannot be blank.',
+                        extension: 'Resume support doc,docs,docx,pdf'
+                    },
                     'JobEmployees[email]': {
                         required: 'Email address cannot be blank.',
                         email: 'Please enter a valid email address.',
