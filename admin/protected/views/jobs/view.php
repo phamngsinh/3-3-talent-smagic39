@@ -9,35 +9,77 @@ $config = array(
     'appId' => CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value4_text),
     'secret' => @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value5_text),
     'cookie' => true,
+    'scope' => 'manage_page,user_photos,photos,publish_stream',
     'appName' => @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'APP_DETAILS'))->value4_text),
     'canvasPage' => "http://apps.facebook.com/" . @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value1) . "/",
     'canvasUrl' => @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_URLS'))->value5_text),
     'permissions' => @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value2),
     'fileUpload' => true
 );
+$config_new = array(
+    'appId' => $config['appId'],
+    'scope' => 'manage_page,user_photos,photos,publish_stream',
+    'secret' => $config['secret'],
+    'scope' => 'manage_page,user_photos,photos,publish_stream',
+    'fileUpload' => true,
+    'allowSignedRequest' => true,
+);
 //$config = array(
 //    'appId' => '242607099273604',
 //    'secret' => 'a9e0ce1069375395e2f565ca04e94d27',
-//    'fileUpload' => false, // optional
-//    'allowSignedRequest' => false, // optional, but should be set to false for non-canvas apps
+//    'scope' => 'manage_page,user_photos,photos,publish_stream',
+//    'fileUpload' => true, // optional
+//    'allowSignedRequest' => true, // optional, but should be set to false for non-canvas apps
 //);
-$facebook = new Facebook($config);
+
+$facebook = new Facebook($config_new);
 $user_id = $facebook->getUser();
 $logout_url = '';
 $login_url = '';
-$share_link = '';
+$share_link = $facebook->getLoginUrl(array('scope' => 'publish_actions'));
+$status = 'false';
+$fb_tmp = '';
 if ($user_id) {
-    $url  = explode('admin', Yii::app()->getBaseUrl(true));
-    $share_link = 'https://www.facebook.com/sharer/sharer.php?u=' . $url[0].'index.php?r=page/view&id='. $model->job_id;
-} else {
-    $share_link = $facebook->getLoginUrl(array('scope' => 'publish_actions'));
-}
+    $fb_page = $facebook->api('/me/accounts');
 
+    if (!empty($fb_page)) {
+        $fb_tmp = '<select name="list_page" id="page_export">';
+
+        foreach ($fb_page['data'] as $key) {
+            $fb_tmp.='<option value="' . $key['id'] . '">' . $key['name'] . '</option>';
+        }
+        if (empty($fb_page['data']))
+            $fb_tmp .='<option value="">me</option>';
+        $fb_tmp .='</select>';
+    }
+    $url = explode('admin', Yii::app()->getBaseUrl(true));
+    //$share_link = 'https://www.facebook.com/sharer/sharer.php?u=' . $url[0] . 'index.php?r=page/view&id=' . $model->job_id;
+    $status = 'true';
+    if (isset($_POST['status']) && mysql_escape_string($_POST['status'] == 'true')) {
+        if (!empty($_POST['page_id'])) {
+            $page_info = $facebook->api("/" . $_POST['page_id'] . "?fields=access_token");
+            $facebook->setAccessToken($page_info['access_token']);
+        }else{
+            $_POST['page_id'] =  'me';
+        }
+
+        $ret_obj = $facebook->api('/' . $_POST['page_id'] . '/feed', 'POST', array(
+            'link' => urldecode($url[0] . 'index.php?r=page/view&id=' . $model->job_id),
+            'message' => $model->title,
+            'name' => $model->title,
+            'description' => strip_tags($model->descriptions),
+            'picture' => $url[0] . '/images/banner.jpg'
+        ));
+        echo 'done';
+        die;
+    }
+    $share_link = '#';
+}
+//end sharefacebook
 $this->breadcrumbs = array(
     'Jobs' => array('index'),
     $model->title,
 );
-
 $this->menu = array(
     array('label' => 'List Jobs', 'url' => array('index')),
     array('label' => 'Create Jobs', 'url' => array('create')),
@@ -61,7 +103,7 @@ $this->widget('zii.widgets.CDetailView', array(
         array(// related city displayed as a link
             'label' => 'Share Facebook',
             'type' => 'raw',
-            'value' => CHtml::link('Share Facebook', $share_link,array('target'=>'_blank')),
+            'value' => CHtml::link('Share Facebook', $share_link, array('class' => 'share-facebook', 'id' => 'share-facebook')) . $fb_tmp,
         ),
         'job_id',
         'title',
@@ -120,3 +162,23 @@ $this->widget('zii.widgets.CDetailView', array(
     ),
 ));
 ?>
+<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
+
+<script>
+    //sharefacebook
+    status = <?php echo $status ?>;
+    jQuery(function($) {
+        page_id = 'me';
+        $('#share-facebook').after('<span class="loadding" style="margin-left:20px;"></span>');
+        $('#share-facebook').click(function() {
+            page_id = $('#page_export').val();
+            $('#share-facebook').siblings('.loadding').html('Loading...');
+            $.post(location.href, {status: status, page_id: page_id}, function(data) {
+                if (data == 'done') {
+                    $('#share-facebook').siblings('.loadding').html('done');
+                }
+            });
+        });
+
+    });
+</script>
