@@ -434,7 +434,7 @@ class PageController extends Controller {
                     $this->sendEmailAdmin($reg_cv);
                 }
 
-                Yii::app()->user->setFlash('success', "You have already applied for this Job");
+                Yii::app()->user->setFlash('success', "Thank you for applying for the post of ".$job['title']);
                 $this->redirect(array('page/index#message-info'));
             }
         } else {
@@ -449,39 +449,40 @@ class PageController extends Controller {
         if (!empty($_GET['id']) && (int) $_GET['id'] && !empty($_GET['confirm_code'])) {
             $criteria = new CDbCriteria();
             $criteria->select = 't.resume_id ';
-            $criteria->condition ="t.job_id='".$_GET['id']."'AND t.confirm_apply='".$_GET['confirm_code']."'";
+            $criteria->condition = "t.job_id='" . $_GET['id'] . "'AND t.confirm_apply='" . $_GET['confirm_code'] . "'";
             $data = JobResumes::model()->find($criteria);
-            if(!$data || (isset($data['confirm_apply']) && $data['confirm_apply']==1)){
+            if (!$data || (isset($data['confirm_apply']) && $data['confirm_apply'] == 1)) {
                 $this->redirect(array('index'));
             }
             $model = JobResumes::model()->findByPk($data['resume_id']);
-            $model->confirm_apply= 1;
+            $model->confirm_apply = 1;
             $model->save();
         } else {
             $this->redirect(array('index'));
         }
         $this->render('confirm');
     }
+
     public function actionConfirmAlert() {
 
         if (!empty($_GET['id']) && (int) $_GET['id'] && !empty($_GET['confirm_code'])) {
             $criteria = new CDbCriteria();
             $criteria->select = 't.employ_id,t.alert_id,t.type';
-            $criteria->condition ="t.employ_id='".$_GET['id']."'AND t.confirm_code='".$_GET['confirm_code']."'";
+            $criteria->condition = "t.employ_id='" . $_GET['id'] . "'AND t.confirm_code='" . $_GET['confirm_code'] . "'";
             $data = JobAlerts::model()->find($criteria);
-            if(!$data || (isset($data['confirm_code']) && $data['confirm_code']==1)){
+            if (!$data || (isset($data['confirm_code']) && $data['confirm_code'] == 1)) {
                 $this->redirect(array('index'));
             }
             $model = JobAlerts::model()->findByPk($data['alert_id']);
             $model->confirm_code = '1';
-            $model->type= $data['type'];
+            $model->type = $data['type'];
             $model->save();
         } else {
             $this->redirect(array('index'));
         }
         $this->render('confirmalert');
     }
-    
+
     /**
      * 
      * @param type $content
@@ -593,7 +594,7 @@ class PageController extends Controller {
         $message = new YiiMailMessage;
         $message->view = "alert";
         $message->subject = ' Signing up for Job Alerts at The 33Talent';
-        $message->setBody(array('name' => $name,'confirm_link'=>$confirm_link), 'text/html');
+        $message->setBody(array('name' => $name, 'confirm_link' => $confirm_link), 'text/html');
         $message->addTo($data['email']);
         $message->from = $from;
         return Yii::app()->mail->send($message);
@@ -719,7 +720,7 @@ class PageController extends Controller {
             $sub_cat_id = isset($_POST['JobAlerts']["sub_cat_id"]) ? $_POST['JobAlerts']["sub_cat_id"] : 0;
             $worktype_id = isset($_POST['JobAlerts']["worktype_id"]) ? $_POST['JobAlerts']["worktype_id"] : 0;
             $location_id = isset($_POST['JobAlerts']["location_id"]) ? $_POST['JobAlerts']["location_id"] : 0;
-             
+
             $reg_cv = array();
             $employ_id = '';
             $check = false;
@@ -750,7 +751,7 @@ class PageController extends Controller {
             }
 
             if ($check) {
-                $reg_cv['confirm_link'] = Yii::app()->getBaseUrl(true) . '/index.php?r=page/confirmalert&id=' .$employ_id . '&confirm_code=' . sha1($employ_id);
+                $reg_cv['confirm_link'] = Yii::app()->getBaseUrl(true) . '/index.php?r=page/confirmalert&id=' . $employ_id . '&confirm_code=' . sha1($employ_id);
                 $reg_cv['link'] = Yii::app()->getBaseUrl(true) . '/admin/index.php?r=jobEmployees/view&id=' . $employ_id . '&type=alert';
                 $reg_cv['name'] = $_POST['JobEmployees']['first_name'] . ' ' . $_POST['JobEmployees']['last_name'];
                 $reg_cv['email'] = trim($_POST['JobEmployees']['email']);
@@ -810,6 +811,43 @@ class PageController extends Controller {
             'pages' => $pages
         ));
     }
+
+//    public function actionCreateTestimonials() {
+//
+//        $this->layout = 'ajax';
+//        $model = new JobTestimonials;
+//        if (isset($_POST['JobTestimonials'])) {
+//            
+//            $model->attributes = $_POST['JobTestimonials'];
+//            $model->status=0;
+//            $file_tmp = CUploadedFile::getInstance($model, 'image_id');
+//            $fileName = uniqid(time()) . $file_tmp;
+//            unset($model->image_id);
+//     
+//            if ($model->save()) {
+//                $uri = '';
+//                $file_id = '';
+//                if ($file_tmp && is_object($file_tmp) && get_class($file_tmp) === 'CUploadedFile') {
+//                    $file_tmp->saveAs(Yii::app()->basePath . '/../uploads/files/' . $fileName);
+//                    $uri = 'uploads/files/' . $fileName;
+//                    $command = Yii::app()->db->createCommand();
+//                    $file_model = new Files;
+//                    $file_model->uri = $uri;
+//                    $file_model->timestamp =  date('Y-m-d H:i:s', time());
+//                    $file_model->save();
+//                    $file_id = $file_model->file_id;
+//                }
+//
+//                $model->testimonials_id = $model->testimonials_id;
+//                $model->image_id = $file_id;
+//                $model->save();
+//            }
+////            $this->redirect(array('view', 'id' => $model->testimonials_id));
+//        }
+//        $this->render('createtestimonials', array(
+//            'model' => $model,
+//        ));
+//    }
 
     /**
      * ajax to get list Sub Cateogry
