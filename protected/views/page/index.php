@@ -1,3 +1,27 @@
+<?php
+//$config = array(
+//    'appId' => CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value4_text),
+//    'secret' => @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value5_text),
+//    'cookie' => true,
+//    'appName' => @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'APP_DETAILS'))->value4_text),
+//    'canvasPage' => "http://apps.facebook.com/" . @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value1) . "/",
+//    'canvasUrl' => @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_URLS'))->value5_text),
+//    'permissions' => @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value2),
+//    'fileUpload' => true
+//);
+//$config = array(
+//    'appId' => '242607099273604',
+//    'secret' => 'a9e0ce1069375395e2f565ca04e94d27',
+//    'fileUpload' => false, // optional
+//    'allowSignedRequest' => false, // optional, but should be set to false for non-canvas apps
+//);
+//$facebook = new Facebook($config);
+//var_dump($config);
+
+$image_banner = Yii::app()->getBaseUrl('/') . '/images/banner.jpg';
+$appId = CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value4_text);
+?>
+
 <?php if (isset($_GET['cat_id'])): ?>
     <h1>33talent Search Results</h1>
 <?php else: ?>
@@ -31,10 +55,14 @@
                            class="view-more">View More</a>
                         <a href="<?php echo Yii::app()->createUrl('page/register', array('job' => $job->job_id)); ?>">Apply
                             Now</a>
-
-                        <a href="https://www.facebook.com/sharer/sharer.php?s=100&p[title]=<?php echo $job->title; ?>&p[url]=<?php echo Yii::app()->getBaseUrl(true); ?>&p[summary]=<?php echo $job->descriptions; ?>" target="_blank">
-                            Share on Facebook
-                        </a>
+                        <?php
+                        $name = strip_tags($job->title);
+                        $caption = strip_tags($job->title);
+                        $descriptions = strip_tags($job->descriptions);
+                        $link = urldecode(Yii::app()->getBaseUrl('/') . '/index.php?r=page/view/' . $job->job_id);
+                        $fblink = $appId . '&display=popup&link=' . $link . '&picture=' . $image_banner . '&caption=' . urldecode($caption) . '&description=' . urldecode($descriptions) . '&redirect_uri=' . urldecode(Yii::app()->getBaseUrl('/'));
+                        ?>
+                        <a class="" target="_blank" href="https://www.facebook.com/dialog/feed?app_id=<?php echo $fblink ?>">Share on Facebook</a>
 
                     </div>
 
@@ -42,14 +70,14 @@
 
                 <?php
             }
-        }else{
+        } else {
             echo '<strong>No Results found<strong>';
         }
         ?>
     </ul>
 
     <?php
-    // the pagination widget with some options to mess
+// the pagination widget with some options to mess
     $this->widget('CLinkPager', array(
         'currentPage' => $pages->getCurrentPage(),
         'itemCount' => $item_count,
@@ -81,6 +109,8 @@
             'options' => array($tmp_cat_id => array('selected' => true)),
             'selected' => true,
             'ajax' => array(
+                'beforeSend' => 'preAjax',
+                'complete' => 'completeAjax',
                 'type' => 'POST', //request type
                 'url' => Yii::app()->createUrl('page/dynamicsubCategories'), //url to call
                 'update' => '#sub_cat_id',
@@ -132,10 +162,29 @@
     <?php $this->endWidget(); ?>
 
     <div><a href="<?php echo Yii::app()->createUrl('page/registerCV'); ?>">
-            <img src="images/register-cv.png" width="276" height="98" alt=""></a></div>
-    <div><a href="<?php echo Yii::app()->createUrl('page/registerAlert'); ?>"><img src="images/job-alert.png" width="276" height="98" alt=""></a></div>
+            <img src="<?php echo Yii::app()->getBaseUrl('/') ?>/images/register-cv.png" width="276" height="98" alt=""></a></div>
+    <div><a href="<?php echo Yii::app()->createUrl('page/registerAlert'); ?>"><img src="<?php echo Yii::app()->getBaseUrl('/') ?>/images/job-alert.png" width="276" height="98" alt=""></a></div>
 
 </div>
 <!--home-enquiry-->
 <div class="clear"></div>
+<script>
+    function preAjax() {
+        $('#sub_cat_id').html('<span class="loading">Loading...</span>');
+    }
+    function completeAjax() {
+        $('#sub_cat_id').siblings('.loading').remove();
+    }
+    
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 
