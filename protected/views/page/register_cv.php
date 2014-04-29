@@ -43,7 +43,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="row">
     <label for="JobEmployees_file_id">Resume </label>
-    <?php echo $form->fileField($model_file, 'file_id', array('accept' => '.pdf,.docs,.docx')); ?>
+    <?php echo $form->fileField($model_file, 'file_id', array('accept' => '.pdf,.docs,.docx,.doc')); ?>
     <?php echo $form->error($model_file, 'file_id'); ?>
 
 </div><br/>

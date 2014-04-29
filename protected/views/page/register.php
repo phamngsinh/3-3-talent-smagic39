@@ -55,7 +55,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <br/>
 <div class="row">
     <label for="JobEmployees_file_id">Resume </label>
-    <?php echo $form->fileField($model_file, 'file_id', array('accept' => '.pdf,.docs,.docx')); ?>
+    <?php echo $form->fileField($model_file, 'file_id', array('accept' => '.pdf,.docs,.docx,.doc')); ?>
     <?php echo $form->error($model_file, 'file_id'); ?>
 </div>
 <br/>
@@ -72,7 +72,7 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 <br/>
 <div class="row" style="clear:both">
-    <?php echo $form->fileField($cover, 'value', array('accept' => '.pdf,.docs,.docx','class'=>'show')); ?>
+    <?php echo $form->fileField($cover, 'value', array('accept' => '.pdf,.docs,.docx,.doc','class'=>'show')); ?>
     <?php echo $form->textArea($cover, 'value', array('rows' => 6, 'cols' => 50,'class'=>'hiden', 'id' => 'CandidateCoverNote', 'maxlength' => "1000", 'style' => 'display: none')); ?>
     <div id="validate_cover_value" class="errorPrivate" style="display: none;">Please enter a value for Cover Note</div>
 
