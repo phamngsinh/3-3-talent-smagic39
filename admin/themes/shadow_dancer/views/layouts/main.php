@@ -61,38 +61,48 @@
                         //smagic39 add more function
                         array('label' => 'Job Management', 'url' => '#',
                             'items' => array(
-                                array('label' => 'Category', 'url' => '#', 'items' => array(
-                                        array('label' => 'Create Category', 'url' => array('/JobCategories/create')),
-                                        array('label' => 'Manage Category', 'url' => array('/JobCategories/admin')),
-                                    )),
+                                array('label' => 'Job Application', 'url' => array('/jobEmployees/apply')),
+                                array('label' => 'Job Registration', 'url' => array('/jobEmployees/regCv')),
+                                array('label' => 'Job Alerts', 'url' => array('/jobEmployees/alert')),
                                 array('label' => 'Jobs', 'url' => '#', 'items' => array(
                                         array('label' => 'Create Jobs', 'url' => array('/Jobs/create')),
                                         array('label' => 'Manage Jobs', 'url' => array('/Jobs/admin')),
-                                    )),
-                                array('label' => 'WorkType', 'url' => '#', 'items' => array(
-                                        array('label' => 'Create WorkType', 'url' => array('/JobWorktype/create')),
-                                        array('label' => 'Manage WorkType', 'url' => array('/JobWorktype/admin')),
-                                    )),
-                                array('label' => 'Job Location', 'url' => '#', 'items' => array(
-                                        array('label' => 'Create Job Location', 'url' => array('/JobLocation/create')),
-                                        array('label' => 'Manage Job Location', 'url' => array('/JobLocation/admin')),
-                                    )),
-                                array('label' => 'Job Apply', 'url' => array('/jobEmployees/apply')),
-                                array('label' => 'Job Alerts', 'url' => array('/jobEmployees/alert')),
-                                array('label' => 'Job RegisterCV', 'url' => array('/jobEmployees/regCv')),
-                                array('label' => 'Team', 'url' => '#', 'items' => array(
-                                        array('label' => 'Create Team', 'url' => array('/jobTeams/create')),
-                                        array('label' => 'Manage Team', 'url' => array('/jobTeams/admin')),
                                     )),
                                 array('label' => 'Testimonial', 'url' => '#', 'items' => array(
                                         array('label' => 'Create Testimonial', 'url' => array('/jobTestimonials/create')),
                                         array('label' => 'Manage Testimonial', 'url' => array('/jobTestimonials/admin')),
                                     )),
+                            ),
+                        ),
+                        // Job settings
+                        array('label' => 'Job Settings', 'url' => '#',
+                            'items' => array(
+                                array('label' => 'Job Category', 'url' => '#', 'items' => array(
+                                        array('label' => 'Create Job Category', 'url' => array('/JobCategories/create')),
+                                        array('label' => 'Manage Job Category', 'url' => array('/JobCategories/admin')),
+                                    )),
+                                array('label' => 'Job Type', 'url' => '#', 'items' => array(
+                                        array('label' => 'Create Job Type', 'url' => array('/JobWorktype/create')),
+                                        array('label' => 'Manage Job Type', 'url' => array('/JobWorktype/admin')),
+                                    )),
+                                array('label' => 'Job Location', 'url' => '#', 'items' => array(
+                                        array('label' => 'Create Job Location', 'url' => array('/JobLocation/create')),
+                                        array('label' => 'Manage Job Location', 'url' => array('/JobLocation/admin')),
+                                    )),
+                            ),
+                        ),
+                        // CMS
+                        array('label' => 'CMS', 'url' => '#',
+                            'items' => array(
+                                array('label' => 'Team', 'url' => '#', 'items' => array(
+                                        array('label' => 'Create Team', 'url' => array('/jobTestimonials/create')),
+                                        array('label' => 'Manage Team', 'url' => array('/jobTestimonials/admin')),
+                                    )),
+                                array('label' => 'About Us', 'url' => array('/jobAbout/create')),
                                 array('label' => 'Contact Us', 'url' => '#', 'items' => array(
                                         array('label' => 'Application Settings', 'url' => array('/jobContactus/contact')),
                                         array('label' => 'Manage Contact', 'url' => array('/jobContactus/admin')),
                                     )),
-                                array('label' => 'About Us', 'url' => array('/jobAbout/create')),
                             ),
                         ),
                         array('label' => 'Authentications',
