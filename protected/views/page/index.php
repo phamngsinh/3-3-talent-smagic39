@@ -1,23 +1,4 @@
 <?php
-//$config = array(
-//    'appId' => CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value4_text),
-//    'secret' => @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value5_text),
-//    'cookie' => true,
-//    'appName' => @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'APP_DETAILS'))->value4_text),
-//    'canvasPage' => "http://apps.facebook.com/" . @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value1) . "/",
-//    'canvasUrl' => @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_URLS'))->value5_text),
-//    'permissions' => @CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value2),
-//    'fileUpload' => true
-//);
-//$config = array(
-//    'appId' => '242607099273604',
-//    'secret' => 'a9e0ce1069375395e2f565ca04e94d27',
-//    'fileUpload' => false, // optional
-//    'allowSignedRequest' => false, // optional, but should be set to false for non-canvas apps
-//);
-//$facebook = new Facebook($config);
-//var_dump($config);
-
 $image_banner = Yii::app()->getBaseUrl('/') . '/images/banner.jpg';
 $appId = CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value4_text);
 ?>
@@ -46,7 +27,7 @@ $appId = CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBO
                     </div>
 
                     <div class="job-para">
-                        <?php echo $job->descriptions; ?>
+                        <?php echo strip_tags(substr($job->descriptions, 0, 200)) . '...'; ?>
 
                     </div>
 
@@ -60,10 +41,12 @@ $appId = CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBO
                         $caption = strip_tags($job->title);
                         $descriptions = strip_tags($job->descriptions);
                         $link = urldecode(Yii::app()->getBaseUrl('/') . '/index.php?r=page/view/' . $job->job_id);
-                        $fblink = $appId . '&display=popup&link=' . $link . '&picture=' . $image_banner . '&caption=' . urldecode($caption) . '&description=' . urldecode($descriptions) . '&redirect_uri=' . urldecode(Yii::app()->getBaseUrl('/'));
+                        $fblink = $appId.'&display=popup&link=' . $link . '&picture=' . $image_banner . '&caption=' . urldecode($caption) . '&description=' . urldecode($descriptions) . '&redirect_uri=' . urldecode(Yii::app()->getBaseUrl('/'));
                         ?>
-                        <a class="" target="_blank" href="https://www.facebook.com/dialog/feed?app_id=<?php echo $fblink ?>">Share on Facebook</a>
+                        <input type="hidden" name='' id="descriptions_<?php echo $job->job_id?>" value="<?php echo $descriptions?>"/>
+                        <a class="" target="_blank" onclick="dialogShare('<?php echo $caption ?>','<?php echo $link?>','#descriptions_<?php echo $job->job_id?>','<?php echo $image_banner?>')" href="javascript:void(0)">Share on Facebook</a>
 
+                      
                     </div>
 
                 </li>
@@ -166,16 +149,42 @@ $appId = CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBO
     <div><a href="<?php echo Yii::app()->createUrl('page/registerAlert'); ?>"><img src="<?php echo Yii::app()->getBaseUrl('/') ?>/images/job-alert.png" width="276" height="98" alt=""></a></div>
 
 </div>
+
+
 <!--home-enquiry-->
 <div class="clear"></div>
 <script>
+
     function preAjax() {
         $('#sub_cat_id').html('<span class="loading">Loading...</span>');
     }
     function completeAjax() {
         $('#sub_cat_id').siblings('.loading').remove();
     }
-    
+
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: '<?php echo $appId?>',
+            status: true, 
+            cookie: true, 
+            oauth : true,
+            xfbml: true
+        });
+        //
+        
+        
+    };
+    function dialogShare(caption,link,descriptions,image){
+         FB.ui({
+            method: 'feed',
+            link: link,
+            picture:image,
+            caption: caption,
+            redirect_uri:link,
+            description: $(descriptions).val()
+        }, function(response) {
+        });   
+    }
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) {

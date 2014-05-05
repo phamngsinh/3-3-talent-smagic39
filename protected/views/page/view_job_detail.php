@@ -26,21 +26,38 @@
             </div>
         </div>
     <div class="job-description">
-        <?php echo $job->descriptions; ?>
-    </div>
+        <?php echo strip_tags($job->descriptions); ?>
+    </div><br/>
+    <?php if($job->benefits): ?>
     <div>
+        <strong>Job Benefits:</strong><br/>
         <p><?php echo strip_tags($job->benefits); ?></p>
     </div>
+    <?php endif; ?>
+    <?php if($job->education_requirements): ?>
     <div>
+        <strong>Educational Background:</strong><br/>
+        <p><?php echo strip_tags($job->education_requirements); ?></p>
+    </div>
+    <?php endif; ?>
+    <?php if($job->experience_requirements): ?>
+    <div>
+        <strong>Skills and Experience:</strong><br/>
         <p><?php echo strip_tags($job->experience_requirements); ?></p>
     </div>
+    <?php endif; ?>
+    <?php if($job->responsibilities): ?>
     <div>
+        <strong>Job Responsibilities:</strong><br/>
         <p><?php echo $job->responsibilities; ?></p>
     </div>
+    <?php endif; ?>
+    <?php if($job->special_commitments): ?>
     <div>
-        <strong>How to get touch:</strong><br/>
-        <p><?php echo $job->incentives; ?></p>
+        <strong>Any special commitments associated with this job posting. Valid entries include VeteranCommit, MilitarySpouseCommit, etc.</strong><br/>
+        <p><?php echo strip_tags($job->special_commitments); ?></p>
     </div>
+    <?php endif; ?>
 </div>
 
 <?php 
