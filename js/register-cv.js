@@ -1,17 +1,16 @@
 
 
 jQuery(function($) {
-
     jQuery('body').on('change', '#JobEmployees_email', function() {
         check = false;
-        jQuery.post(siteUrl + '/index.php?r=page/CheckEmailRegister', {email: $('#JobEmployees_email').val()}, function(data) {
+        jQuery.post(siteUrl + '/index.php?page/CheckEmailRegister', {email: $('#JobEmployees_email').val()}, function(data) {
             if (data == 'false') {
                 check = true;
             }
         });
-        if (!check) {
+        if (check) {
             jQuery.validator.addMethod("EmailValiate", function(value, element) {
-                return !check;
+                return check;
             }, 'Email already registed');
         }
     });

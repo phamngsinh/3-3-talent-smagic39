@@ -248,7 +248,7 @@ class PageController extends Controller {
     public function updateResume($file, $model, $job_id, $employ_id, $type = null) {
 
         $file_tmp = CUploadedFile::getInstance($model, 'file_id');
-        $fileName = uniqid(time()) . $job_id . $file_tmp;
+        $fileName = uniqid(time()) . $job_id .'.'.$file_tmp->getExtensionName();
         if ($file_tmp && is_object($file_tmp) && get_class($file_tmp) === 'CUploadedFile') {
             $file_tmp->saveAs(Yii::app()->basePath . '/../uploads/files/' . $fileName);
 
@@ -290,7 +290,7 @@ class PageController extends Controller {
     public function updateJobCovers($file, $model, $job_id, $employ_id, $type) {
         if ($type == 'Attach') {
             $file_tmp = CUploadedFile::getInstance($model, 'value');
-            $fileName = uniqid(time()) . $job_id . $file_tmp;
+            $fileName = uniqid(time()) . $job_id .'.'. $file_tmp->getExtensionName();
 
             if ($file_tmp && is_object($file_tmp) && get_class($file_tmp) === 'CUploadedFile') {
                 $file_tmp->saveAs(Yii::app()->basePath . '/../uploads/files/' . $fileName);

@@ -18,8 +18,6 @@ $this->menu = array(
 <h1>View JobEmployees #<?php echo $model['employ_id']; ?></h1>
 
 <?php
-// get covers of employees
-$covers = JobCovers::model()->findAll('employ_id=:employ', array(':employ' => $model->employ_id));
 $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
     'attributes' => array(
@@ -33,47 +31,45 @@ $this->widget('zii.widgets.CDetailView', array(
     ),
 ));
 ?>
+
+<?php if ($type_view != 'alert'): ?>
 <?php if ($employee): ?>
     <table class="detail-view" id="yw0">
         <tbody>
-
+            
             <?php foreach ($employee as $value) : ?>
-                <?php if ($type_view != 'alert'): ?>
-                    <tr class="even"><th>Job title</th><td>
-                            <?php echo $value['title'] ?> 
-                            ||<a href="./../<?php echo $value['uri'] ?>" target="_blank">CV</a>
 
-                        </td>
-                    </tr>
-                <?php endif; ?>
+                <tr class="even"><th><?php echo $title_job ?></th><td>
+                        <?php echo $value['title'] ?> 
+                            ||<a href="./../<?php echo $value['uri'] ?>" target="_blank">CV</a>
+                    </td>
+                </tr>
             <?php endforeach; ?>
         </tbody>
 
     </table>
 <?php endif; ?>
-
+<?php endif; ?>
 <?php if ($covers): ?>
-    <table class="detail-view" id="yw0">
-        <tbody>
-            <?php
-            foreach ($covers as $cover) :
-                if ($cover['cover_id']):
+<table class="detail-view" id="yw0">
+    <tbody>
+    <?php foreach ($covers as $cover) : 
+    if ($cover['cover_id']):
+        ?>
+        <tr class="old">
+            <th>Job Covers</th><td>
+                <?php if ($cover['type'] == 'Attach'): 
+                    $file = Files::model()->findByPk($cover['value']);
                     ?>
-                    <tr class="old">
-                        <th>Job Covers</th><td>
-                            <?php
-                            if ($cover['type'] == 'Attach'):
-                                $file = Files::model()->findByPk($cover['value']);
-                                ?>
-                                <a href="./../<?php echo $file['uri']; ?>">Covers Attach</a>
-                                <?php
-                            else:
-                                echo strip_tags($cover['value']);
-                                ?>
-                    <?php endif; ?></td>
-                    </tr>
+                    <a href="./../<?php echo $file['uri']; ?>">Covers Attach</a>
+                <?php
+                else:
+                    echo strip_tags($cover['value']);
+                    ?>
+        <?php endif; ?></td>
+        </tr>
         <?php endif; ?> 
-    <?php endforeach; ?>
-        </tbody>
-    </table>
+       <?php endforeach; ?>
+    </tbody>
+</table>
 <?php endif; ?>

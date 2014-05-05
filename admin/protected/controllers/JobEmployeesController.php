@@ -73,16 +73,17 @@ class JobEmployeesController extends Controller {
 //        $model = new CActiveDataProvider('JobEmployees', array(
 //            'criteria' => $criteria,
 //        ));
+         $title_job = '';
         switch ($_GET['type']) {
             case 'regcv':
                 $employee = Yii::app()->db->createCommand()
-                        ->select('JobEmployees.*,JobResumes.*,Files.*,Jobs.*')
+                        ->select('JobEmployees.*,JobResumes.*,Files.*')
                         ->from('tbl_job_employees JobEmployees')
                         ->join('tbl_job_resumes JobResumes', 'JobResumes.employ_id=JobEmployees.employ_id')
                         ->join('tbl_job_files Files', 'Files.file_id=JobResumes.file_id')
-                        ->join('tbl_jobs Jobs', 'Jobs.job_id=JobResumes.job_id')
                         ->where('JobEmployees.employ_id=:id AND JobResumes.type = 2', array(':id' => $id))
                         ->queryAll();
+                 $title_job = 'Resume';
                 break;
             case 'apply':
                 $employee = Yii::app()->db->createCommand()
@@ -93,6 +94,15 @@ class JobEmployeesController extends Controller {
                         ->join('tbl_jobs Jobs', 'Jobs.job_id=JobResumes.job_id')
                         ->where('JobEmployees.employ_id=:id AND JobResumes.type = 1', array(':id' => $id))
                         ->queryAll();
+
+                $covers = Yii::app()->db->createCommand()
+                        ->select('JobEmployees.*,Jobs.*, JobCovers.*')
+                        ->from('tbl_job_employees JobEmployees')
+                        ->join('tbl_job_covers JobCovers', 'JobCovers.employ_id=JobEmployees.employ_id')
+                        ->join('tbl_jobs Jobs', 'Jobs.job_id=JobCovers.job_id')
+                        ->where('JobEmployees.employ_id=:id', array(':id' => $id))
+                        ->queryAll();
+                           $title_job = 'Job title';
                 break;
             case 'alert':
                 $employee = Yii::app()->db->createCommand()
@@ -106,12 +116,13 @@ class JobEmployeesController extends Controller {
                 break;
         }
 
-
         $model = $this->loadModel($id);
         $this->render('view', array(
             'type_view' => $_GET['type'],
             'model' => $model,
-            'employee' => $employee
+            'title_job'=>$title_job,
+            'employee' => $employee,
+            'covers' => isset($covers) ? $covers : null,
         ));
     }
 
