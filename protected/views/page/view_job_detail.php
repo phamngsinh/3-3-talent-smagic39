@@ -4,12 +4,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+ function strip_single($tag,$string){
+    $string=preg_replace('/<'.$tag.'[^>]*>/i', '', $string);
+    $string=preg_replace('/<\/'.$tag.'>/i', '', $string);
+    return $string;
+  } 
 ?>
 <h1><?php echo $job->title; ?></h1><div class="job-buttons" style="float: right; margin-top: -76px;">
                             <?php echo CHtml::link('Apply Now',array('page/register','job'=>$job->job_id)); ?>
 
 </div>
-
 <div class="job-list">
     <?php 
         $location = JobLocation::model()->getLocation($job->job_location_id);
@@ -25,37 +29,36 @@
                 <p><b>Work type</b>: <?php echo $worktype; ?></p>
             </div>
         </div>
-    <div class="job-description">
-        <?php echo strip_tags($job->descriptions); ?>
+    <div class="job-description style-tinymce">
+        <?php echo $job->descriptions; ?>
     </div><br/>
     <?php if($job->benefits): ?>
-    <div>
+    <div  class="style-tinymce">
         <strong>Job Benefits:</strong><br/>
-        <p><?php echo strip_tags($job->benefits); ?></p>
+        <p><?php echo $job->benefits; ?></p>
     </div>
     <?php endif; ?>
     <?php if($job->education_requirements): ?>
-    <div>
+    <div  class="style-tinymce">
         <strong>Educational Background:</strong><br/>
-        <p><?php echo strip_tags($job->education_requirements); ?></p>
+        <p><?php echo $job->education_requirements ?></p>
     </div>
     <?php endif; ?>
     <?php if($job->experience_requirements): ?>
-    <div>
+    <div  class="style-tinymce">
         <strong>Skills and Experience:</strong><br/>
-        <p><?php echo strip_tags($job->experience_requirements); ?></p>
+        <p><?php echo $job->experience_requirements; ?></p>
     </div>
     <?php endif; ?>
     <?php if($job->responsibilities): ?>
-    <div>
+    <div  class="style-tinymce">
         <strong>Job Responsibilities:</strong><br/>
         <p><?php echo $job->responsibilities; ?></p>
     </div>
     <?php endif; ?>
     <?php if($job->special_commitments): ?>
-    <div>
-        <strong>Any special commitments associated with this job posting. Valid entries include VeteranCommit, MilitarySpouseCommit, etc.</strong><br/>
-        <p><?php echo strip_tags($job->special_commitments); ?></p>
+    <div class="style-tinymce">
+        <p><?php echo $job->special_commitments; ?></p>
     </div>
     <?php endif; ?>
 </div>
