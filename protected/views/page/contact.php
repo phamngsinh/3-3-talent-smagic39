@@ -6,7 +6,7 @@
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'contact-us',
-        'enableAjaxValidation' => true,
+        'enableAjaxValidation' => false,
         'htmlOptions' => array('enctype' => 'multipart/form-data', 'class' => 'contact-us'),
         'clientOptions' => array(
             'validateOnSubmit' => false,
