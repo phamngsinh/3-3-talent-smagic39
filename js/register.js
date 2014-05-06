@@ -2,19 +2,21 @@
  * Created by sinhpn on 4/22/14.
  */
 jQuery(function($) {
+    var check = true;
     jQuery('body').on('change', '#JobEmployees_email', function() {
-        check = false;
-        jQuery.post(siteUrl + '/index.php?r=page/CheckEmailRegisterJob', {email: $('#JobEmployees_email').val()}, function(data) {
-            if (data == 'false') {
-                check = true;
+        jQuery.post(siteUrl + '/index.php?r=page/CheckEmailRegisterJob',
+                {email: $('#JobEmployees_email').val()}, function(data) {
+            if (data === 'false') {
+                check = false;
             }
         });
-        if (!check) {
-            jQuery.validator.addMethod("EmailValiate", function(value, element) {
-                return !check;
-            }, 'Email already registed');
-        }
+
     });
+
+    jQuery.validator.addMethod("EmailValiate", function(value, element) {
+        return check;
+    }, 'Email already registed');
+
     //show and hide
     $('#registration-form #coverNoteType0').click(function(e) {
         $('#registration-form #JobCovers_value').show();
