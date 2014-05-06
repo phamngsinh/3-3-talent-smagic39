@@ -24,12 +24,12 @@
         $this->widget('application.extensions.tinymce.ETinyMce', array(
             'name' => 'JobAbout[content]',
             'htmlOptions' => array('rows' => 20, 'cols' => 50, 'class' => 'tinymce'),
-            'plugins' => array('filemanager', 'imagemanager', 'safari', 'pagebreak', 'style', 'layer', 'table', 'save', 'advhr', 'advimage', 'advlink', 'emotions', 'iespell', 'inlinepopups', 'insertdatetime', 'preview', 'media', 'searchreplace', 'print', 'contextmenu', 'paste', 'directionality', 'fullscreen', 'noneditable', 'visualchars', 'nonbreaking', 'xhtmlxtras', 'template'),
+            'plugins' => array('safari'),
             'options' => array(
                 'theme_advanced_toolbar_location' => 'top',
                 'theme' => 'advanced',
                 'skin' => 'o2k7',
-                'theme_advanced_buttons1' => 'preview,bold,italic,underline,fontselect,fontsizeselect,link,justifyfull,justifyleft,justifycenter,justifyright,pasteword,pastetext,table,image,|,bullist,numlist,|,undo,redo,|,code,fullscreen',
+                'theme_advanced_buttons1' => 'bold,italic,underline,fontsizeselect,link,justifyfull,justifyleft,justifycenter,justifyright',
                 'theme_advanced_buttons2' => '',
                 'theme_advanced_buttons3' => '',
             ),
