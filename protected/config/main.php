@@ -87,7 +87,18 @@ return array(
 			'password' => $pass,
 			'charset' => 'utf8',
 		),
-		
+		'urlManager' => array(
+                    'urlFormat' => 'path',
+//                    'showScriptName' => false,
+//                    'caseSensitive'=>false,  
+                    'rules' => array(
+//                        '<controller:\w+>/<id:\d+>' => '<controller>/view',
+//                        '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                         'page/<view>-<id:\d+>'=>'page/view',
+                         'page/<index:.*?>'=>'page/index',
+                         '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                    ),
+                ),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
             'errorAction'=>'site/error',

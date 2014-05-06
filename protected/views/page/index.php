@@ -32,7 +32,7 @@ $appId = CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBO
                     </div>
 
                     <div class="job-buttons">
-                        <a href="<?php echo Yii::app()->createUrl('page/view', array('id' => $job->job_id)); ?>"
+                        <a href="<?php echo Yii::app()->createUrl('page/view-'.$job->job_id); ?>"
                            class="view-more">View More</a>
                         <a href="<?php echo Yii::app()->createUrl('page/register', array('job' => $job->job_id)); ?>">Apply
                             Now</a>
@@ -40,7 +40,8 @@ $appId = CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBO
                         $name = strip_tags($job->title);
                         $caption = strip_tags($job->title);
                         $descriptions = strip_tags($job->descriptions);
-                        $link = urldecode(Yii::app()->createUrl('page/view', array('id' => $job->job_id)));
+                        $link = urldecode(Yii::app()->createUrl('page/view-'.$job->job_id));
+                        echo $link;
                         $fblink = $appId.'&display=popup&link=' . $link . '&picture=' . $image_banner . '&caption=' . urldecode($caption) . '&description=' . urldecode($descriptions) . '&redirect_uri=' . urldecode(Yii::app()->getBaseUrl('/'));
                         ?>
                         <input type="hidden" name='' id="descriptions_<?php echo $job->job_id?>" value="<?php echo $descriptions?>"/>
