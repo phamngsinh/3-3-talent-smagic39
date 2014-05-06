@@ -44,7 +44,7 @@ $appId = CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBO
                         $fblink = $appId.'&display=popup&link=' . $link . '&picture=' . $image_banner . '&caption=' . urldecode($caption) . '&description=' . urldecode($descriptions) . '&redirect_uri=' . urldecode(Yii::app()->getBaseUrl('/'));
                         ?>
                         <input type="hidden" name='' id="descriptions_<?php echo $job->job_id?>" value="<?php echo $descriptions?>"/>
-                        <a class="" target="_blank" onclick="dialogShare('<?php echo $caption ?>','<?php echo $link?>','#descriptions_<?php echo $job->job_id?>','<?php echo $image_banner?>')" href="javascript:void(0)">Share on Facebook</a>
+                        <a class="" onclick="dialogShare('<?php echo $caption ?>','<?php echo $link?>','#descriptions_<?php echo $job->job_id?>','<?php echo $image_banner?>')" href="javascript:void(0)">Share on Facebook</a>
 
                       
                     </div>
