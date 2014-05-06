@@ -361,7 +361,8 @@ class PageController extends Controller {
         Yii::app()->end();
     }
 
-    public function actionCheckEmailRegisterJob() {
+    public function actionCheckEmailRegisterJob() { 
+        $this->layout = false;
         if (CHtml::encode($_POST['email'])) {
             $criteria = new CDbCriteria();
             $criteria->select = 't.employ_id';
