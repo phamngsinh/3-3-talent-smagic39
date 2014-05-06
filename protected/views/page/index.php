@@ -41,7 +41,6 @@ $appId = CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBO
                         $caption = strip_tags($job->title);
                         $descriptions = strip_tags($job->descriptions);
                         $link = urldecode(Yii::app()->createUrl('page/view-'.$job->job_id));
-                        echo $link;
                         $fblink = $appId.'&display=popup&link=' . $link . '&picture=' . $image_banner . '&caption=' . urldecode($caption) . '&description=' . urldecode($descriptions) . '&redirect_uri=' . urldecode(Yii::app()->getBaseUrl('/'));
                         ?>
                         <input type="hidden" name='' id="descriptions_<?php echo $job->job_id?>" value="<?php echo $descriptions?>"/>
