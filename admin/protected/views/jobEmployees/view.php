@@ -61,7 +61,7 @@ $this->widget('zii.widgets.CDetailView', array(
                 <?php if ($cover['type'] == 'Attach'): 
                     $file = Files::model()->findByPk($cover['value']);
                     ?>
-                    <a href="./../<?php echo $file['uri']; ?>">Covers Attach</a>
+                    <a href="./../<?php echo $file['uri']; ?>" target="_blank">Covers Attach</a>
                 <?php
                 else:
                     echo strip_tags($cover['value']);

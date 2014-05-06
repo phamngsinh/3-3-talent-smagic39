@@ -387,7 +387,7 @@ class PageController extends Controller {
         $criteria->join = ' LEFT JOIN tbl_job_employees as JobEmployees ON  JobEmployees.employ_id = t.employ_id';
         $resume_tmp = JobResumes::model()->find($criteria);
         if ($resume_tmp) {
-            Yii::app()->user->setFlash('error', "Email already exists");
+            Yii::app()->user->setFlash('error', "You have already Registered your CV with Us.");
             $this->redirect(array('page/index#message-info'));
         }
     }
@@ -648,7 +648,7 @@ class PageController extends Controller {
             $this->sendEmailAdmin($reg_cv);
             $this->sendEmailRegisterCV($reg_cv);
 
-            Yii::app()->user->setFlash('success', "You have already Registered your CV with Us. We will contact you if we have a suitable vacancy for you");
+            Yii::app()->user->setFlash('success', "Thank you for registering with us");
             $this->redirect(array('page/index#message-info'));
         }
         $this->render('register_cv', array(
