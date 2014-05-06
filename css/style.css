@@ -422,11 +422,11 @@ h3
 
 input[type="text"]
 {
-    height:30px;
+    /*height:30px;*/
     border:1px solid #d3d3d3;
     width:100%;
     margin-bottom:15px;
-    padding:18px 10px;
+    padding:12px  10px;
     font-size: 14px;
     color: #464442;
     border-radius:5px;
@@ -610,4 +610,28 @@ select
 .errorMessage{
     color:red;
     clear:both;
+}
+.job-list .style-tinymce a{
+    color:#34B6E7;
+}
+.job-list .style-tinymce a,
+.job-list .style-tinymce  p,
+.job-list  .style-tinymce  li,
+.job-list  .style-tinymce  ol,.style-tinymce  ul {
+    
+	list-style: none;
+        margin: 0;
+
+	padding: 0;
+
+	border: 0;
+
+	outline: 0;
+
+	font-size: 100%;
+
+	vertical-align: baseline;
+
+	background: transparent;
+
 }
