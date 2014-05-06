@@ -1,19 +1,20 @@
 
 
 jQuery(function($) {
+    var check = true;
     jQuery('body').on('change', '#JobEmployees_email', function() {
-        check = false;
-        jQuery.post(siteUrl + '/index.php?page/CheckEmailRegister', {email: $('#JobEmployees_email').val()}, function(data) {
-            if (data == 'false') {
-                check = true;
+        jQuery.post(siteUrl + '/index.php?r=page/CheckEmailRegister',
+                {email: $('#JobEmployees_email').val()}, function(data) {
+            if (data === 'false') {
+                check = false;
             }
         });
-        if (check) {
-            jQuery.validator.addMethod("EmailValiate", function(value, element) {
-                return check;
-            }, 'Email already registed');
-        }
+
     });
+
+    jQuery.validator.addMethod("EmailValiate", function(value, element) {
+        return check;
+    }, 'Email already registed');
 
     $('#register-cv-form').validate(
             {
@@ -29,7 +30,7 @@ jQuery(function($) {
                     },
                     'JobResumes[file_id]': {
                         required: true,
-                        extension:'doc|docx|pdf|docs'
+                        extension: 'doc|docx|pdf|docs'
                     },
                     'JobEmployees[email]': {
                         required: true,
@@ -42,7 +43,7 @@ jQuery(function($) {
                     'JobEmployees[last_name]': 'Last name cannot be blank.',
                     'JobEmployees[mobile]': 'Mobile cannot be blank.',
                     'JobResumes[file_id]': {
-                        required:'Resume cannot be blank.',
+                        required: 'Resume cannot be blank.',
                         extension: 'Resume support doc,docs,docx,pdf'
                     },
                     'JobEmployees[email]': {
