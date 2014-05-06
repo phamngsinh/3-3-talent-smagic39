@@ -344,6 +344,7 @@ class PageController extends Controller {
     }
 
     public function actionCheckEmailRegister() {
+        $this->layout = false;
         if (CHtml::encode($_POST['email'])) {
             $criteria = new CDbCriteria();
             $criteria->select = 't.employ_id';
