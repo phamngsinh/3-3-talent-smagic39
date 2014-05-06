@@ -32,7 +32,11 @@ if ($jsonData) {
     ?>
 
     <br /><br />
-
+<style type="text/css">
+    .arrow li{
+        padding: 5px 5px 0 18px;
+    }
+</style>
 
     <table width='1' border='1' cellspacing='0' cellpadding='0'  >
         <tr><td style="vertical-align: top;" width="1"><img src="http://static.ak.fbcdn.net/rsrc.php/v2/y_/r/9myDd8iyu0B.gif" width="100" /></td><td>
@@ -45,16 +49,9 @@ if ($jsonData) {
                 </table>
 
 
-            </td></tr>
-
-    </table>
-
-<?php } ?>
-    <style type="text/css">
-        .arrow li{
-            padding: 5px 5px 0 18px;
-        }
-    </style>
+            </td>
+            <td>
+                
 <div class="four columns">
     <h3>Site Map</h3>
     <ul class="arrow">
@@ -83,6 +80,13 @@ if ($jsonData) {
         </li>
     </ul>
 </div>
+            </td>
+        </tr>
+
+    </table>
+
+<?php } ?>
+
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 <br /><br /><br /><br /><br /><br />
