@@ -16,26 +16,23 @@
                 </style>
 
                 </head>
-
                 <body bgcolor="#FFFFFF">
-
                     <!-- HEADER -->
                     <div class="content">
                         <table>
                             <tbody>
                                 <tr><td>Dear <?php echo $name ?></td></tr>
-                                <tr><td>You have already Registered your CV with Us. We will contact you if we have a suitable vacancy for you
-                                    </td></tr>
+                                <tr><td>You have already Registered your CV with Us. We will contact you if we have a suitable vacancy for you</td></tr>
+                                <tr><td>Best Regards,</td></tr>
+                                <tr><td>33Talent Team. </td></tr>
                             </tbody>
                         </table>
                     </div>
                     <!-- /HEADER -->
-
                     <!-- /BODY -->
 
                     <!-- FOOTER -->
                     <!-- /FOOTER -->
-
 
                 </body>
 
