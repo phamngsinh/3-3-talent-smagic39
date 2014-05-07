@@ -83,8 +83,8 @@ $sub_categories = $this->getSubAllCategory();
 
 
     <div><a href="<?php echo Yii::app()->createUrl('page/registerCV'); ?>">
-            <img src="images/register-cv.png" width="276" height="98" alt=""></a></div>
-    <div><a href="<?php echo Yii::app()->createUrl('page/registerAlert'); ?>"><img src="images/job-alert.png" width="276" height="98" alt=""></a></div>
+            <img src="<?php echo Yii::app()->getBaseUrl('/')?>/images/register-cv.png" width="276" height="98" alt=""></a></div>
+    <div><a href="<?php echo Yii::app()->createUrl('page/registerAlert'); ?>"><img src="<?php echo Yii::app()->getBaseUrl('/')?>/images/job-alert.png" width="276" height="98" alt=""></a></div>
 
 
 </div>
