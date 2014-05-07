@@ -28,7 +28,7 @@ class JobTestimonialUserController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','approved'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -116,7 +116,12 @@ class JobTestimonialUserController extends Controller
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
-
+        public function actionApproved($id)
+	{
+            JobTestimonialUser::model()->updateByPk($id,array('approved'=>1));
+            $model=$this->loadModel($id);
+            $this->redirect(array('view','id'=>$id));
+	}
 	/**
 	 * Lists all models.
 	 */
