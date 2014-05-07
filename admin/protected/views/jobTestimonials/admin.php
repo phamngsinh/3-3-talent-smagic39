@@ -53,3 +53,40 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		),
 	),
 )); ?>
+
+<h1>Testimonials Users</h1>
+<?php 
+// custom button
+$temp = '{view}{update}{delete}'
+?>
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'job-testimonials-user-grid',
+	'dataProvider'=>$testimonial->search(),
+	'filter'=>$testimonial,
+	'columns'=>array(
+		'testimonial_user_id',
+                array(
+                     'name'=>'image',
+                     'type'=>'raw',
+                     'value'=>'"<img src=\"".$data->image."\" width=\"50\" height=\"50\"/>"'
+                 ),
+		'fullname',
+		'email',
+		array(
+			'class'=>'CButtonColumn',
+                        'template' => $temp,
+                        'htmlOptions'=> array(),// adding css class and id here
+                        'buttons' => array(
+                             'view'=>array( // url call
+                                'url'=>"CHtml::normalizeUrl(array('JobTestimonialUser/view', 'id'=>\$data->testimonial_user_id))",
+                           ),
+                           'update' => array( // url call
+                                 'url'=>"CHtml::normalizeUrl(array('JobTestimonialUser/update', 'id'=>\$data->testimonial_user_id))",
+                           ),
+                           'delete' => array( // url call
+                                 'url'=>"CHtml::normalizeUrl(array('JobTestimonialUser/delete', 'id'=>\$data->testimonial_user_id))",
+                           ),
+                        )
+		),
+	),
+)); ?>

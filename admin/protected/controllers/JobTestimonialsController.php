@@ -183,9 +183,14 @@ class JobTestimonialsController extends Controller {
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['JobTestimonials']))
             $model->attributes = $_GET['JobTestimonials'];
-
+        
+        $testimonial_user = new JobTestimonialUser('search');
+        $testimonial_user->unsetAttributes();  // clear any default values
+        if (isset($_GET['JobTestimonialUser']))
+            $testimonial_user->attributes = $_GET['JobTestimonialUser'];
         $this->render('admin', array(
             'model' => $model,
+            'testimonial' => $testimonial_user,
         ));
     }
 
