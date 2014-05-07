@@ -1,5 +1,10 @@
 <div class="testimonials">
-    <h1>Testimonials</h1>
+    <h1>Testimonials
+
+    </h1>
+    <div class="job-buttons" style="float:right">
+        <?php echo CHtml::link('Add Testimonial', array('page/addtestimonial')) ?>
+    </div>
     <ul>
         <?php
         if ($data) {
@@ -32,7 +37,7 @@
     </ul>
     <?php
     $this->widget('CLinkPager', array(
-        'currentPage'=>$pages->getCurrentPage(),
+        'currentPage' => $pages->getCurrentPage(),
         'pages' => $pages,
     ))
     ?>
