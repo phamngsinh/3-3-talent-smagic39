@@ -21,7 +21,7 @@
         <div id="header">
             <div class="wrapper">
                 <div class="company-name"><a href="<?php echo Yii::app()->getBaseUrl(true); ?>">
-                        <img src="images/company-logo.png" width="234" height="80"alt=""></a>
+                        <img src="<?php echo Yii::app()->getBaseUrl('/')?>/images/company-logo.png" width="234" height="80"alt=""></a>
                 </div>
                 <!--company-name end-->
 
@@ -54,7 +54,7 @@
         <div class="wrapper">
             <div id="content">
                 <div class="slide-banner">
-                    <img src="images/banner.jpg" alt="banner" width="810" height="310"/>
+                    <img src="<?php echo Yii::app()->getBaseUrl('/')?>/images/banner.jpg" alt="banner" width="810" height="310"/>
                 </div>
                 <!--slider banner end-->
 
@@ -85,7 +85,7 @@
         <!--***********footer start*************-->
         <div id="footer">
             <div class="footer-top">
-                <img src="images/footer-bg.png" width="810" height="46" alt="">
+                <img src="<?php echo Yii::app()->getBaseUrl('/')?>/images/footer-bg.png" width="810" height="46" alt="">
             </div>
 
             <div class="footer-bottom">
