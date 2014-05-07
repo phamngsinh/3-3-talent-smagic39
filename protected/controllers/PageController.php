@@ -16,6 +16,7 @@ include("./admin/protected/models/JobResumes.php");
 include("./admin/protected/models/JobCovers.php");
 include("./admin/protected/models/JobCategories.php");
 include("./admin/protected/models/JobSubcategories.php");
+include("./admin/protected/models/JobTestimonialUser.php");
 
 class PageController extends Controller {
 
@@ -238,6 +239,38 @@ class PageController extends Controller {
     }
 
     /**
+     * @return null 
+     */
+    public function actionAddTestimonial() {
+        $model = new JobTestimonialUser;
+        $upload = false;
+        $uri = 'No image';
+        $dir = Yii::getPathOfAlias('application.uploads');
+        if (isset($_POST['JobTestimonialUser'])) {
+            $model->attributes = $_POST['JobTestimonialUser'];
+
+            $file = CUploadedFile::getInstance($model, 'image');
+            if ($file && is_object($file) && get_class($file) === 'CUploadedFile') {
+                $fileName = uniqid(time()) . '.' . $file->getExtensionName();
+                $uploaded = $file->saveAs(Yii::app()->basePath . '/../uploads/files/testimonials/' . $fileName); //boolean
+                $uri = 'uploads/files/testimonials/' . $fileName;
+            }
+            $model->image = $uri;
+            if ($model->validate()) {
+                if($model->save()) {
+                    Yii::app()->user->setFlash('success', "You have already added  your Testimonial with Us.");
+                    $this->redirect(array('index'));
+                }
+            }
+        }
+        $this->render('add_testimonial', array(
+            'model' => $model,
+            'uploaded' => $uploaded,
+            'dir' => $dir,
+        ));
+    }
+
+    /**
      *
      * @param type $file
      * @param type $model
@@ -248,7 +281,7 @@ class PageController extends Controller {
     public function updateResume($file, $model, $job_id, $employ_id, $type = null) {
 
         $file_tmp = CUploadedFile::getInstance($model, 'file_id');
-        $fileName = uniqid(time()) . $job_id .'.'.$file_tmp->getExtensionName();
+        $fileName = uniqid(time()) . $job_id . '.' . $file_tmp->getExtensionName();
         if ($file_tmp && is_object($file_tmp) && get_class($file_tmp) === 'CUploadedFile') {
             $file_tmp->saveAs(Yii::app()->basePath . '/../uploads/files/' . $fileName);
 
@@ -290,7 +323,7 @@ class PageController extends Controller {
     public function updateJobCovers($file, $model, $job_id, $employ_id, $type) {
         if ($type == 'Attach') {
             $file_tmp = CUploadedFile::getInstance($model, 'value');
-            $fileName = uniqid(time()) . $job_id .'.'. $file_tmp->getExtensionName();
+            $fileName = uniqid(time()) . $job_id . '.' . $file_tmp->getExtensionName();
 
             if ($file_tmp && is_object($file_tmp) && get_class($file_tmp) === 'CUploadedFile') {
                 $file_tmp->saveAs(Yii::app()->basePath . '/../uploads/files/' . $fileName);
@@ -361,7 +394,7 @@ class PageController extends Controller {
         Yii::app()->end();
     }
 
-    public function actionCheckEmailRegisterJob() { 
+    public function actionCheckEmailRegisterJob() {
         $this->layout = false;
         if (CHtml::encode($_POST['email'])) {
             $criteria = new CDbCriteria();
@@ -436,7 +469,7 @@ class PageController extends Controller {
                     $this->sendEmailAdmin($reg_cv);
                 }
 
-                Yii::app()->user->setFlash('success', "Thank you for applying for the post of ".$job['title']);
+                Yii::app()->user->setFlash('success', "Thank you for applying for the post of " . $job['title']);
                 $this->redirect(array('page/index#message-info'));
             }
         } else {
