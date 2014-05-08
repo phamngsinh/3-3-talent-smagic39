@@ -32,7 +32,11 @@ $this->widget('zii.widgets.CDetailView', array(
             'value' => $model->approved ? 'Yes':'No'
         ),
         'title',
-        'image',
+           array(
+            'name' => 'image',
+            'type' => 'raw',
+            'value' => "<img src='../$model->image' width='64' height='64'/>"
+        ),
     ),
 ));
 ?>
