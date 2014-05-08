@@ -64,7 +64,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 $temp = '{view}{update}{delete}'
 ?>
 <?php
-echo '..'.Yii::app()->baseUrl; 
+
     $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'job-testimonials-user-grid',
     'dataProvider' => $testimonial->search(),
@@ -74,7 +74,7 @@ echo '..'.Yii::app()->baseUrl;
         array(
             'name' => 'image',
             'type' => 'raw',
-            'value' => '"<img src=\"/../".$data->image."\" width=\"50\" height=\"50\"/>"'
+            'value' => 'CHtml::link("Image Link","../$data->image")'
         ),
         'fullname',
         'email',
