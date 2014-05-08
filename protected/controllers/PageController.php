@@ -289,7 +289,7 @@ class PageController extends Controller {
             $command = Yii::app()->db->createCommand();
             $command->insert('tbl_job_files', array(
                 'uri' => $uri,
-                'timestamp' => date('Y-m-d H:i:s', time()),
+                'timestamp' => new CDbExpression('NOW()'),
             ));
 
             $command->execute();
@@ -300,6 +300,7 @@ class PageController extends Controller {
             $resume->job_id = $job_id;
             $resume->file_id = $file_id;
             $resume->type = $type;
+            $resume->lastest = new CDbExpression('NOW()');
             if ($type == 1) {
                 $resume->confirm_apply = sha1($employ_id + $job_id + $type);
             } else {
