@@ -257,7 +257,7 @@ class PageController extends Controller {
             }
             $model->image = $uri;
             if ($model->validate()) {
-                if($model->save()) {
+                if ($model->save()) {
                     Yii::app()->user->setFlash('success', "You have already added  your Testimonial with Us.");
                     $this->redirect(array('index'));
                 }
@@ -826,22 +826,24 @@ class PageController extends Controller {
      */
     public function actionTestimonials() {
 //paginator
-
-        $page = (isset($_GET['page']) ? $_GET['page'] : 1);
+//        $page = (isset($_GET['page']) ? $_GET['page'] : 1);
         $criteria = new CDbCriteria();
-        $item_count = JobTestimonials::model()->count($criteria);
+        $item_count1 = JobTestimonials::model()->count($criteria);
+        $item_count2 = JobTestimonialUser::model()->countModel();
+        $item_count = $item_count1 + $item_count2;
         $pages = new CPagination($item_count);
-        $pages->pageSize = 5;
 
+        $pages->setPageSize(Yii::app()->params['listPerPage']);
         $pages->applyLimit($criteria);
-        $models = Yii::app()->db->createCommand()
-                ->select('testimonials.*,files.*')
-                ->from('tbl_job_testimonials testimonials')
-                ->limit(Yii::app()->params['listPerPage'], $page - 1)
-                ->leftJoin('tbl_job_files files', 'files.file_id = testimonials.image_id');
-        $data = $models->queryAll();
+
+//        $models = Yii::app()->db->createCommand()
+//                ->select('testimonials.*')
+//                ->from('tbl_job_testimonials testimonials')
+//                ->limit(Yii::app()->params['listPerPage'], $page - 1);
+//        $data = $models->queryAll();
         $this->render('testimonials', array(
-            'data' => $data,
+            'data' => JobTestimonials::model()->findAll($criteria),
+            'data2' => JobTestimonialUser::model()->findAll('approved=:status', array(':status' => 1)),
             'page_size' => Yii::app()->params['listPerPage'],
             'item_count' => $item_count,
             'pages' => $pages
