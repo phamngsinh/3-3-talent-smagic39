@@ -63,6 +63,10 @@ class JobResumes extends CActiveRecord {
             'employ_id' => 'Employ',
             'job_id' => 'Job',
             'file_id' => 'File',
+            'lastest'=>'Lastest of Update',
+            'type'=>'Apply/Register',
+            'confirm_apply'=>'',
+            'confirm_register'=>'',
         );
     }
 
@@ -85,6 +89,25 @@ class JobResumes extends CActiveRecord {
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
+    }
+
+    public static function getAppliccation($id) {
+        $criteria=new CDbCriteria;
+         $criteria->select = 'job_id';
+        $criteria->condition='job_id=:jobId';
+        $criteria->params = array(':jobId'=>$id);
+        $data= JobResumes::model()->count($criteria);
+        return $data;
+    }
+        public static function getLastestApplication($id) {
+        $criteria=new CDbCriteria;
+         $criteria->select = 'lastest';
+        $criteria->condition='job_id=:jobId AND type=1';
+        $criteria->order = 'lastest DESC';
+        $criteria->limit = 1;
+        $criteria->params = array(':jobId'=>$id);
+        $data= JobResumes::model()->findAll($criteria);
+        return $data ? $data[0]['lastest'] :'';
     }
 
 }

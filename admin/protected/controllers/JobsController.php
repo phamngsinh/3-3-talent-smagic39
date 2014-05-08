@@ -48,8 +48,16 @@ class JobsController extends Controller {
      * @param integer $id the ID of the model to be displayed
      */
     public function actionView($id) {
+        $employee = Yii::app()->db->createCommand()
+                ->select('JobEmployees.*,JobResumes.*,Files.*')
+                ->from('tbl_job_employees JobEmployees')
+                ->join('tbl_job_resumes JobResumes', 'JobResumes.employ_id=JobEmployees.employ_id')
+                ->join('tbl_job_files Files', 'Files.file_id=JobResumes.file_id')
+                ->where('JobResumes.job_id=:id AND JobResumes.type = 1', array(':id' => $id))
+                ->queryAll();
         $this->render('view', array(
             'model' => $this->loadModel($id),
+            'employee'=> $employee 
         ));
     }
 

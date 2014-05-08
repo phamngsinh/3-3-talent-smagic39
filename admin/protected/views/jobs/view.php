@@ -59,8 +59,8 @@ if ($user_id) {
         if (!empty($_POST['page_id'])) {
             $page_info = $facebook->api("/" . $_POST['page_id'] . "?fields=access_token");
             $facebook->setAccessToken($page_info['access_token']);
-        }else{
-            $_POST['page_id'] =  'me';
+        } else {
+            $_POST['page_id'] = 'me';
         }
 
         $ret_obj = $facebook->api('/' . $_POST['page_id'] . '/feed', 'POST', array(
@@ -162,6 +162,33 @@ $this->widget('zii.widgets.CDetailView', array(
     ),
 ));
 ?>
+<br/>
+<h2>Job Appliccations</h2>
+<table class="item-class">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Detail</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if ($employee): ?>
+            <?php
+            $id = 1;
+            foreach ($employee as $value):
+                ?>
+                <tr>
+                    <td><?php echo $id++; ?></td>
+                    <td><?php echo $value['first_name'] . $value['last_name']; ?></td>
+                    <td><?php echo  Chtml::link('Detail',CHtml::normalizeUrl(array('jobEmployees/view', 'id'=>$value['employ_id'],'type'=>'apply'))) ?></td>
+                </tr>
+            <?php  endforeach; ?>
+        <?php else: ?>
+            <tr><td  colspan="3">No results</td></tr>
+<?php endif; ?>
+    </tbody>    
+</table>
 <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
 
 <script>
