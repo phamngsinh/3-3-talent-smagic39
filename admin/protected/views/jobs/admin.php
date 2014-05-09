@@ -41,9 +41,7 @@ $('.search-form form').submit(function(){
     ));
     ?>
 </div><!-- search-form -->
-<?php
-JobResumes::Model()->getAppliccation(16);
-?>
+
 <?php
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'jobs-grid',
