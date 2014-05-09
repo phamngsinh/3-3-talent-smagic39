@@ -95,8 +95,8 @@
                         array('label' => 'CMS', 'url' => '#',
                             'items' => array(
                                 array('label' => 'Team', 'url' => '#', 'items' => array(
-                                        array('label' => 'Create Team', 'url' => array('/jobTestimonials/create')),
-                                        array('label' => 'Manage Team', 'url' => array('/jobTestimonials/admin')),
+                                        array('label' => 'Create Team', 'url' => array('/jobTeams/create')),
+                                        array('label' => 'Manage Team', 'url' => array('/jobTeams/admin')),
                                     )),
                                 array('label' => 'About Us', 'url' => array('/jobAbout/create')),
                                 array('label' => 'Contact Us', 'url' => '#', 'items' => array(
