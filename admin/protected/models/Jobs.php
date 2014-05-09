@@ -128,4 +128,9 @@ class Jobs extends CActiveRecord {
     }
 
 
+        public static function getAppliccation($id){
+            
+        }
+        
 }
+

@@ -37,7 +37,7 @@ class JobContactusController extends Controller {
                 'actions' => array('admin', 'delete'),
                 'users' => array('admin'),
             ),
-               array('allow', // allow admin user to perform 'admin' and 'delete' actions
+            array('allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => array('admin', 'contact'),
                 'users' => array('admin'),
             ),
@@ -52,9 +52,35 @@ class JobContactusController extends Controller {
      * @param integer $id the ID of the model to be displayed
      */
     public function actionView($id) {
+
+        if (Yii::app()->request->isPostRequest) {
+
+            $message = new YiiMailMessage;
+            $message->view = 'reply-contact';
+            $data['content'] = $_POST['REPLY']['content'];
+            $data['old_content'] = $_POST['REPLY']['old_content'];
+            $data['email'] = $_POST['REPLY']['email'];
+            $this->sendEmailReplyContact($data);
+            $this->redirect(array('index'));
+        }
         $this->render('view', array(
             'model' => $this->loadModel($id),
         ));
+    }
+
+    public function sendEmailReplyContact($data) {
+        $content = $data['content'];
+        $old_content = $data['old_content'];
+        $from = Ms::model()->findByAttributes(array('var_name' => 'adminEmail'))->value4_text;
+        $message = new YiiMailMessage;
+        $message->view = "reply-contact";
+        $message->subject = 'Email Reply From 33talent System';
+        $message->setBody(array('content' => $content,
+            'old_content' => $old_content
+                ), 'text/html');
+        $message->addTo($data['email']);
+        $message->from = $from;
+        return Yii::app()->mail->send($message);
     }
 
     /**
@@ -139,15 +165,14 @@ class JobContactusController extends Controller {
          */
         if (isset($_POST['ADMIN_CONTACT'])) {
             $ms = Ms::model()->findByAttributes(array('var_name' => 'admin_contact'));
-                if (!$ms) {
+            if (!$ms) {
                 $ms = new MS;
                 $ms->var_name = 'admin_contact';
                 $ms->value4_text = $_POST['ADMIN_CONTACT']['admin_contact'];
                 $ms->save();
             } else {
-                    $ms->updateAll(array('value4_text'=> $_POST['ADMIN_CONTACT']['admin_contact']),"var_name = 'admin_contact'");
+                $ms->updateAll(array('value4_text' => $_POST['ADMIN_CONTACT']['admin_contact']), "var_name = 'admin_contact'");
             }
-          
         }
         $this->render('contact', array('model' => $model));
     }
