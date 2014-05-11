@@ -48,8 +48,19 @@ class JobCategoriesController extends Controller {
      * @param integer $id the ID of the model to be displayed
      */
     public function actionView($id) {
+        $sub = JobSubCategories::model()->find(array('condition' => "cat_id = $id"));
+        $parent_sub = '';
+        if ($sub) {
+            $parent_sub = JobCategories::model()->find(array('condition' => "cat_id = " . $sub['parent']));
+        }
+        //get al list job
+        $job_list = new CActiveDataProvider('Jobs', array('criteria' => array(
+                'condition' => 'cat_id=' . $id
+        )));
         $this->render('view', array(
             'model' => $this->loadModel($id),
+            'parent_name' => $parent_sub ? $parent_sub['cat_name'] : '',
+            'job_list' => $job_list
         ));
     }
 
@@ -103,9 +114,16 @@ class JobCategoriesController extends Controller {
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['JobCategories'])) {
-            $model->attributes = $_POST['JobCategories'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->cat_id));
+            $subcat = JobSubcategories::model()->findByPk($parent['id']);
+            $subcat->parent = $_POST['JobCategories']['cat_id'];
+
+
+            $model->cat_id = $id;
+            $model->cat_name = $_POST['JobCategories']['cat_name'];
+            if ($model->save()) {
+                $subcat->save();
+                $this->redirect(array('view', 'id' => $id));
+            }
         }
 
         $this->render('update', array(

@@ -15,13 +15,27 @@ $this->menu=array(
 	array('label'=>'Manage JobCategories', 'url'=>array('admin')),
 );
 ?>
-
 <h1>View JobCategories #<?php echo $model->cat_id; ?></h1>
-
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'cat_id',
 		'cat_name',
+                array(
+                    'label'=>'Category Parent',
+                    'type'=>'raw',
+                    'value'=>$parent_name
+                )
 	),
 )); ?>
+<?php
+$this->widget('zii.widgets.grid.CGridView', array(
+    'id' => 'jobs-grid',
+    'dataProvider' => $job_list,
+    'columns' => array(
+        'job_id',
+        'title'
+    ),
+    'itemsCssClass' => 'item-class',
+));
+?>
