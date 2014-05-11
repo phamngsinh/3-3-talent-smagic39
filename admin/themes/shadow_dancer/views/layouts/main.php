@@ -69,8 +69,8 @@
                                         array('label' => 'Manage Jobs', 'url' => array('/Jobs/admin')),
                                     )),
                                 array('label' => 'Testimonial', 'url' => '#', 'items' => array(
-                                        array('label' => 'Create Testimonial', 'url' => array('/jobTestimonials/create')),
-                                        array('label' => 'Manage Testimonial', 'url' => array('/jobTestimonials/admin')),
+                                        array('label' => 'Create Testimonial', 'url' => array('/jobTestimonialUser/create')),
+                                        array('label' => 'Manage Testimonial', 'url' => array('/jobTestimonialUser/admin')),
                                     )),
                             ),
                         ),

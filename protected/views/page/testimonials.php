@@ -1,5 +1,6 @@
 <div class="testimonials">
     <h1>Testimonials
+
     </h1>
     <div class="job-buttons" style="float:right">
         <?php echo CHtml::link('Add Testimonial', array('page/addtestimonial')) ?>
@@ -9,20 +10,18 @@
     <br>
     <ul>
         <?php
-       $map = new CMap($data);
-       $map->mergeWith ($data2);
+//       $map = new CMap();
+//       $map->mergeWith (array($data, $data2));
         if ($data) {
             foreach ($data as $test) {
-
                 ?>
                 <li>
                     <div class="testimonials-pic">
-                           <?php if ($test['image_id'] == null) { ?>
+                           <?php if ($test['image'] == null) { ?>
                             <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/no-image.png" width="145" height="145" alt="" class="respimg">
                         <?php } else { 
-                            $file = Files::model()->findByPk($test['image_id']);
                             ?>
-                            <img src="<?php echo Yii::app()->request->baseUrl.'/admin/' . $file->uri; ?>" width="145" height="145" alt="" class="respimg">
+                            <img src="<?php echo Yii::app()->request->baseUrl.'/admin/protected/' . $test['image']; ?>" width="145" height="145" alt="" class="respimg">
                         <?php } ?>
                     </div>     
                     <!--testimonials-pic-->
@@ -30,7 +29,7 @@
                     <div class="testimonials-details">
                         <h4><?php echo $test["title"]; ?></h4>
                         <div class="testimonials-para">
-                            <?php echo $test["descriptions"]; ?>
+                            <?php echo $test["content"]; ?>
                         </div>
                     </div>
                     <!--testimonials-details-->

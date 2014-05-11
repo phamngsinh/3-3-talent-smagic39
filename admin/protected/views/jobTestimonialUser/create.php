@@ -13,6 +13,10 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create JobTestimonialUser</h1>
+<h1>Create Job Testimonial</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array(
+                                'model'=>$model, 
+                                'uploaded' => $uploaded,
+                                'dir' => $dir,
+                )); ?>

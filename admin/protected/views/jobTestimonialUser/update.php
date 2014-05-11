@@ -16,6 +16,10 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update JobTestimonialUser <?php echo $model->testimonial_user_id; ?></h1>
+<h1>Update Job Testimonial <?php echo $model->testimonial_user_id; ?></h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array(
+                                'model'=>$model, 
+                                'uploaded' => $uploaded,
+                                'dir' => $dir,
+                )); ?>

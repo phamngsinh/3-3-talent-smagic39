@@ -39,7 +39,6 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'model'=>$model,
 )); ?>
 </div><!-- search-form -->
-
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'job-testimonial-user-grid',
 	'dataProvider'=>$model->search(),
@@ -49,7 +48,11 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'fullname',
 		'email',
 		'content',
-		'approved',
+                array(
+                    'name'=>'approved',
+                    'type'=>'raw',
+                    'value'=> 'JobTestimonialUser::model()->getStatus($data->approved)',
+                ),
 		'title',
 		/*
 		'image',

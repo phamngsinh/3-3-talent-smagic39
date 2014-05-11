@@ -242,8 +242,8 @@ class PageController extends Controller {
      * @return null 
      */
     public function actionAddTestimonial() {
-        $model = new JobTestimonialUser;
-        $upload = false;
+  $model = new JobTestimonialUser;
+        $uploaded = false;
         $uri = 'No image';
         $dir = Yii::getPathOfAlias('application.uploads');
         if (isset($_POST['JobTestimonialUser'])) {
@@ -252,7 +252,7 @@ class PageController extends Controller {
             $file = CUploadedFile::getInstance($model, 'image');
             if ($file && is_object($file) && get_class($file) === 'CUploadedFile') {
                 $fileName = uniqid(time()) . '.' . $file->getExtensionName();
-                $uploaded = $file->saveAs(Yii::app()->basePath . '/../uploads/files/testimonials/' . $fileName); //boolean
+                $uploaded = $file->saveAs(Yii::getPathOfAlias('webroot') . '/admin/protected/uploads/files/testimonials/' . $fileName); //boolean
                 $uri = 'uploads/files/testimonials/' . $fileName;
             }
             $model->image = $uri;
@@ -825,25 +825,17 @@ class PageController extends Controller {
      * view List Testimonial
      */
     public function actionTestimonials() {
-//paginator
+///paginator
 //        $page = (isset($_GET['page']) ? $_GET['page'] : 1);
         $criteria = new CDbCriteria();
-        $item_count1 = JobTestimonials::model()->count($criteria);
-        $item_count2 = JobTestimonialUser::model()->countModel();
-        $item_count = $item_count1 + $item_count2;
+        $item_count = JobTestimonialUser::model()->countModel();
         $pages = new CPagination($item_count);
 
         $pages->setPageSize(Yii::app()->params['listPerPage']);
         $pages->applyLimit($criteria);
 
-//        $models = Yii::app()->db->createCommand()
-//                ->select('testimonials.*')
-//                ->from('tbl_job_testimonials testimonials')
-//                ->limit(Yii::app()->params['listPerPage'], $page - 1);
-//        $data = $models->queryAll();
         $this->render('testimonials', array(
-            'data' => JobTestimonials::model()->findAll($criteria),
-            'data2' => JobTestimonialUser::model()->findAll('approved=:status', array(':status' => 1)),
+            'data' => JobTestimonialUser::model()->findAll('approved=:status', array(':status' => 1)),
             'page_size' => Yii::app()->params['listPerPage'],
             'item_count' => $item_count,
             'pages' => $pages

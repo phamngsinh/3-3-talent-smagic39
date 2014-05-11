@@ -64,19 +64,31 @@ class JobTestimonialUserController extends Controller
 	{
 		$model=new JobTestimonialUser;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$uploaded = false;
+                $uri = 'No image';
+                $dir = Yii::getPathOfAlias('application.uploads');
+                if (isset($_POST['JobTestimonialUser'])) {
+                    $model->attributes = $_POST['JobTestimonialUser'];
 
-		if(isset($_POST['JobTestimonialUser']))
-		{
-			$model->attributes=$_POST['JobTestimonialUser'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->testimonial_user_id));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
+                    $file = CUploadedFile::getInstance($model, 'image');
+                    if ($file && is_object($file) && get_class($file) === 'CUploadedFile') {
+                        $fileName = uniqid(time()) . '.' . $file->getExtensionName();
+                        $uploaded = $file->saveAs(Yii::app()->basePath . '/uploads/files/testimonials/' . $fileName); //boolean
+                        $uri = 'uploads/files/testimonials/' . $fileName;
+                    }
+                    $model->image = $uri;
+                    if ($model->validate()) {
+                        if ($model->save()) {
+                            Yii::app()->user->setFlash('success', "You have already added  your Testimonial with Us.");
+                            $this->redirect(array('admin'));
+                        }
+                    }
+                }
+                $this->render('create', array(
+                    'model' => $model,
+                    'uploaded' => $uploaded,
+                    'dir' => $dir,
+                ));
 	}
 
 	/**
@@ -90,16 +102,36 @@ class JobTestimonialUserController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+                
+		$uploaded = false;
+                $uri = 'No image';
+                $dir = Yii::getPathOfAlias('application.uploads');
+                if (isset($_POST['JobTestimonialUser'])) {
+                    $model->attributes = $_POST['JobTestimonialUser'];
 
-		if(isset($_POST['JobTestimonialUser']))
-		{
-			$model->attributes=$_POST['JobTestimonialUser'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->testimonial_user_id));
+                    $file = CUploadedFile::getInstance($model, 'image');
+                    if ($file && is_object($file) && get_class($file) === 'CUploadedFile') {
+                        $fileName = uniqid(time()) . '.' . $file->getExtensionName();
+                        $uploaded = $file->saveAs(Yii::app()->basePath . '/uploads/files/testimonials/' . $fileName); //boolean
+                        $uri = 'uploads/files/testimonials/' . $fileName;
+                    }
+                    if(empty($file)){
+                            $fileNameCurrent = $_POST['JobTestimonialUser']['image_hidden'];
+                            $model->image = $fileNameCurrent;
+                        } else {
+                            $model->image = $uri;
+                        }
+                    if($model->save())
+                        if(!empty($file)){
+                                    $uploaded->saveAs(Yii::app()->basePath.'/uploads/files/testimonials/'.$fileName);
+                        }
+			$this->redirect(array('view','id'=>$model->testimonial_user_id));
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
+                        'uploaded' => $uploaded,
+                        'dir' => $dir,
 		));
 	}
 

@@ -88,7 +88,30 @@ class JobTestimonialUser extends CActiveRecord {
             'criteria' => $criteria,
         ));
     }
+    public function beforeSave() {
+        if(parent::beforeSave())
+	{
+            if($this->isNewRecord)
+                if(Yii::app()->user->name == 'admin') {
+                    $this->approved = 1;
+                } else {
+                    $this->approved = 0;
+                } 
+		return true;
+	}
+	else
+		return false;
+    }
+    public static function getStatus($status) {
 
+        $approved = '';
+        if($status == 0) {
+            $approved = 'No';
+        } else {
+            $approved = 'Yes';
+        }
+        return $approved;
+    }
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
