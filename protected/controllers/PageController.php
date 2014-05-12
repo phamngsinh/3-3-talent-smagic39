@@ -825,59 +825,18 @@ class PageController extends Controller {
      * view List Testimonial
      */
     public function actionTestimonials() {
-///paginator
-//        $page = (isset($_GET['page']) ? $_GET['page'] : 1);
         $criteria = new CDbCriteria();
-        $item_count = JobTestimonialUser::model()->countModel();
+        $criteria->condition = 'approved=1';
+        $item_count = JobTestimonialUser::model()->count($criteria);
         $pages = new CPagination($item_count);
-
-        $pages->setPageSize(Yii::app()->params['listPerPage']);
+        $pages->pageSize=5;
         $pages->applyLimit($criteria);
 
         $this->render('testimonials', array(
-            'data' => JobTestimonialUser::model()->findAll('approved=:status', array(':status' => 1)),
-            'page_size' => Yii::app()->params['listPerPage'],
-            'item_count' => $item_count,
+            'data' => JobTestimonialUser::model()->findAll($criteria),
             'pages' => $pages
         ));
     }
-
-//    public function actionCreateTestimonials() {
-//
-//        $this->layout = 'ajax';
-//        $model = new JobTestimonials;
-//        if (isset($_POST['JobTestimonials'])) {
-//            
-//            $model->attributes = $_POST['JobTestimonials'];
-//            $model->status=0;
-//            $file_tmp = CUploadedFile::getInstance($model, 'image_id');
-//            $fileName = uniqid(time()) . $file_tmp;
-//            unset($model->image_id);
-//     
-//            if ($model->save()) {
-//                $uri = '';
-//                $file_id = '';
-//                if ($file_tmp && is_object($file_tmp) && get_class($file_tmp) === 'CUploadedFile') {
-//                    $file_tmp->saveAs(Yii::app()->basePath . '/../uploads/files/' . $fileName);
-//                    $uri = 'uploads/files/' . $fileName;
-//                    $command = Yii::app()->db->createCommand();
-//                    $file_model = new Files;
-//                    $file_model->uri = $uri;
-//                    $file_model->timestamp =  date('Y-m-d H:i:s', time());
-//                    $file_model->save();
-//                    $file_id = $file_model->file_id;
-//                }
-//
-//                $model->testimonials_id = $model->testimonials_id;
-//                $model->image_id = $file_id;
-//                $model->save();
-//            }
-////            $this->redirect(array('view', 'id' => $model->testimonials_id));
-//        }
-//        $this->render('createtestimonials', array(
-//            'model' => $model,
-//        ));
-//    }
 
     /**
      * ajax to get list Sub Cateogry
