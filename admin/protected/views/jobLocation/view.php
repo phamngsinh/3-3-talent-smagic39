@@ -32,6 +32,22 @@ $this->widget('zii.widgets.CDetailView', array(
         'map',
         'opening_hours_specification',
         'telephone',
+        array(
+            'label'=>'Update',
+            'type'=>'raw',
+            'value'=>  CHtml::link('Update',array('jobLocation/update','id'=>$model->job_location_id))
+        )
     ),
+));
+?>
+<?php
+$this->widget('zii.widgets.grid.CGridView', array(
+    'id' => 'jobs-grid',
+    'dataProvider' => $job_list,
+    'columns' => array(
+        'job_id',
+        'title'
+    ),
+    'itemsCssClass' => 'item-class',
 ));
 ?>
