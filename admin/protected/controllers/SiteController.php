@@ -130,7 +130,7 @@ class SiteController extends Controller
     public function actionLogin()
     {
 	$model = new LoginForm;
-
+        Yii::app()->user->returnUrl = array('Jobs/admin');
 	// if it is ajax validation request
 	if (isset($_POST['ajax']) && $_POST['ajax'] === 'login-form')
 	{
