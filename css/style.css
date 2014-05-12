@@ -604,6 +604,10 @@ select
     font-size: 15px;
     color: #3fb3e3;
 }
+#add-testimonial label{
+    float:left;
+}
+#add-testimonial label.error,    
 #register-cv-form label.error,
 .contact-us label.error,
 .apply-form label.error,
