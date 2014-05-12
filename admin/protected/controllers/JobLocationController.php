@@ -51,8 +51,15 @@ class JobLocationController extends Controller
 	 */
 	public function actionView($id)
 	{
+        $criteria = new CDbCriteria();
+        $criteria->select = 'JobLocation.*,t.*';
+        $criteria->join = 'LEFT JOIN  tbl_job_location as JobLocation ON t.job_location_id = JobLocation.job_location_id';
+        $criteria->condition = 'JobLocation.job_location_id='.$id;
+        $job_list = new CActiveDataProvider('Jobs', array('criteria' => $criteria));
+        
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
+                        'job_list'=>$job_list
 		));
 	}
 
