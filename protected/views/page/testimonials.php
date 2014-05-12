@@ -43,12 +43,13 @@
     </ul>
      <?php
     $this->widget('CLinkPager', array(
-            'currentPage' => $pages->getCurrentPage(),
-            'itemCount' => $item_count,
-            'pageSize' => $page_size,
-            'maxButtonCount' => 5,
-            'header' => '',
-            'htmlOptions' => array('class' => 'pages'),
+          'pages' => $pages,
+//            'currentPage' => $pages->getCurrentPage(),
+//            'itemCount' => $item_count,
+//            'pageSize' => $page_size,
+//            'maxButtonCount' => 5,
+//            'header' => '',
+//            'htmlOptions' => array('class' => 'pages'),
     ))
     ?>
 </div>

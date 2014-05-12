@@ -38,6 +38,7 @@ $this->widget('zii.widgets.CDetailView', array(
         'phone',
         'mobile',
         'linkedin_profile',
+        'experience',
     ),
 ));
 ?>

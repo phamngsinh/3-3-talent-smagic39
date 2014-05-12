@@ -27,7 +27,7 @@ $('.search-form form').submit(function(){
 ?>
 
 <h1>Manage Job Employees</h1>
-<div class="buttonrow buttons">
+<div class="buttonrow buttons" style="float:right;">
 <?php echo CHtml::link('Add Job',array('Jobs/create'),array('class'=>'button grey small_btn'))?>
     </div>
 <br/>

@@ -51,7 +51,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
                 array(
                     'name'=>'approved',
                     'type'=>'raw',
-                    'value'=> 'JobTestimonialUser::model()->getStatus($data->approved)',
+                    'value'=> 'CHtml::link(JobTestimonialUser::model()->getStatus($data->approved),array(\'jobTestimonialUser/approved\',\'id\'=>$data->testimonial_user_id))',
                 ),
 		'title',
 		/*

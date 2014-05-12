@@ -36,7 +36,8 @@ class JobEmployees extends CActiveRecord {
             array('first_name, last_name,email,mobile', 'required'),
             array('email', 'email'),
             array('mobile,phone', 'length', 'max' => 100),
-            array('employ_id, first_name, last_name,email,mobile', 'safe', 'on' => 'search'),
+            array('experience', 'length', 'max' => 500),
+            array('employ_id, first_name, last_name,email,mobile, experience', 'safe', 'on' => 'search'),
         );
     }
 
@@ -67,6 +68,7 @@ class JobEmployees extends CActiveRecord {
             'last_name' => 'Last name',
             'phone' => 'Phone ',
             'mobile' => 'Mobile',
+            'experience' => 'Experience',
         );
     }
 

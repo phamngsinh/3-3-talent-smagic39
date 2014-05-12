@@ -51,11 +51,16 @@ $form = $this->beginWidget('CActiveForm', array(
     <?php echo $form->label($model, 'mobile'); ?>
     <?php echo $form->textField($model, 'mobile'); ?>
     <?php echo $form->error($model, 'mobile'); ?>
+</div><br/>
+<div class="row">
+    <?php echo $form->label($model, 'experience'); ?>
+    <?php echo $form->textArea($model, 'experience', array('cols'=>61, 'rows'=>4, 'style'=>'width: 450px;')); ?>
+    <?php echo $form->error($model, 'experience'); ?>
 </div>
 <br/>
 <div class="row">
     <label for="JobEmployees_file_id">Resume </label>
-    <?php echo $form->fileField($model_file, 'file_id'); ?>
+    <?php echo $form->fileField($model_file, 'file_id',array('accept'=>"application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/pdf")); ?>
     <?php echo $form->error($model_file, 'file_id'); ?>
 </div>
 <br/>
@@ -72,7 +77,7 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 <br/>
 <div class="row" style="clear:both">
-    <?php echo $form->fileField($cover, 'value', array('class'=>'show')); ?>
+    <?php echo $form->fileField($cover, 'value', array('class'=>'show','accept'=>"application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/pdf")); ?>
     <?php echo $form->textArea($cover, 'value', array('rows' => 6, 'cols' => 50,'class'=>'hiden', 'id' => 'CandidateCoverNote', 'maxlength' => "1000", 'style' => 'display: none')); ?>
     <div id="validate_cover_value" class="errorPrivate" style="display: none;">Please enter a value for Cover Note</div>
 
