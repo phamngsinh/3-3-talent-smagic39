@@ -170,6 +170,7 @@ $this->widget('zii.widgets.CDetailView', array(
             <th>Id</th>
             <th>Name</th>
             <th>Detail</th>
+            <th>Experience</th>
         </tr>
     </thead>
     <tbody>
@@ -177,11 +178,13 @@ $this->widget('zii.widgets.CDetailView', array(
             <?php
             $id = 1;
             foreach ($employee as $value):
+
                 ?>
                 <tr>
                     <td><?php echo $id++; ?></td>
                     <td><?php echo $value['first_name'] . $value['last_name']; ?></td>
                     <td><?php echo  Chtml::link('Detail',CHtml::normalizeUrl(array('jobEmployees/view', 'id'=>$value['employ_id'],'type'=>'apply','job-id'=>$model->job_id))) ?></td>
+                    <td><?php echo $value['experience']?></td>
                 </tr>
             <?php  endforeach; ?>
         <?php else: ?>
