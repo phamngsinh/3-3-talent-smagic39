@@ -23,6 +23,17 @@ $this->menu=array(
 	'attributes'=>array(
 		'worktype_id',
 		'name',
-		'job_id',
 	),
 )); ?>
+
+<?php
+$this->widget('zii.widgets.grid.CGridView', array(
+    'id' => 'jobs-grid',
+    'dataProvider' => $job_list,
+    'columns' => array(
+        'job_id',
+        'title'
+    ),
+    'itemsCssClass' => 'item-class',
+));
+?>
