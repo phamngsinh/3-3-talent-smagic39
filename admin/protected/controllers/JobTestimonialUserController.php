@@ -150,6 +150,7 @@ class JobTestimonialUserController extends Controller
 	}
         public function actionApproved($id)
 	{
+            $this->layout = false;
             JobTestimonialUser::model()->updateByPk($id,array('approved'=>1));
             $model=$this->loadModel($id);
             $this->redirect(array('view','id'=>$id));
