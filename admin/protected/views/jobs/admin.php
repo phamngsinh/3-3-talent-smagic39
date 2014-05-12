@@ -56,7 +56,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'title',
             'type' => 'raw',
-            'value'=> 'CHtml::link($data->title, Yii::app()->createUrl("jobs/view",array("id"=>$data->job_id)))'
+            'value' => 'CHtml::link($data->title, Yii::app()->createUrl("jobs/view",array("id"=>$data->job_id)))'
         ),
         array(
             'name' => 'job_id',
