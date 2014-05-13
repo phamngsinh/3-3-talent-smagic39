@@ -60,10 +60,10 @@ class JobTestimonialUserController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
+
 	public function actionCreate()
 	{
 		$model=new JobTestimonialUser;
-
 		$uploaded = false;
                 $uri = 'No image';
                 $dir = Yii::getPathOfAlias('application.uploads');
@@ -73,7 +73,7 @@ class JobTestimonialUserController extends Controller
                     $file = CUploadedFile::getInstance($model, 'image');
                     if ($file && is_object($file) && get_class($file) === 'CUploadedFile') {
                         $fileName = uniqid(time()) . '.' . $file->getExtensionName();
-                        $uploaded = $file->saveAs(Yii::app()->basePath . '/uploads/files/testimonials/' . $fileName); //boolean
+                        $uploaded = $file->saveAs(Yii::app()->basePath.'/../../' . '/uploads/files/testimonials/' . $fileName); //boolean
                         $uri = 'uploads/files/testimonials/' . $fileName;
                     }
                     $model->image = $uri;
