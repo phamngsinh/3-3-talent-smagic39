@@ -10,7 +10,7 @@
                         <?php if (!$team['image_id']) { ?>
                             <img src="images/no-image.png" width="145" height="145" alt="" class="respimg">
                         <?php } else { ?>
-                            <img src="<?php echo './admin/' . $team['uri'] ?>" width="145" height="145" alt="" class="respimg">
+                            <img src="<?php echo Yii::app()->request->baseUrl.'/admin/'. $team['uri'] ?>" width="145" height="145" alt="" class="respimg">
                         <?php } ?>
                     </div>
                     <!--our-team-pic-->
