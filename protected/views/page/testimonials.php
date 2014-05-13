@@ -21,7 +21,7 @@
                             <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/no-image.png" width="145" height="145" alt="" class="respimg">
                         <?php } else { 
                             ?>
-                            <img src="<?php echo Yii::app()->request->baseUrl.'/admin/protected/' . $test['image']; ?>" width="145" height="145" alt="" class="respimg">
+                            <img src="<?php echo Yii::app()->request->baseUrl.'/' . $test['image']; ?>" width="145" height="145" alt="" class="respimg">
                         <?php } ?>
                     </div>     
                     <!--testimonials-pic-->
