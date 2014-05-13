@@ -35,7 +35,7 @@ $this->widget('zii.widgets.CDetailView', array(
            array(
             'name' => 'image',
             'type' => 'raw',
-            'value' => "<img src='protected/$model->image' width='64' height='64'/>"
+            'value' => "<img src='../../$model->image' width='64' height='64'/>"
         ),
     ),
 ));
