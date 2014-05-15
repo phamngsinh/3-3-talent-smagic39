@@ -26,8 +26,7 @@ $this->menu = array(
 ?>
 
 <h1>View JobEmployees #<?php echo $model['employ_id']; ?></h1>
-
-<?php
+<?php if ($type_view != 'alert'):
 $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
     'attributes' => array(
@@ -41,7 +40,38 @@ $this->widget('zii.widgets.CDetailView', array(
         'experience',
     ),
 ));
+    else:
+        $this->widget('zii.widgets.CDetailView', array(
+            'data' => $model,
+            'attributes' => array(
+                'employ_id',
+                'first_name',
+                'last_name',
+                'email',
+                array(
+                    'name'=>'email',
+                    'label'=>'Category',
+                    'type'=>'raw',
+                    'value'=>JobCategories::model()->getListNameOfUser($model->employ_id)
+                ),
+                array(
+                    'name'=>'email',
+                    'label'=>'Location',
+                    'type'=>'raw',
+                    'value'=>JobLocation::model()->getListNameOfUser($model->employ_id)
+                ),
+                array(
+                    'name'=>'email',
+                    'label'=>'Work Type',
+                    'type'=>'raw',
+                    'value'=>JobWorktype::model()->getListNameOfUser($model->employ_id)
+                )
+
+            ),
+        ));
+    endif;
 ?>
+
 
 <?php if ($type_view != 'alert'): ?>
     <?php if ($employee): ?>
