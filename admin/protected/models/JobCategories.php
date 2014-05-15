@@ -89,7 +89,7 @@ class JobCategories extends CActiveRecord {
 
     public static function getCatName($id) {
         $cat_name = JobCategories::model()->findByPk($id);
-        return $cat_name->cat_name;
+        return !empty($cat_name->cat_name) ? $cat_name->cat_name : '';
     }
 
 
