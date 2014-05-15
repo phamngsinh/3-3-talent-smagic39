@@ -139,8 +139,17 @@ class JobCategoriesController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-        $this->loadModel($id)->delete();
-
+        $sub_cat = JobSubCategories::model()->find('cat_id=:id', array(':id'=>$id));
+        $sub_cat_parent = JobSubCategories::model()->find('parent=:id', array(':id'=>$id));
+        if($this->loadModel($id)->delete()) {
+            if($sub_cat) {
+                $sub_cat->delete();
+            }
+            if($sub_cat_parent) {
+                JobSubCategories::model()->updateByPk($sub_cat_parent->id, array('parent'=>0));
+            }
+        }
+        
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
