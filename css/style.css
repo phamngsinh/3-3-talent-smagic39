@@ -539,7 +539,7 @@ select {
 .job-list .style-tinymce li,
 .job-list .style-tinymce ol, .style-tinymce ul {
 
-    list-style: none;
+    list-style: inherit;
     margin: 0;
 
     padding: 0;
