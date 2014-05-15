@@ -2,33 +2,44 @@
 @charset "utf-8";
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);
 
-body {
+
+body
+{
+    padding:0px;
+    margin:0px;	   
+}
+
+#main{
+    margin: 0px auto;
     padding: 0px;
-    margin: 0px;
-    Font-family: 'Open Sans', sans-serif;
-    font-size: 13px;
-    color: #474747;
-    background: url(../images/body-bg.png);
-    line-height: 20px;
-}
-
-.respimg {
-    width: 100%;
-    height: auto;
-}
-
-p {
-    margin-bottom: 23px;
-}
-
-* {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-}
-
-.wrapper {
     width: 810px;
-    margin: 0 auto;
+    Font-family: 'Open Sans', sans-serif;
+    font-size:13px;
+    color:#474747;
+    background:url(../images/body-bg.png);
+    line-height:20px;
+}
+.respimg
+{
+    width:100%;
+    height:auto;	
+}
+
+p
+{
+    margin-bottom:23px;	
+}
+
+*
+{
+    box-sizing:border-box;	
+    -moz-box-sizing:border-box;	
+}
+
+.wrapper
+{
+    width:810px;
+    margin:0 auto;
 }
 
 #header {
@@ -36,10 +47,15 @@ p {
     padding: 18px 16px;
     background: #151515;
 }
-
-.company-name {
-    float: left;
-    width: 40%;
+#header .wrapper
+{
+    width:780px;
+    margin:0 auto;
+}
+.company-name
+{
+    float:left;
+    width:40%;
 }
 
 .header-nav {
@@ -57,7 +73,7 @@ p {
     font-size: 14px;
     line-height: 38px;
     display: block;
-    padding: 0px 12px;
+    padding: 0px 11px;
     margin: 0px 2px;
     text-transform: capitalize;
     border: 1px solid transparent;
@@ -493,11 +509,9 @@ select {
     width: 100%;
     height: 30px;
 }
-
-.pages li a {
-    color: #555;
+.pages li a{
+    color:#555;
 }
-
 .pages li {
     display: block;
     float: left;
@@ -511,35 +525,30 @@ select {
     -moz-border-radius: 0;
     border-radius: 0;
 }
-
 .pages li.selected a {
     font-size: 15px;
     color: #3fb3e3;
 }
-
-#add-testimonial label {
-    float: left;
+#add-testimonial label{
+    float:left;
 }
-
 #add-testimonial label.error,
 #register-cv-form label.error,
 .contact-us label.error,
 .apply-form label.error,
-.errorMessage {
-    color: red;
-    clear: both;
+.errorMessage{
+    color:red;
+    clear:both;
 }
-
-.job-list .style-tinymce a {
-    color: #34B6E7;
+.job-list .style-tinymce a{
+    color:#34B6E7;
 }
-
 .job-list .style-tinymce a,
-.job-list .style-tinymce p,
-.job-list .style-tinymce li,
-.job-list .style-tinymce ol, .style-tinymce ul {
+.job-list .style-tinymce  p,
+.job-list  .style-tinymce  li,
+.job-list  .style-tinymce  ol,.style-tinymce  ul {
 
-    list-style: inherit;
+	list-style: none;
     margin: 0;
 
     padding: 0;
@@ -555,7 +564,9 @@ select {
     background: transparent;
 
 }
-.job-list .style-tinymce ol,
+.footer-bottom .wrapper{width: 770px;}
+
+job-list .style-tinymce ol,
 .job-list .style-tinymce ul{
     padding-left: 15px;
 }
