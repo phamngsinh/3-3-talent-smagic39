@@ -57,6 +57,7 @@
     </div>
     <?php endif; ?>
     <?php if($job->special_commitments): ?>
+        <strong>Any special commitments associated:</strong>
     <div class="style-tinymce">
         <p><?php echo $job->special_commitments; ?></p>
     </div>
