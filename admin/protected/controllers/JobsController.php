@@ -134,7 +134,15 @@ class JobsController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-        $this->loadModel($id)->delete();
+        /*
+         * delete relation with job
+         */
+        $employees_apply = new JobResumes();
+        if($this->loadModel($id)->delete()) {
+            if($employees_apply) {
+                 $employees_apply->deleteAll('job_id=:id AND type=:type', array(':id'=>$id, ':type'=>1));
+            }
+        }
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))

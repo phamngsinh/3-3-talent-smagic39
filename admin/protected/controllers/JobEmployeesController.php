@@ -175,7 +175,19 @@ class JobEmployeesController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-        $this->loadModel($id)->delete();
+        /*
+         *  delete register CV
+         */
+        $registerCV = JobResumes::model()->find('employ_id=:id AND type=:type', array(':id'=>$id, ':type'=>2));
+        $registerAlert = JobAlerts::model()->find('employ_id=:id', array(':id'=>$id));
+        if($this->loadModel($id)->delete()) {
+          if($registerCV) {  
+            $registerCV->delete();
+          }
+          if($registerAlert) {
+              $registerAlert->delete();
+          }
+        }
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
