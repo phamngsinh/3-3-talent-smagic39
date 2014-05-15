@@ -91,6 +91,24 @@ class JobCategories extends CActiveRecord {
         $cat_name = JobCategories::model()->findByPk($id);
         return !empty($cat_name->cat_name) ? $cat_name->cat_name : '';
     }
+    public function getListNameOfUser($id){
+
+
+       $data_tmp =  JobAlerts::model()->find('employ_id ='.$id);
+       $list_tmp = explode('|',$data_tmp['cat_id']);
+       $list = implode(',',$list_tmp);
+
+        $criteria  = new CDbCriteria();
+        $criteria->select  = 'cat_name';
+        $criteria->condition = 'cat_id in ('.$list.')';
+
+       $data = JobCategories::model()->findAll($criteria);
+        $list_data = '';
+        foreach($data as  $key){
+            $list_data .= $key['cat_name'].',';
+        }
+        return $list_data;
+    }
 
 
 }

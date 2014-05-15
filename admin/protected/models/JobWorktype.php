@@ -10,6 +10,26 @@
  */
 class JobWorktype extends CActiveRecord
 {
+        public static function getName($id) {
+            if($id == 0) {
+                $name = '';
+            } else {
+                $name = JobWorktype::model()->findByPk($id);
+            }
+            return isset($name->name) ? $name->name : '' ;
+        }
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return JobWorktype the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -55,7 +75,7 @@ class JobWorktype extends CActiveRecord
 			'name' => 'Name',
 		);
 	}
-
+        
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
@@ -81,24 +101,20 @@ class JobWorktype extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+    public function  getListNameOfUser($id){
+        $data_tmp =  JobAlerts::model()->find('employ_id ='.$id);
+        $list_tmp = explode('|',$data_tmp['worktype_id']);
+        $list = implode(',',$list_tmp);
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return JobWorktype the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-        
-        public static function getName($id) {
-            if($id == 0) {
-                $name = '';
-            } else {
-                $name = JobWorktype::model()->findByPk($id);
-            }
-            return isset($name->name) ? $name->name : '' ;
+        $criteria  = new CDbCriteria();
+        $criteria->select  = 'name';
+        $criteria->condition = 'worktype_id in ('.$list.')';
+
+        $data = JobWorktype::model()->findAll($criteria);
+        $list_data = '';
+        foreach($data as  $key){
+            $list_data .= $key['name'].',';
         }
+        return $list_data;
+    }
 }

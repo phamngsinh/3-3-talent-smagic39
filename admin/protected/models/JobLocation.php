@@ -14,6 +14,23 @@
  */
 class JobLocation extends CActiveRecord
 {
+         public static function getLocation($id) {
+            $location = JobLocation::model()->findByPk($id);
+            $location = $location->city ? $location->city : $location->address;
+            return $location;
+        }
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return JobLocation the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -98,20 +115,20 @@ class JobLocation extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+    public function  getListNameOfUser($id){
+        $data_tmp =  JobAlerts::model()->find('employ_id ='.$id);
+        $list_tmp = explode('|',$data_tmp['job_location_id']);
+        $list = implode(',',$list_tmp);
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return JobLocation the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-         public static function getLocation($id) {
-            $location = JobLocation::model()->findByPk($id);
-            $location = $location->city ? $location->city : $location->address;
-            return $location;
+        $criteria  = new CDbCriteria();
+        $criteria->select  = 'address';
+        $criteria->condition = 'job_location_id in ('.$list.')';
+
+        $data = JobLocation::model()->findAll($criteria);
+        $list_data = '';
+        foreach($data as  $key){
+            $list_data .= $key['address'].',';
         }
+        return $list_data;
+    }
 }
