@@ -205,20 +205,14 @@ class JobEmployeesController extends Controller {
     }
 
     public function actionApply() {
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'JobEmployees';
-        $criteria->join = 'LEFT JOIN tbl_job_resumes as JobResumes ON JobResumes.employ_id = JobEmployees.employ_id ';
-        $criteria->condition = 'JobResumes.type=1';
-        $dataProvider = new CActiveDataProvider('JobEmployees', array(
-            'criteria' => $criteria,
-            'pagination' => array(
-                'pageSize' => 25,
-            ),
-        ));
+        $model = new JobEmployees('search_apply');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['JobEmployees']))
+            $model->attributes = $_GET['JobEmployees'];
         $this->render('apply', array(
             'type_view' => 'apply',
             'type' => 'Apply Jobs',
-            'model' => $dataProvider,
+            'model' => $model,
         ));
     }
 
