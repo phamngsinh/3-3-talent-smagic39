@@ -26,7 +26,8 @@ $this->menu = array(
 ?>
 
 <h1>View JobEmployees #<?php echo $model['employ_id']; ?></h1>
-<?php if ($type_view != 'alert'):
+<?php
+if ($type_view === 'regcv'):
 $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
     'attributes' => array(
@@ -40,7 +41,24 @@ $this->widget('zii.widgets.CDetailView', array(
         'experience',
     ),
 ));
-    else:
+endif;
+
+if ($type_view === 'apply'):
+    $this->widget('zii.widgets.CDetailView', array(
+        'data' => $model,
+        'attributes' => array(
+            'employ_id',
+            'first_name',
+            'last_name',
+            'email',
+            'phone',
+            'mobile',
+        ),
+    ));
+endif;
+
+
+if($type_view === 'alert'):
         $this->widget('zii.widgets.CDetailView', array(
             'data' => $model,
             'attributes' => array(
