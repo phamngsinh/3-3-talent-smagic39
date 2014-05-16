@@ -91,6 +91,14 @@ class JobCategories extends CActiveRecord {
         $cat_name = JobCategories::model()->findByPk($id);
         return !empty($cat_name->cat_name) ? $cat_name->cat_name : '';
     }
+    public function getParent($id){
+        $sub = JobSubCategories::model()->find(array('condition' => "cat_id = $id"));
+        if ($sub) {
+            $parent_sub = JobCategories::model()->find(array('condition' => "cat_id = " . $sub['parent']));
+        }
+        return  $parent_sub ? $parent_sub['cat_name'] : '';
+
+    }
     public function getListNameOfUser($id){
 
 

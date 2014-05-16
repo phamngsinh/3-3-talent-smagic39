@@ -203,5 +203,9 @@ class JobCategoriesController extends Controller {
             Yii::app()->end();
         }
     }
+    function  gridParentCategories($data,$row){
+        return JobCategories::model()->getParent($data->cat_id);
+    }
+
 
 }

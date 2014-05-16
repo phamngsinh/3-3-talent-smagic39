@@ -51,6 +51,12 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 		'cat_id',
 		'cat_name',
+        array(
+            'type'=>'raw',
+            'name'=>'cat_name',
+            'value'=>array($this,'gridParentCategories'),
+            'header'=> 'Parent'
+        ),
 		array(
 			'class'=>'CButtonColumn',
 		),
