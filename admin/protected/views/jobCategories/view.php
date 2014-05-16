@@ -16,6 +16,10 @@ $this->menu=array(
 );
 ?>
 <h1>View JobCategories #<?php echo $model->cat_id; ?></h1>
+<div class="buttonrow buttons" >
+    <a class="button grey small_btn" href="<?php echo Yii::app()->request->getUrlReferrer()?>">Back</a>
+</div>
+<br/>
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(

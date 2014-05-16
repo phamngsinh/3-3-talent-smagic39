@@ -26,6 +26,10 @@ $this->menu = array(
 ?>
 
 <h1>View JobEmployees #<?php echo $model['employ_id']; ?></h1>
+    <div class="buttonrow buttons" >
+        <a class="button grey small_btn" href="<?php echo Yii::app()->request->getUrlReferrer()?>">Back</a>
+    </div>
+    <br/>
 <?php
 if ($type_view === 'regcv'):
 $this->widget('zii.widgets.CDetailView', array(
