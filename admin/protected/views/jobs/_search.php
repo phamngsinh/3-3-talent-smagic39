@@ -17,11 +17,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'job_id'); ?>
-		<?php echo $form->textField($model,'job_id'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'base_salary'); ?>
 		<?php echo $form->textField($model,'base_salary'); ?>
 	</div>
@@ -79,3 +74,16 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- search-form -->
+<?php
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerCssFile($baseUrl . '/css/jquery-ui.css');
+$cs->registerScriptFile($baseUrl . '/js/jquery-ui.min.js');
+?>
+<script>
+
+    jQuery(function($){
+        $('#Jobs_date_posted').datepicker({ dateFormat: 'yy-mm-dd' });
+    });
+
+</script>
