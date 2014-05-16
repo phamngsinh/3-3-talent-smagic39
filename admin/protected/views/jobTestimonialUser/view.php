@@ -19,8 +19,6 @@ $this->menu = array(
 <h1>View JobTestimonialUser #<?php echo $model->testimonial_user_id; ?></h1>
 
 <?php
-$url  =   Yii::app()->request->hostInfo.'/33talent';//deploy on server
-
 $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
     'attributes' => array(
@@ -37,7 +35,7 @@ $this->widget('zii.widgets.CDetailView', array(
            array(
             'name' => 'image',
             'type' => 'raw',
-            'value' => "<img src='".$url."/$model->image' width='64' height='64'/>"
+            'value' => "<img src='$model->image' width='64' height='64'/>"
         ),
     ),
 ));
