@@ -10,7 +10,8 @@
 <?php
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'job-employees-grid',
-    'dataProvider' => $model,
+    'filter'=>$model,
+    'dataProvider'=>$model->search_apply(),
     'columns' => array(
         'employ_id',
         'first_name',
