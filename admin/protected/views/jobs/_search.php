@@ -13,7 +13,12 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'cat_id'); ?>
-		<?php echo $form->textField($model,'cat_id'); ?>
+        <?php
+        echo $form->dropDownList($model, 'cat_id', CHtml::listData(JobCategories::model()->findAll(), 'cat_id', 'cat_name'), array(
+            'prompt' => '-- select categories --',
+            'selected' => true,
+        ));
+        ?>
 	</div>
 
 	<div class="row">
@@ -48,7 +53,12 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'job_location_id'); ?>
-		<?php echo $form->textField($model,'job_location_id'); ?>
+        <?php
+        echo $form->dropDownList($model, 'job_location_id', CHtml::listData(JobLocation::model()->findAll(), 'job_location_id', 'address'), array(
+            'prompt' => '-- select location --',
+            'selected' => true,
+        ));
+        ?>
 	</div>
 
 	<div class="row">

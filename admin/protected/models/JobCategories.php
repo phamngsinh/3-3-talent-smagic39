@@ -119,4 +119,5 @@ class JobCategories extends CActiveRecord {
     }
 
 
+
 }
