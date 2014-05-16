@@ -91,5 +91,26 @@ class JobEmployees extends CActiveRecord {
             'criteria' => $criteria,
         ));
     }
+    public function search_apply() {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'JobEmployees';
+        $criteria->join = 'LEFT JOIN tbl_job_resumes as JobResumes ON JobResumes.employ_id = JobEmployees.employ_id ';
+        $criteria->condition = 'JobResumes.type=1';
+        $criteria->compare('employ_id', $this->employ_id);
+        $criteria->compare('first_name', $this->first_name, true);
+        $criteria->compare('last_name', $this->last_name, true);
+        $criteria->compare('email', $this->email, true);
+
+        return new CActiveDataProvider('JobEmployees', array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 25,
+            ),
+        ));
+
+    }
 
 }
