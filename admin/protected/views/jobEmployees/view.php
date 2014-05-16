@@ -35,10 +35,8 @@ $this->widget('zii.widgets.CDetailView', array(
         'first_name',
         'last_name',
         'email',
-        'phone',
         'mobile',
         'linkedin_profile',
-        'experience',
     ),
 ));
 endif;
@@ -53,6 +51,8 @@ if ($type_view === 'apply'):
             'email',
             'phone',
             'mobile',
+            'experience',
+
         ),
     ));
 endif;
