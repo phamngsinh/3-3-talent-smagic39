@@ -73,7 +73,7 @@ class JobTestimonialUserController extends Controller
                     $file = CUploadedFile::getInstance($model, 'image');
                     if ($file && is_object($file) && get_class($file) === 'CUploadedFile') {
                         $fileName = uniqid(time()) . '.' . $file->getExtensionName();
-                        $uploaded = $file->saveAs(Yii::app()->basePath.'/../../uploads/files/testimonials/' . $fileName); //boolean
+                        $uploaded = $file->saveAs(Yii::getPathOfAlias('webroot').'/uploads/files/testimonials/' . $fileName); //boolean
                         $uri = 'uploads/files/testimonials/' . $fileName;
                     }
                     $model->image = $uri;
