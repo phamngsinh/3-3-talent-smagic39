@@ -97,7 +97,7 @@ if($type_view === 'regcv'):
         ,
             array(
                 'class' => 'CButtonColumn',
-                'template' => '{update}{delete}'
+                'template' => '{delete}'
             ),
         ),
         'itemsCssClass' => 'item-class',
