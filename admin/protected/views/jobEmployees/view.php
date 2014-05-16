@@ -81,7 +81,7 @@ $this->widget('zii.widgets.CDetailView', array(
                 <?php foreach ($employee as $value) : ?>
 
                     <tr class="even"><th><?php echo $title_job ?></th><td>
-                            <?php echo $value['title'] ?> 
+                            <?php echo isset($value['title']) ? $value['title']: '' ?>
                             ||<a href="./../<?php echo $value['uri'] ?>" target="_blank">CV</a>
                         </td>
                     </tr>
