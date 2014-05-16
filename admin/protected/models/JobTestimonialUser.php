@@ -77,12 +77,22 @@ class JobTestimonialUser extends CActiveRecord {
      */
     public function search() {
         // @todo Please modify the following code to remove attributes that should not be searched.
-        $criteria = new CDbCriteria;
 
+        if( strtoupper($this->approved) ==='YES' && !is_int($this->approved)){
+            $this->approved = 1;
+        }
+        if( strtoupper($this->approved) ==='NO' && !is_int($this->approved)){
+            $this->approved = 0;
+        }
+
+        $criteria = new CDbCriteria;
         $criteria->compare('testimonial_user_id', $this->testimonial_user_id);
         $criteria->compare('fullname', $this->fullname, true);
         $criteria->compare('email', $this->email, true);
         $criteria->compare('title', $this->title, true);
+        $criteria->compare('approved', $this->approved, true);
+        $criteria->compare('content', $this->content, true);
+
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

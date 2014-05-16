@@ -33,7 +33,11 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'approved'); ?>
-		<?php echo $form->textField($model,'approved'); ?>
+		<?php
+        $select = array('NO','YES');
+        ?>
+
+        <?php echo $form->dropDownList($model,'approved', $select, array('prompt'=>'Select location')); ?>
 	</div>
 
 	<div class="row">
