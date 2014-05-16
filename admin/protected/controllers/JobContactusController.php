@@ -61,7 +61,7 @@ class JobContactusController extends Controller {
             $data['old_content'] = $_POST['REPLY']['old_content'];
             $data['email'] = $_POST['REPLY']['email'];
             $this->sendEmailReplyContact($data);
-            $this->redirect(array('index'));
+            $this->redirect(array('admin'));
         }
         $this->render('view', array(
             'model' => $this->loadModel($id),
