@@ -112,5 +112,46 @@ class JobEmployees extends CActiveRecord {
         ));
 
     }
+    public function search_alert(){
+
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'JobEmployees';
+        $criteria->join = 'LEFT JOIN  tbl_job_alerts  as JobAlerts ON JobAlerts.employ_id = JobEmployees.employ_id ';
+        $criteria->condition = 'JobAlerts.type=1';
+        $criteria->compare('employ_id', $this->employ_id);
+        $criteria->compare('first_name', $this->first_name, true);
+        $criteria->compare('last_name', $this->last_name, true);
+        $criteria->compare('email', $this->email, true);
+
+        return new CActiveDataProvider('JobEmployees', array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 25,
+            ),
+        ));
+
+
+    }
+    public function search_regCv(){
+
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'JobEmployees';
+        $criteria->join = 'LEFT JOIN tbl_job_resumes as JobResumes ON JobResumes.employ_id = JobEmployees.employ_id ';
+        $criteria->condition = 'JobResumes.type=2';
+        $criteria->compare('employ_id', $this->employ_id);
+        $criteria->compare('first_name', $this->first_name, true);
+        $criteria->compare('last_name', $this->last_name, true);
+        $criteria->compare('email', $this->email, true);
+
+        return new CActiveDataProvider('JobEmployees', array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 25,
+            ),
+        ));
+
+
+    }
+
 
 }
