@@ -90,6 +90,10 @@ $this->menu = array(
 ?>
 
 <h1>View Jobs #<?php echo $model->title; ?></h1>
+<div class="buttonrow buttons" >
+    <a class="button grey small_btn" href="<?php echo Yii::app()->request->getUrlReferrer()?>">Back</a>
+</div>
+<br/>
 <?php
 $categories = JobCategories::Model()->getCatName($model->cat_id);
 $worktype = JobWorktype::Model()->getName($model->worktype_id);
@@ -125,39 +129,39 @@ $this->widget('zii.widgets.CDetailView', array(
         array(
             'name' => 'descriptions',
             'type' => 'raw',
-            'value' => strip_tags($model->descriptions),
+            'value' => $model->descriptions,
         ),
         array(
             'name' => 'benefits',
             'type' => 'raw',
-            'value' => strip_tags($model->benefits),
+            'value' =>$model->benefits,
         ),
         array(
             'name' => 'experience_requirements',
             'type' => 'raw',
-            'value' => strip_tags($model->experience_requirements),
+            'value' =>$model->experience_requirements,
         ),
         array(
             'name' => 'education_requirements',
             'type' => 'raw',
-            'value' => strip_tags($model->education_requirements),
+            'value' => $model->education_requirements,
         ),
         'base_salary',
         'date_posted',
         array(
             'name' => 'incentives',
             'type' => 'raw',
-            'value' => strip_tags($model->incentives),
+            'value' =>$model->incentives,
         ),
         array(
             'name' => 'responsibilities',
             'type' => 'raw',
-            'value' => strip_tags($model->responsibilities),
+            'value' => $model->responsibilities,
         ),
         array(
             'name' => 'special_commitments',
             'type' => 'raw',
-            'value' => strip_tags($model->special_commitments),
+            'value' => $model->special_commitments,
         ),
     ),
 ));
