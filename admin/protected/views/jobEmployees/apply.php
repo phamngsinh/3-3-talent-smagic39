@@ -41,7 +41,7 @@ if($type_view=== 'alert'):
             'last_name',
             'email',
             array(
-                'value' => 'CHtml::link("<img src=\"/admin/images/view.png\" alt=\"View\">", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")))',
+                'value' => 'CHtml::link("<img src=\"images/view.png\" alt=\"View\">", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")))',
                 'type' => 'raw',
             )
         ,
@@ -66,7 +66,7 @@ if($type_view=== 'apply'):
             'last_name',
             'email',
             array(
-                'value' => 'CHtml::link("<img src=\"/admin/images/view.png\" alt=\"View\">", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")))',
+                'value' => 'CHtml::link("<img src=\"images/view.png\" alt=\"View\">", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")))',
                 'type' => 'raw',
             )
         ,
@@ -91,7 +91,7 @@ if($type_view === 'regcv'):
             'last_name',
             'email',
             array(
-                'value' => 'CHtml::link("<img src=\"/admin/images/view.png\" alt=\"View\">", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")))',
+                'value' => 'CHtml::link("<img src=\"images/view.png\" alt=\"View\">", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")))',
                 'type' => 'raw',
             )
         ,
