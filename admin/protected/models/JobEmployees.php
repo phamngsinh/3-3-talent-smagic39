@@ -139,6 +139,7 @@ class JobEmployees extends CActiveRecord {
     public function search_regCv(){
 
         $criteria = new CDbCriteria;
+        $criteria->select = 'JobEmployees.*,JobResumes.*';
         $criteria->alias = 'JobEmployees';
         $criteria->join = 'LEFT JOIN tbl_job_resumes as JobResumes ON JobResumes.employ_id = JobEmployees.employ_id ';
         if(isset($_GET['JobEmployees']) && $_GET['JobEmployees']['employ_id'] ){

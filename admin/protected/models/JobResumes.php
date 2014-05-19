@@ -40,7 +40,7 @@ class JobResumes extends CActiveRecord {
             array('file_id', 'required', 'message' => 'Please enter a value for Resume'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('resume_id, employ_id, job_id, file_id', 'safe', 'on' => 'search'),
+            array('resume_id, employ_id,id_category,id_subcategories, job_id, file_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -59,6 +59,8 @@ class JobResumes extends CActiveRecord {
      */
     public function attributeLabels() {
         return array(
+            'id_category' => 'Category',
+            'id_subcategories' => 'Subcategory',
             'resume_id' => 'Resume',
             'employ_id' => 'Employ',
             'job_id' => 'Job',
@@ -109,5 +111,14 @@ class JobResumes extends CActiveRecord {
         $data= JobResumes::model()->findAll($criteria);
         return $data ? $data[0]['lastest'] :'';
     }
+    public static  function getCategory($employ_id,$type_cat){
+
+        $data_tmp = JobResumes::model()->find('employ_id=:employ_id AND type=:type',array(':employ_id'=>$employ_id,':type'=>2));
+        $cat_id = ($type_cat==1) ? $data_tmp['id_category']: $data_tmp['id_subcategories'] ;
+        $data = JobCategories::model()->findByPk($cat_id);
+        return $data['cat_name'] ? $data['cat_name'] : 'Null' ;
+
+    }
+
 
 }

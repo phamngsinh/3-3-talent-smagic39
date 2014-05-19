@@ -93,7 +93,6 @@ if($type_view=== 'apply'):
     ));
 endif;
 
-
 if($type_view === 'regcv'):
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'job-employees-grid',
@@ -103,6 +102,21 @@ if($type_view === 'regcv'):
             'employ_id',
             'first_name',
             'last_name',
+            array(
+                'name'=>'employ_id',
+                'type'=>'raw',
+                'value'=>'JobResumes::model()->getCategory($data->employ_id,"1")',
+                'filter'=>false,
+                'header'=>'Category'
+            ),
+            array(
+                'name'=>'employ_id',
+                'type'=>'raw',
+                'value'=>'JobResumes::model()->getCategory($data->employ_id,"2")',
+                'filter'=>false,
+                'header'=>'SubCategory'
+
+            ),
             array(
             'name'=>'email',
             'type'=>'raw',
