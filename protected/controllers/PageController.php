@@ -743,15 +743,19 @@ class PageController extends Controller {
         if (isset($_POST['JobEmployees']) && $_POST['JobEmployees']) {
 
 
+             $model_tmp = '';
+            
             $model_tmp = JobEmployees::model()->find("email ='" . $_POST['JobEmployees']['email'] . "'");
-            $check_alert = JobAlerts::model()->find("employ_id ='" . $model_tmp['employ_id'] . "'");
-            if ($check_alert) {
+            
+              if(!empty($model_tmp)){
+                    $check_alert = JobAlerts::model()->find("employ_id ='" . $model_tmp['employ_id'] . "'");
+                    if ($check_alert) {
 
-                Yii::app()->user->setFlash('success', "Email address registed");
-                $this->redirect(array('page/index#message-info'));
-            }
-
-
+                        Yii::app()->user->setFlash('success', "Email address registed");
+                        $this->redirect(array('page/index#message-info'));
+                    }
+              }
+ 
             $cat_id = isset($_POST['JobAlerts']["cat_id"]) ? $_POST['JobAlerts']["cat_id"] : 0;
             $sub_cat_id = isset($_POST['JobAlerts']["sub_cat_id"]) ? $_POST['JobAlerts']["sub_cat_id"] : 0;
             $worktype_id = isset($_POST['JobAlerts']["worktype_id"]) ? $_POST['JobAlerts']["worktype_id"] : 0;
@@ -762,7 +766,8 @@ class PageController extends Controller {
             $check = false;
 
             if ($model_tmp) {
-                $employ_id = $model_tmp['employ_id'];
+                    
+                $employ_id = $model_tmp['employ_id']; 
                 $model_update = JobEmployees::model()->findByPk($employ_id);
                 $model_update->employ_id = $employ_id;
                 $model_update->first_name = $_POST['JobEmployees']['first_name'];
@@ -774,14 +779,15 @@ class PageController extends Controller {
                     $this->updateAlert($cat_id, $sub_cat_id, $worktype_id, $location_id, $employ_id, 1);
                 }
             } else {
-
+                      $model = new JobEmployees();
                 $model->first_name = $_POST['JobEmployees']['first_name'];
                 $model->email = $_POST['JobEmployees']['email'];
                 $model->last_name = $_POST['JobEmployees']['last_name'];
-                $model->mobile = 0;
-                $employ_id = $model->employ_id;
+                $model->mobile = 0;               
                 if ($model->save()) {
-                    $check = true;
+                     $check = true;
+                     $employ_id = $model->employ_id;
+                    
                     $this->updateAlert($cat_id, $sub_cat_id, $worktype_id, $location_id, $employ_id, 1);
                 }
             }
