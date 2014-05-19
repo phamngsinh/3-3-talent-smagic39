@@ -242,9 +242,10 @@ class JobEmployeesController extends Controller
 
         $model = new JobEmployees('search_regCv');
         $model->unsetAttributes(); // clear any default values
-        if (isset($_GET['JobEmployees']))
-            $model->attributes = $_GET['JobEmployees'];
+        if (isset($_GET['JobEmployees'])){
 
+            $model->attributes = $_GET['JobEmployees'];
+        }
         $this->render('apply', array(
             'type_view' => 'regcv',
             'type' => 'Register  CVs',

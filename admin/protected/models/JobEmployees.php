@@ -10,6 +10,9 @@
  */
 class JobEmployees extends CActiveRecord {
 
+    public $idcategory;
+    public $idsubcategory;
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -37,7 +40,7 @@ class JobEmployees extends CActiveRecord {
             array('email', 'email'),
             array('mobile,phone', 'length', 'max' => 100),
             array('experience', 'length', 'max' => 500),
-            array('employ_id, first_name, last_name,email,mobile, experience', 'safe', 'on' => 'search'),
+            array('employ_id,idcategory,idsubcategory, first_name, last_name,email,mobile, experience', 'safe', 'on' => 'search'),
         );
     }
 
@@ -59,6 +62,8 @@ class JobEmployees extends CActiveRecord {
      */
     public function attributeLabels() {
         return array(
+            'idcategory'=>'Category',
+            'idsubcategory'=>'SubCategory',
             'employ_id' => 'Employ',
             'cover_note_id' => 'Cover note',
             'resume_id' => 'Resume',
@@ -86,6 +91,7 @@ class JobEmployees extends CActiveRecord {
         $criteria->compare('first_name', $this->first_name, true);
         $criteria->compare('last_name', $this->last_name, true);
         $criteria->compare('email', $this->email, true);
+
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -144,13 +150,23 @@ class JobEmployees extends CActiveRecord {
         $criteria->join = 'LEFT JOIN tbl_job_resumes as JobResumes ON JobResumes.employ_id = JobEmployees.employ_id ';
         if(isset($_GET['JobEmployees']) && $_GET['JobEmployees']['employ_id'] ){
             $criteria->condition = 'JobResumes.type=2 AND JobEmployees.employ_id ='.$_GET['JobEmployees']['employ_id'];
+
         }else{
             $criteria->condition = 'JobResumes.type=2';
         }
         $criteria->compare('first_name', $this->first_name, true);
         $criteria->compare('last_name', $this->last_name, true);
         $criteria->compare('email', $this->email, true);
+        if(isset($_GET['JobEmployees']) && ($_GET['JobEmployees']['idcategory'] || $_GET['JobEmployees']['idsubcategory'])){
 
+            if( $_GET['JobEmployees']['idcategory'] ){
+                $criteria->addCondition('JobResumes.id_category ='.$this->getIdCategory( $_GET['JobEmployees']['idcategory']));
+            }
+            if( $_GET['JobEmployees']['idsubcategory'] ){
+                $criteria->addCondition('JobResumes.id_subcategories ='. $this->getIdCategory( $_GET['JobEmployees']['idsubcategory']));
+            }
+
+        }
         return new CActiveDataProvider('JobEmployees', array(
             'criteria' => $criteria,
             'pagination' => array(
@@ -160,6 +176,10 @@ class JobEmployees extends CActiveRecord {
 
 
     }
-
+    public function getIdCategory($cat_name)
+    {
+        $data_tmp = JobCategories::model()->find("cat_name = '$cat_name'");//return id
+        return $data_tmp['cat_id'];
+    }
 
 }
