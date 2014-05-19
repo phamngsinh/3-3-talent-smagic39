@@ -40,6 +40,14 @@ $this->widget('zii.widgets.CDetailView', array(
         'last_name',
         'email',
         'mobile',
+        array(
+            'name'=>'idcategory',
+            'value'=>JobResumes::model()->getCategory($model->employ_id,"1"),
+        ),
+        array(
+            'name'=>'idsubcategory',
+            'value'=>JobResumes::model()->getCategory($model->employ_id,"2"),
+        ),
         'linkedin_profile',
     ),
 ));
