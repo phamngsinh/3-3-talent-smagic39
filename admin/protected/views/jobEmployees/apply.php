@@ -11,6 +11,7 @@ $('.search-form form').submit(function(){
 	});
 	return false;
 });
+
 ");
 ?>
 
@@ -69,7 +70,7 @@ if($type_view=== 'apply'):
             array(
                 'value' => '$data->employ_id',
                 'type' => 'raw',
-                'name'=>'employ_id'
+                'name'=>'employ_id',
             ),
             'first_name',
             'last_name',
@@ -121,3 +122,4 @@ if($type_view === 'regcv'):
     ));
 endif;
 ?>
+
