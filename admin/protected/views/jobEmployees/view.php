@@ -138,3 +138,35 @@ if($type_view === 'alert'):
         </tbody>
     </table>
 <?php endif; ?>
+
+<?php if ($type_view === 'regcv'):?>
+    <div class="form">
+        <?php echo CHtml::beginForm();?>
+        <?php echo CHtml::errorSummary($model);?>
+        <?php echo  CHtml::activeHiddenField($model, 'email',array('value'=>$model->email,'name'=>'REPLY[email]'));?>
+        <div class="row">
+            <label for="REPLY[content]">Send Emailt</label>
+            <?php
+            $this->widget('application.extensions.tinymce.ETinyMce', array(
+                'name' => 'REPLY[content]',
+                'id' => 'reply-content',
+                'plugins' => array('safari'),
+                'options' => array(
+                    'theme_advanced_toolbar_location' => 'top',
+                    'theme' => 'advanced',
+                    'skin' => 'o2k7',
+                    'theme_advanced_buttons1' => 'bold,italic,underline,formatselect , fontsizeselect,link,justifyfull,justifyleft,justifycenter,justifyright',
+                    'theme_advanced_buttons2' => '',
+                    'theme_advanced_buttons3' => '',
+                    'height' => '100',
+                ),
+
+            ));
+            ?>
+        </div>
+        <div>
+            <?php echo CHtml::submitButton('Send')?>
+        </div>
+        <?php echo CHtml::endForm();?>
+    </div>
+<?php endif;?>

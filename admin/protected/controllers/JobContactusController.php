@@ -61,6 +61,7 @@ class JobContactusController extends Controller {
             $data['old_content'] = $_POST['REPLY']['old_content'];
             $data['email'] = $_POST['REPLY']['email'];
             $this->sendEmailReplyContact($data);
+            Yii::app()->user->setFlash('success','Email has sent');
             $this->redirect(array('admin'));
         }
         $this->render('view', array(

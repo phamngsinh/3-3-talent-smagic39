@@ -52,31 +52,7 @@ class JobEmployeesController extends Controller
      */
     public function actionView($id)
     {
-//        $criteria = new CDbCriteria;
-//        $criteria->alias = 'JobEmployees';
-//        switch ($_GET['type']) {
-//            case 'regcv':
-//                $criteria->select = 'JobEmployees.*,JobResumes.*';
-//                $criteria->join = 'LEFT JOIN tbl_job_resumes as JobResumes ON JobResumes.employ_id = JobEmployees.employ_id ';
-//                $criteria->condition = 'JobResumes.type="2" AND JobEmployees.employ_id=' . $id;
-//                $criteria->together = true;
-//                break;
-//            case 'apply':
-//                $criteria->select = 'JobEmployees.*,JobResumes.*';
-//                $criteria->join = 'LEFT JOIN tbl_job_resumes as JobResumes ON JobResumes.employ_id = JobEmployees.employ_id ';
-//                $criteria->condition = 'JobResumes.type="1" AND JobEmployees.employ_id=' . $id;
-//                break;
-//            case 'alert':
-//                $criteria->join = 'LEFT JOIN  tbl_job_alerts  as JobAlerts ON JobAlerts.employ_id = JobEmployees.employ_id ';
-//                $criteria->condition = 'JobAlerts.type = "1" AND JobEmployees.employ_id=' . $id;
-//                break;
-//            default:
-//                break;
-//        }
-//        $model = JobEmployees::model()->findAll($criteria);
-//        $model = new CActiveDataProvider('JobEmployees', array(
-//            'criteria' => $criteria,
-//        ));
+
         $title_job = '';
         switch ($_GET['type']) {
             case 'regcv':
@@ -119,6 +95,11 @@ class JobEmployeesController extends Controller
             default:
                 break;
         }
+        if (Yii::app()->request->isPostRequest && isset($_POST['REPLY'])) {
+            $this->sendEmailEmployeeCV();
+            Yii::app()->user->setFlash('success','Email has sent');
+            $this->redirect(array('jobEmployees/regCv'));
+        }
 
         $model = $this->loadModel($id);
         $this->render('view', array(
@@ -128,6 +109,22 @@ class JobEmployeesController extends Controller
             'employee' => $employee,
             'covers' => isset($covers) ? $covers : null,
         ));
+    }
+
+    protected function sendEmailEmployeeCV()
+    {
+
+        $from = Ms::model()->findByAttributes(array('var_name' => 'adminEmail'))->value4_text;
+        $message = new YiiMailMessage;
+        $message->view = 'reply-employee';
+        $message->subject = 'Email Reply From 33talent System';
+        $message->setBody(array('content' => $_POST['REPLY']['content'],
+        ), 'text/html');
+        $message->addTo($_POST['REPLY']['email']);
+        $message->from = $from;
+        return Yii::app()->mail->send($message);
+
+
     }
 
     /**

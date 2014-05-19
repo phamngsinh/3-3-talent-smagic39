@@ -15,7 +15,11 @@ $('.search-form form').submit(function(){
 ?>
 
 <h1>Manage <?php echo $type ?></h1>
-
+<?php if(Yii::app()->user->hasFlash('success')):?>
+    <div class="flash-success">
+        <?php echo Yii::app()->user->getFlash('success'); ?>
+    </div>
+<?php endif;?>
 <p>
     You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
     or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
@@ -89,7 +93,11 @@ if($type_view === 'regcv'):
             'employ_id',
             'first_name',
             'last_name',
-            'email',
+            array(
+            'name'=>'email',
+            'type'=>'raw',
+            'value'=> 'CHtml::link("$data->email", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")),array("alt"=>"send email"))',
+            ),
             array(
                 'value' => 'CHtml::link("<img src=\"images/view.png\" alt=\"View\">", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")))',
                 'type' => 'raw',
