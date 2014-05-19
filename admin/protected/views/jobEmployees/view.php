@@ -139,13 +139,13 @@ if($type_view === 'alert'):
     </table>
 <?php endif; ?>
 
-<?php if ($type_view === 'regcv'):?>
+<?php if ($type_view === 'regcv' || $type_view === 'apply'):?>
     <div class="form">
         <?php echo CHtml::beginForm();?>
         <?php echo CHtml::errorSummary($model);?>
         <?php echo  CHtml::activeHiddenField($model, 'email',array('value'=>$model->email,'name'=>'REPLY[email]'));?>
         <div class="row">
-            <label for="REPLY[content]">Send Emailt</label>
+            <label for="REPLY[content]">Send Email</label>
             <?php
             $this->widget('application.extensions.tinymce.ETinyMce', array(
                 'name' => 'REPLY[content]',

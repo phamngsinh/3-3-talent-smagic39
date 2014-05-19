@@ -97,8 +97,8 @@ class JobEmployeesController extends Controller
         }
         if (Yii::app()->request->isPostRequest && isset($_POST['REPLY'])) {
             $this->sendEmailEmployeeCV();
-            Yii::app()->user->setFlash('success','Email has sent');
-            $this->redirect(array('jobEmployees/regCv'));
+            Yii::app()->user->setFlash('success','Email has sent to '.$_POST['REPLY']['email']);
+            $this->redirect(array('jobEmployees/apply'));
         }
 
         $model = $this->loadModel($id);

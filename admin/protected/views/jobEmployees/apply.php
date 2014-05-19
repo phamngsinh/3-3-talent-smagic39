@@ -68,7 +68,11 @@ if($type_view=== 'apply'):
             'employ_id',
             'first_name',
             'last_name',
-            'email',
+            array(
+                'name'=>'email',
+                'type'=>'raw',
+                'value'=> 'CHtml::link("$data->email", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")),array("alt"=>"send email"))',
+            ),
             array(
                 'value' => 'CHtml::link("<img src=\"images/view.png\" alt=\"View\">", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")))',
                 'type' => 'raw',
