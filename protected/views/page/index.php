@@ -1,5 +1,5 @@
 <?php
-$image_banner = Yii::app()->getBaseUrl('/') . '/images/banner.jpg';
+$image_banner = Yii::app()->getBaseUrl('/') . '/images/logo.png';
 $appId = CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBOOK_KEYS'))->value4_text);
 ?>
 
@@ -40,7 +40,7 @@ $appId = CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBO
                         $name = strip_tags($job->title);
                         $caption = strip_tags($job->title);
                         $descriptions = strip_tags($job->descriptions);
-                        $link = urldecode(Yii::app()->createUrl('page/view-'.$job->job_id));
+                        $link =  urldecode(Yii::app()->getBaseUrl('/').'/index.php/page/view-'.$job->job_id);
                         $fblink = $appId.'&display=popup&link=' . $link . '&picture=' . $image_banner . '&caption=' . urldecode($caption) . '&description=' . urldecode($descriptions) . '&redirect_uri=' . urldecode(Yii::app()->getBaseUrl('/'));
                         ?>
                         <input type="hidden" name='' id="descriptions_<?php echo $job->job_id?>" value="<?php echo $descriptions?>"/>
@@ -162,38 +162,6 @@ $appId = CHtml::decode(Ms::model()->findByAttributes(array('var_name' => 'FACEBO
         $('#sub_cat_id').siblings('.loading').remove();
     }
 
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId: '<?php echo $appId?>',
-            status: true, 
-            cookie: true, 
-            oauth : true,
-            xfbml: true
-        });
-        //
-        
-        
-    };
-    function dialogShare(caption,link,descriptions,image){
-         FB.ui({
-            method: 'feed',
-            link: link,
-            picture:image,
-            caption: caption,
-            redirect_uri:link,
-            description: $(descriptions).val()
-        }, function(response) {
-        });   
-    }
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/en_US/all.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+    
 </script>
 

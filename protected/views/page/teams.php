@@ -8,7 +8,7 @@
 
                     <div class="our-team-pic">
                         <?php if (!$team['image_id']) { ?>
-                            <img src="images/no-image.png" width="145" height="145" alt="" class="respimg">
+                            <img src="<?php echo Yii::app()->request->baseUrl.'/'?>images/no-image.png" width="145" height="145" alt="" class="respimg">
                         <?php } else { ?>
                             <img src="<?php echo Yii::app()->request->baseUrl.'/admin/'. $team['uri'] ?>" width="145" height="145" alt="" class="respimg">
                         <?php } ?>
@@ -22,7 +22,7 @@
                             <div class="our-team-social">
                                 <?php if($team['link_twitter']){?> <a  target="_blank" href="<?php echo $team['link_twitter']; ?>" class="twitter"></a><?php }?>
                                 <?php if($team['link_facebook']){?><a  target="_blank" href="<?php echo $team['link_facebook']; ?>" class="linkedin"></a><?php }?>
-                                 <?php if($team['link_email']){?><a href="mailto:<?php echo $team['link_email']; ?>" class="mail"></a><?php }?>
+                                 <?php if($team['link_email']){?><a href="mailto:<?php echo $team['link_email']; ?>" target="_parent" class="mail"></a><?php }?>
                             </div>
                             <div class="clear"></div>
                         </div>

@@ -56,6 +56,13 @@
         <p><?php echo $job->responsibilities; ?></p>
     </div>
     <?php endif; ?>
+      <?php if($job->incentives): ?>
+   
+    <div  class="style-tinymce">
+        <strong>Bonus and Compensation:</strong><br/>
+        <p><?php echo $job->incentives; ?></p>
+    </div>
+    <?php endif; ?>
     <?php if($job->special_commitments): ?>
         <strong>Any special commitments associated:</strong>
     <div class="style-tinymce">
@@ -71,3 +78,4 @@
 <div class="job-buttons"><a href="<?php echo Yii::app()->createUrl('page/index'); ?>">Back to list jobs</a>
 <?php echo CHtml::link('Apply Now',array('page/register','job'=>$job->job_id)); ?>
 </div>
+
