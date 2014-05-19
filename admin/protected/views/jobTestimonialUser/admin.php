@@ -47,7 +47,11 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'testimonial_user_id',
 		'fullname',
 		'email',
-		'content',
+		array(
+            'name'=>'content',
+            'type'=>'raw',
+            'value'=>'substr($data->content,0,50)'
+            ),
                 array(
                     'name'=>'approved',
                     'type'=>'raw',
