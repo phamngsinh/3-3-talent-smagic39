@@ -11,6 +11,10 @@
 	'method'=>'get',
 )); ?>
 
+	<div class="row">
+		<?php echo $form->label($model,'employ_id'); ?>
+		<?php echo $form->textField($model,'employ_id'); ?>
+	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'first_name'); ?>
