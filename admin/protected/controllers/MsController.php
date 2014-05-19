@@ -38,7 +38,8 @@ class MsController extends Controller {
             'TWITTER_MESSAGE_GLOBAL' . @$_REQUEST['twitter_msg_id'] => array("value4_text" => "[APP_DETAILS]"),
             'TWITTER_MESSAGE_SINGLE_ENTRY' . @$_REQUEST['twitter_msg_id'] => array("value4_text" => "[APP_DETAILS]"),
             /////////////
-            'APP_DETAILS' => array("value4_text" => "Application title here", "value5_text" => "Application details here"),
+            'APP_DETAILS' => array("value4_text" => "Application title here", "value5_text" => "Application details here",'value1'=>'621206881248355'),
+
             'FACEBOOK_KEYS' => array("value4_text" => "Enter facebook api id here", "value5_text" => "Enter facebook secret key here", "value1" => "demo_app", "value2" => "publish_stream, email, user_photos, user_birthday"),
             'FACEBOOK_URLS' => array("value4_text" => "Enter facebook tab url here", "value5_text" => "Enter facebook canvas url here"),
             'adminEmail' => array('value4_text' => 'shahid@rocketunder.com'),
@@ -77,9 +78,9 @@ class MsController extends Controller {
 
         
         //add new records if not found, update if found while taking data from the form post.
+
         foreach ($msValus as $name => $val) {
             $ms = Ms::model()->findByAttributes(array('var_name' => '' . $name . ''));
-
             if (!$ms) {
                 $ms = new MS;
                 $ms->var_name = $name;
