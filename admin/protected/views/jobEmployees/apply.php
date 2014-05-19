@@ -47,8 +47,7 @@ if($type_view=== 'alert'):
             array(
                 'value' => 'CHtml::link("<img src=\"images/view.png\" alt=\"View\">", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")))',
                 'type' => 'raw',
-            )
-        ,
+            ),
             array(
                 'class' => 'CButtonColumn',
                 'template' => '{update}{delete}'
@@ -59,13 +58,19 @@ if($type_view=== 'alert'):
 endif;
 
 
+
+
 if($type_view=== 'apply'):
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'job-employees-grid',
         'filter'=> $model,
         'dataProvider'=> $model->search_apply(),
         'columns' => array(
-            'employ_id',
+            array(
+                'value' => '$data->employ_id',
+                'type' => 'raw',
+                'name'=>'employ_id'
+            ),
             'first_name',
             'last_name',
             array(

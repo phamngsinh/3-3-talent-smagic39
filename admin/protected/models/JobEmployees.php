@@ -94,15 +94,18 @@ class JobEmployees extends CActiveRecord {
     public function search_apply() {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
-
         $criteria = new CDbCriteria;
         $criteria->alias = 'JobEmployees';
         $criteria->join = 'LEFT JOIN tbl_job_resumes as JobResumes ON JobResumes.employ_id = JobEmployees.employ_id ';
-        $criteria->condition = 'JobResumes.type=1';
-        $criteria->compare('employ_id', $this->employ_id);
+
         $criteria->compare('first_name', $this->first_name, true);
         $criteria->compare('last_name', $this->last_name, true);
         $criteria->compare('email', $this->email, true);
+        if(isset($_GET['JobEmployees']) && $_GET['JobEmployees']['employ_id'] ){
+            $criteria->condition = 'JobResumes.type=1 AND JobEmployees.employ_id ='.$_GET['JobEmployees']['employ_id'];
+        }else{
+            $criteria->condition = 'JobResumes.type=1';
+        }
 
         return new CActiveDataProvider('JobEmployees', array(
             'criteria' => $criteria,
@@ -117,8 +120,12 @@ class JobEmployees extends CActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->alias = 'JobEmployees';
         $criteria->join = 'LEFT JOIN  tbl_job_alerts  as JobAlerts ON JobAlerts.employ_id = JobEmployees.employ_id ';
-        $criteria->condition = 'JobAlerts.type=1';
-        $criteria->compare('employ_id', $this->employ_id);
+        if(isset($_GET['JobEmployees']) && $_GET['JobEmployees']['employ_id'] ){
+            $criteria->condition = 'JobAlerts.type=1 AND JobEmployees.employ_id ='.$_GET['JobEmployees']['employ_id'];
+        }else{
+            $criteria->condition = 'JobAlerts.type=1';
+        }
+
         $criteria->compare('first_name', $this->first_name, true);
         $criteria->compare('last_name', $this->last_name, true);
         $criteria->compare('email', $this->email, true);
@@ -137,8 +144,11 @@ class JobEmployees extends CActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->alias = 'JobEmployees';
         $criteria->join = 'LEFT JOIN tbl_job_resumes as JobResumes ON JobResumes.employ_id = JobEmployees.employ_id ';
-        $criteria->condition = 'JobResumes.type=2';
-        $criteria->compare('employ_id', $this->employ_id);
+        if(isset($_GET['JobEmployees']) && $_GET['JobEmployees']['employ_id'] ){
+            $criteria->condition = 'JobResumes.type=2 AND JobEmployees.employ_id ='.$_GET['JobEmployees']['employ_id'];
+        }else{
+            $criteria->condition = 'JobResumes.type=21';
+        }
         $criteria->compare('first_name', $this->first_name, true);
         $criteria->compare('last_name', $this->last_name, true);
         $criteria->compare('email', $this->email, true);
