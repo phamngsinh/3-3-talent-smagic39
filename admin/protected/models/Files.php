@@ -99,5 +99,13 @@ class Files extends CActiveRecord {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
+     public static function getUrl($id) {
+         
+         $criteria = new CDbCriteria;
+         $criteria->select = 'uri';
+         $criteria->condition = 'file_id='.$id;
+         $data = Files::model()->find($criteria);
+         return $data['uri'];
+    }
 
 }
