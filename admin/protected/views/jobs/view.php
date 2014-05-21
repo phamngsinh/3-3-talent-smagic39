@@ -17,10 +17,9 @@ $config = array(
     'fileUpload' => true
 );
 $config_new = array(
-    'appId' => $config['appId'],
-    'scope' => 'manage_page,user_photos,photos,publish_stream',
-    'secret' => $config['secret'],
-    'scope' => 'manage_page,user_photos,photos,publish_stream',
+    'appId' =>'707092476020541',   
+    'secret' => '3848cf6fe5e1bd455fdf89d1f6023300',
+    'scope' => 'manage_pages,status_update,publish_actions',
     'fileUpload' => true,
     'allowSignedRequest' => true,
 );
@@ -36,42 +35,97 @@ $facebook = new Facebook($config_new);
 $user_id = $facebook->getUser();
 $logout_url = '';
 $login_url = '';
-$share_link = $facebook->getLoginUrl(array('scope' => 'publish_actions'));
+$share_link = $facebook->getLoginUrl(array('scope' => 'manage_pages,status_update,publish_actions'));
 $status = 'false';
 $fb_tmp = '';
+$page = Ms::model()->findByAttributes(array('var_name' => 'APP_DETAILS'))->value1;
+
+$fb_page = $page ? explode(';',$page) : null;
+
 if ($user_id) {
-    $fb_page = $facebook->api('/me/accounts');
+    
+    $pageAccount=$facebook->api('/me?fields=accounts');
+     $mLikes = $pageAccount['accounts']['data'];
 
-    if (!empty($fb_page)) {
-        $fb_tmp = '<select name="list_page" id="page_export">';
+    $fb_tmp = '<select name="list_page" id="page_export">';
+   $fb_tmp.='<option value="">Select Page</option>';
+     
+    if (!empty($mLikes)) {
 
-        foreach ($fb_page['data'] as $key) {
+        foreach ($mLikes as $key) {
+           // $response = $facebook->api('/'.$key.'/');
             $fb_tmp.='<option value="' . $key['id'] . '">' . $key['name'] . '</option>';
+           
         }
-        if (empty($fb_page['data']))
-            $fb_tmp .='<option value="">me</option>';
-        $fb_tmp .='</select>';
+
+    }else{
+
+        $fb_tmp .='<option value="">me</option>';
     }
+    $fb_tmp .='</select>';
+    
+   
     $url = explode('admin', Yii::app()->getBaseUrl(true));
     //$share_link = 'https://www.facebook.com/sharer/sharer.php?u=' . $url[0] . 'index.php?r=page/view&id=' . $model->job_id;
     $status = 'true';
+  
     if (isset($_POST['status']) && mysql_escape_string($_POST['status'] == 'true')) {
+       
+       
+       
         if (!empty($_POST['page_id'])) {
-            $page_info = $facebook->api("/" . $_POST['page_id'] . "?fields=access_token");
-            $facebook->setAccessToken($page_info['access_token']);
-        } else {
-            $_POST['page_id'] = 'me';
-        }
-
-        $ret_obj = $facebook->api('/' . $_POST['page_id'] . '/feed', 'POST', array(
-            'link' => urldecode($url[0] . 'index.php?r=page/view&id=' . $model->job_id),
-            'message' => $model->title,
-            'name' => $model->title,
-            'description' => strip_tags($model->descriptions),
-            'picture' => $url[0] . '/images/banner.jpg'
-        ));
-        echo 'done';
+            
+          
+            try {
+            $params = $facebook->getAccessToken();
+            $params = array('access_token' => $params);                
+            
+           // $page_info = $facebook->api("/" . $_POST['page_id'] . "?fields=access_token");
+            
+            
+            $accounts = $facebook->api('/me/accounts', 'GET', $params);  
+            
+            foreach($accounts['data'] as $account) {
+                    if( $account['id'] == $_POST['page_id'] || $account['name'] == $_POST['page_id'] ){
+                            $fanpage_token = $account['access_token'];
+                    }
+            }         
+           
+            $facebook->setAccessToken($fanpage_token);
+        
+          
+            $response = $facebook->api(
+                "/".$_POST['page_id']."/feed",
+                "POST",
+                array (
+                     'link' => urldecode($url[0] . 'index.php?r=page/view&id=' . $model->job_id),
+                     'message' => $model->title,
+                     'name' => $model->title,
+                     'description' => strip_tags($model->descriptions),
+                     'access_token' => $fanpage_token
+                )
+            );
+             echo 'done';
+           // print_r($response);
+            } catch(FacebookApiException $e) {
+        // If the user is logged out, you can have a 
+        // user ID even though the access token is invalid.
+        // In this case, we'll get an exception, so we'll
+        // just ask the user to login again here.
+        //print_r($e->getType());
+        //print_r($e->getMessage());
+                echo 'no';
+      }   
+//        $ret_obj = $facebook->api('/' . $_POST['page_id'] . '/feed', 'POST', array(
+//            'link' => urldecode($url[0] . 'index.php?r=page/view&id=' . $model->job_id),
+//            'message' => $model->title,
+//            'name' => $model->title,
+//            'description' => strip_tags($model->descriptions),
+//            'picture' => $url[0] . '/images/banner.jpg'
+//        ));
+       
         die;
+        } 
     }
     $share_link = '#';
 }
@@ -144,7 +198,7 @@ $this->widget('zii.widgets.CDetailView', array(
         array(
             'name' => 'education_requirements',
             'type' => 'raw',
-            'value' => nl2br($model->education_requirements),
+            'value' =>nl2br($model->education_requirements),
         ),
         'base_salary',
         'date_posted',
@@ -156,7 +210,7 @@ $this->widget('zii.widgets.CDetailView', array(
         array(
             'name' => 'responsibilities',
             'type' => 'raw',
-            'value' =>nl2br($model->responsibilities),
+            'value' => nl2br($model->responsibilities),
         ),
         array(
             'name' => 'special_commitments',
@@ -206,13 +260,30 @@ $this->widget('zii.widgets.CDetailView', array(
         $('#share-facebook').after('<span class="loadding" style="margin-left:20px;"></span>');
         $('#share-facebook').click(function() {
             page_id = $('#page_export').val();
-            $('#share-facebook').siblings('.loadding').html('Loading...');
-            $.post(location.href, {status: status, page_id: page_id}, function(data) {
-                if (data == 'done') {
-                    $('#share-facebook').siblings('.loadding').html('done');
-                }
-            });
+            if(page_id != '')
+           {
+                    $('#share-facebook').siblings('.loadding').html('Loading...');
+                    if(confirm("Are You Want Share Job On Facebook Page!") == true)
+                    {
+                        $.post(location.href, {status: status, page_id: page_id}, function(data) {                            
+                            if (data == 'done') {
+                                
+                                $('#share-facebook').siblings('.loadding').html('done');
+                            }
+                            if(data == 'no')
+                                {
+                                     $('#share-facebook').siblings('.loadding').html('Try Again.');
+                                }
+                        });
+                        
+                    }
+           }else
+               {
+                    alert('Please Select Page.');
+               }
         });
 
     });
+    
+   
 </script>
