@@ -39,25 +39,19 @@ $login_url = '';
 $share_link = $facebook->getLoginUrl(array('scope' => 'publish_actions'));
 $status = 'false';
 $fb_tmp = '';
-$page = Ms::model()->findByAttributes(array('var_name' => 'APP_DETAILS'))->value1;
-
-$fb_page = $page ? explode(';',$page) : null;
 if ($user_id) {
-    $fb_tmp = '<select name="list_page" id="page_export">';
+    $fb_page = $facebook->api('/me/accounts');
 
     if (!empty($fb_page)) {
+        $fb_tmp = '<select name="list_page" id="page_export">';
 
-        foreach ($fb_page as $key) {
-            $response = $facebook->api('/'.$key.'/');
-            $fb_tmp.='<option value="' . $key . '">' . $response['name'] . '</option>';
+        foreach ($fb_page['data'] as $key) {
+            $fb_tmp.='<option value="' . $key['id'] . '">' . $key['name'] . '</option>';
         }
-
-    }else{
-
-        $fb_tmp .='<option value="">me</option>';
+        if (empty($fb_page['data']))
+            $fb_tmp .='<option value="">me</option>';
+        $fb_tmp .='</select>';
     }
-    $fb_tmp .='</select>';
-
     $url = explode('admin', Yii::app()->getBaseUrl(true));
     //$share_link = 'https://www.facebook.com/sharer/sharer.php?u=' . $url[0] . 'index.php?r=page/view&id=' . $model->job_id;
     $status = 'true';
