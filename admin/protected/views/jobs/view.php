@@ -129,39 +129,39 @@ $this->widget('zii.widgets.CDetailView', array(
         array(
             'name' => 'descriptions',
             'type' => 'raw',
-            'value' => $model->descriptions,
+            'value' => nl2br($model->descriptions),
         ),
         array(
             'name' => 'benefits',
             'type' => 'raw',
-            'value' =>$model->benefits,
+            'value' =>nl2br($model->benefits),
         ),
         array(
             'name' => 'experience_requirements',
             'type' => 'raw',
-            'value' =>$model->experience_requirements,
+            'value' =>nl2br($model->experience_requirements),
         ),
         array(
             'name' => 'education_requirements',
             'type' => 'raw',
-            'value' => $model->education_requirements,
+            'value' => nl2br($model->education_requirements),
         ),
         'base_salary',
         'date_posted',
         array(
             'name' => 'incentives',
             'type' => 'raw',
-            'value' =>$model->incentives,
+            'value' =>nl2br($model->incentives),
         ),
         array(
             'name' => 'responsibilities',
             'type' => 'raw',
-            'value' => $model->responsibilities,
+            'value' =>nl2br($model->responsibilities),
         ),
         array(
             'name' => 'special_commitments',
             'type' => 'raw',
-            'value' => $model->special_commitments,
+            'value' => nl2br($model->special_commitments),
         ),
     ),
 ));
