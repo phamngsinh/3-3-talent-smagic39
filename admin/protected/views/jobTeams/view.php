@@ -21,16 +21,26 @@ $this->menu=array(
     <a class="button grey small_btn" href="<?php echo Yii::app()->request->getUrlReferrer()?>">Back</a>
 </div>
 <br/>
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php 
+echo Yii::app()->baseUrl;
+$this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'teams_id',
 		'name',
 		'positions',
-		'descriptions',
+		array(
+                    'name'=>'descriptions',
+                    'type'=>'raw',
+                    'value'=>  nl2br($model->descriptions)
+                ),
 		'link_twitter',
 		'link_facebook',
 		'link_email',
-		'image_id',
+		array(
+                    'name'=>'image_id',
+                    'type'=>'raw',
+                    'value'=>  '<img width ="64" height="64" src="'.Files::model()->getUrl($model->image_id).'"/>'
+                )
 	),
 )); ?>
