@@ -46,6 +46,16 @@ if($type_view=== 'alert'):
             'last_name',
             'email',
             array(
+                'name'=>'idcategory',
+                'type'=>'raw',
+                'value'=>'JobResumes::model()->getCategory($data->employ_id,"1",3)',
+            ),
+            array(
+                'type'=>'raw',
+                'value'=>'JobResumes::model()->getCategory($data->employ_id,"2",3)',
+                'name'=>'idsubcategory'
+            ),
+            array(
                 'value' => 'CHtml::link("<img src=\"images/view.png\" alt=\"View\">", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")))',
                 'type' => 'raw',
             ),
@@ -74,6 +84,12 @@ if($type_view=== 'apply'):
             ),
             'first_name',
             'last_name',
+            array(
+                'name'=>'job_title',
+                'type'=>'raw',
+                'value'=>'JobEmployees::model()->getJobTitleByEmployee($data->employ_id)'
+
+            ),
             array(
                 'name'=>'email',
                 'type'=>'raw',
@@ -105,11 +121,11 @@ if($type_view === 'regcv'):
             array(
                 'name'=>'idcategory',
                 'type'=>'raw',
-                'value'=>'JobResumes::model()->getCategory($data->employ_id,"1")',
+                'value'=>'JobResumes::model()->getCategory($data->employ_id,"1",2)',
             ),
             array(
                 'type'=>'raw',
-                'value'=>'JobResumes::model()->getCategory($data->employ_id,"2")',
+                'value'=>'JobResumes::model()->getCategory($data->employ_id,"2",2)',
                 'name'=>'idsubcategory'
             ),
             array(
