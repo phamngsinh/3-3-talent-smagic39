@@ -27,14 +27,6 @@ $this->widget('zii.widgets.CDetailView', array(
     'attributes' => array(
         'job_location_id',
         'address',
-        'zip',
-        'country',
-        'city',
-        'fax_number',
-        'geo',
-        'map',
-        'opening_hours_specification',
-        'telephone',
         array(
             'label'=>'Update',
             'type'=>'raw',
