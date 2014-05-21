@@ -12,123 +12,121 @@
  * @property string $opening_hours_specification
  * @property string $telephone
  */
-class JobLocation extends CActiveRecord
-{
-         public static function getLocation($id) {
-            $location = JobLocation::model()->findByPk($id);
-            $location = $location->city ? $location->city : $location->address;
-            return $location;
-        }
+class JobLocation extends CActiveRecord {
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return JobLocation the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    public static function getLocation($id) {
+        $location = JobLocation::model()->findByPk($id);
+        $location = $location->address;
+        return $location;
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'tbl_job_location';
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return JobLocation the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('address, telephone', 'required'),
-			array('address, fax_number, geo, map,zip,country,city, opening_hours_specification, telephone', 'length', 'max'=>255),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('job_location_id, address, fax_number, geo, map, opening_hours_specification, telephone', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName() {
+        return 'tbl_job_location';
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('address', 'required'),
+            array('address','length', 'max' => 255),
+//            array('address, fax_number, geo, map,zip,country,city, opening_hours_specification, telephone', 'length', 'max' => 255),
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            array('job_location_id, address', 'safe', 'on' => 'search'),
+//                        array('job_location_id, address, fax_number, geo, map, opening_hours_specification, telephone', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'job_location_id' => 'Job Location',
-			'address' => 'Physical address of the item.',
-                        'city'=>'City',
-                        'zip'=>'Zip Code',
-                        'country'=>'Country',
-			'fax_number' => 'The fax number.',
-			'geo' => 'The geo coordinates of the place.',
-			'map' => 'A URL to a map of the place. Supercedes maps.',
-			'opening_hours_specification' => 'Opening Hours Specification',
-			'telephone' => 'Telephone',
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'job_location_id' => 'Job Location',
+            'address' => 'City',
+//                        'city'=>'City',
+//                        'zip'=>'Zip Code',
+//                        'country'=>'Country',
+//			'fax_number' => 'The fax number.',
+//			'geo' => 'The geo coordinates of the place.',
+//			'map' => 'A URL to a map of the place. Supercedes maps.',
+//			'opening_hours_specification' => 'Opening Hours Specification',
+//			'telephone' => 'Telephone',
+        );
+    }
 
-		$criteria=new CDbCriteria;
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search() {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria->compare('job_location_id',$this->job_location_id);
-		$criteria->compare('address',$this->address,true);
-		$criteria->compare('fax_number',$this->fax_number,true);
-		$criteria->compare('geo',$this->geo,true);
-		$criteria->compare('map',$this->map,true);
-		$criteria->compare('opening_hours_specification',$this->opening_hours_specification,true);
-		$criteria->compare('telephone',$this->telephone,true);
+        $criteria = new CDbCriteria;
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
-    public function  getListNameOfUser($id){
-        $data_tmp =  JobAlerts::model()->find('employ_id ='.$id);
-        $list_tmp = explode('|',$data_tmp['job_location_id']);
-        $list = implode(',',$list_tmp);
+        $criteria->compare('job_location_id', $this->job_location_id);
+        $criteria->compare('address', $this->address, true);
+//		$criteria->compare('fax_number',$this->fax_number,true);
+//		$criteria->compare('geo',$this->geo,true);
+//		$criteria->compare('map',$this->map,true);
+//		$criteria->compare('opening_hours_specification',$this->opening_hours_specification,true);
+//		$criteria->compare('telephone',$this->telephone,true);
 
-        $criteria  = new CDbCriteria();
-        $criteria->select  = 'address';
-        $criteria->condition = 'job_location_id in ('.$list.')';
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
+    public function getListNameOfUser($id) {
+        $data_tmp = JobAlerts::model()->find('employ_id =' . $id);
+        $list_tmp = explode('|', $data_tmp['job_location_id']);
+        $list = implode(',', $list_tmp);
+
+        $criteria = new CDbCriteria();
+        $criteria->select = 'address';
+        $criteria->condition = 'job_location_id in (' . $list . ')';
 
         $data = JobLocation::model()->findAll($criteria);
         $list_data = '';
-        foreach($data as  $key){
-            $list_data .= $key['address'].',';
+        foreach ($data as $key) {
+            $list_data .= $key['address'] . ',';
         }
         return $list_data;
     }
+
 }

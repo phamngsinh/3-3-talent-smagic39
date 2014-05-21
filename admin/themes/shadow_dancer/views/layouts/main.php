@@ -85,10 +85,7 @@
                                         array('label' => 'Create Job Type', 'url' => array('/JobWorktype/create')),
                                         array('label' => 'Manage Job Type', 'url' => array('/JobWorktype/admin')),
                                     )),
-                                array('label' => 'Job Location', 'url' => '#', 'items' => array(
-                                        array('label' => 'Create Job Location', 'url' => array('/JobLocation/create')),
-                                        array('label' => 'Manage Job Location', 'url' => array('/JobLocation/admin')),
-                                    )),
+                                array('label' => 'Job Location', 'url' => array('/JobLocation/admin')),
                             ),
                         ),
                         // CMS

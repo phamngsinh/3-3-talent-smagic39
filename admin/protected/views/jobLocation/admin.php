@@ -27,7 +27,35 @@ $('.search-form form').submit(function(){
 ?>
 
 <h1>Manage Job Locations</h1>
+<div class="form">
 
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'job-location-form',
+        'action'=> CHtml::normalizeUrl(array('JobLocation/create')),
+	// Please note: When you enable ajax validation, make sure the corresponding
+	// controller action is handling ajax validation correctly.
+	// There is a call to performAjaxValidation() commented in generated controller code.
+	// See class documentation of CActiveForm for details on this.
+	'enableAjaxValidation'=>false,
+)); ?>
+
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
+
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'address'); ?>
+		<?php echo $form->textField($model,'address',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'address'); ?>
+	</div>
+     
+
+	<div class="row buttons">
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+
+</div><!-- form -->
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
 or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
@@ -47,13 +75,6 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 		'job_location_id',
 		'address',
-		'fax_number',
-		'city',
-		'map',
-		'opening_hours_specification',
-		/*
-		'telephone',
-		*/
 		array(
 			'class'=>'CButtonColumn',
 		),
