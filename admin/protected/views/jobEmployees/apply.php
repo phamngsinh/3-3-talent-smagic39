@@ -1,5 +1,4 @@
 <?php
-
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
@@ -16,44 +15,44 @@ $('.search-form form').submit(function(){
 ?>
 
 <h1>Manage <?php echo $type ?></h1>
-<?php if(Yii::app()->user->hasFlash('success')):?>
+<?php if (Yii::app()->user->hasFlash('success')): ?>
     <div class="flash-success">
         <?php echo Yii::app()->user->getFlash('success'); ?>
     </div>
-<?php endif;?>
+<?php endif; ?>
 <p>
     You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
     or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
 </p>
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
+<?php echo CHtml::link('Advanced Search', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
-    <?php $this->renderPartial('_search',array(
-        'model'=>$model,
-    )); ?>
+    <?php
+    $this->renderPartial('_search', array(
+        'model' => $model,
+    ));
+    ?>
 </div><!-- search-form -->
 <?php
-
-
-if($type_view=== 'alert'):
+if ($type_view === 'alert'):
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'job-employees-grid',
-        'filter'=> $model,
-        'dataProvider'=> $model->search_alert(),
+        'filter' => $model,
+        'dataProvider' => $model->search_alert(),
         'columns' => array(
             'employ_id',
             'first_name',
             'last_name',
             'email',
             array(
-                'name'=>'idcategory',
-                'type'=>'raw',
-                'value'=>'JobResumes::model()->getCategory($data->employ_id,"1",3)',
+                'name' => 'idcategory',
+                'type' => 'raw',
+                'value' => 'JobAlerts::model()->getCategory($data->employ_id,"1",1)',
             ),
             array(
-                'type'=>'raw',
-                'value'=>'JobResumes::model()->getCategory($data->employ_id,"2",3)',
-                'name'=>'idsubcategory'
+                'type' => 'raw',
+                'value' => 'JobAlerts::model()->getCategory($data->employ_id,"2",1)',
+                'name' => 'idsubcategory'
             ),
             array(
                 'value' => 'CHtml::link("<img src=\"images/view.png\" alt=\"View\">", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")))',
@@ -71,35 +70,34 @@ endif;
 
 
 
-if($type_view=== 'apply'):
+if ($type_view === 'apply'):
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'job-employees-grid',
-        'filter'=> $model,
-        'dataProvider'=> $model->search_apply(),
+        'filter' => $model,
+        'dataProvider' => $model->search_apply(),
         'columns' => array(
             array(
                 'value' => '$data->employ_id',
                 'type' => 'raw',
-                'name'=>'employ_id',
+                'name' => 'employ_id',
             ),
             'first_name',
             'last_name',
             array(
-                'name'=>'job_title',
-                'type'=>'raw',
-                'value'=>'JobEmployees::model()->getJobTitleByEmployee($data->employ_id)'
-
+                'name' => 'job_title',
+                'type' => 'raw',
+                'value' => 'JobEmployees::model()->getJobTitleByEmployee($data->employ_id)'
             ),
             array(
-                'name'=>'email',
-                'type'=>'raw',
-                'value'=> 'CHtml::link("$data->email", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")),array("alt"=>"send email"))',
+                'name' => 'email',
+                'type' => 'raw',
+                'value' => 'CHtml::link("$data->email", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")),array("alt"=>"send email"))',
             ),
             array(
                 'value' => 'CHtml::link("<img src=\"images/view.png\" alt=\"View\">", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")))',
                 'type' => 'raw',
             )
-        ,
+            ,
             array(
                 'class' => 'CButtonColumn',
                 'template' => '{update}{delete}'
@@ -109,35 +107,35 @@ if($type_view=== 'apply'):
     ));
 endif;
 
-if($type_view === 'regcv'):
+if ($type_view === 'regcv'):
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'job-employees-grid',
-        'filter'=> $model,
-        'dataProvider'=> $model->search_regCv(),
+        'filter' => $model,
+        'dataProvider' => $model->search_regCv(),
         'columns' => array(
             'employ_id',
             'first_name',
             'last_name',
             array(
-                'name'=>'idcategory',
-                'type'=>'raw',
-                'value'=>'JobResumes::model()->getCategory($data->employ_id,"1",2)',
+                'name' => 'idcategory',
+                'type' => 'raw',
+                'value' => 'JobResumes::model()->getCategory($data->employ_id,"1",2)',
             ),
             array(
-                'type'=>'raw',
-                'value'=>'JobResumes::model()->getCategory($data->employ_id,"2",2)',
-                'name'=>'idsubcategory'
+                'type' => 'raw',
+                'value' => 'JobResumes::model()->getCategory($data->employ_id,"2",2)',
+                'name' => 'idsubcategory'
             ),
             array(
-            'name'=>'email',
-            'type'=>'raw',
-            'value'=> 'CHtml::link("$data->email", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")),array("alt"=>"send email"))',
+                'name' => 'email',
+                'type' => 'raw',
+                'value' => 'CHtml::link("$data->email", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")),array("alt"=>"send email"))',
             ),
             array(
                 'value' => 'CHtml::link("<img src=\"images/view.png\" alt=\"View\">", Yii::app()->createUrl("jobEmployees/view&id=$data->primaryKey",array("type"=>"' . $type_view . '")))',
                 'type' => 'raw',
             )
-        ,
+            ,
             array(
                 'class' => 'CButtonColumn',
                 'template' => '{delete}'

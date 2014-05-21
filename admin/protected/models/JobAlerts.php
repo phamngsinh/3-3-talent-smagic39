@@ -27,8 +27,8 @@ class JobAlerts extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('employ_id, type', 'numerical', 'integerOnly' => true),
-            array('cat_id', 'length', 'max' => 100),
+            array('employ_id, type,id_category,	id_subcategories', 'numerical', 'integerOnly' => true),
+//            array('cat_id', 'length', 'max' => 100),
             array('job_location_id', 'length', 'max' => 100),
             array('worktype_id', 'length', 'max' => 100),
             // The following rule is used by search().
@@ -54,7 +54,9 @@ class JobAlerts extends CActiveRecord {
         return array(
             'alert_id' => 'Alert',
             'employ_id' => 'Employ',
-            'cat_id' => 'Cat',
+//            'cat_id' => 'Cat',
+            'id_category' => 'Category',
+            'id_subcategories' => 'Sub Category',
             'job_location_id' => 'Job Location',
             'worktype_id' => 'Worktype',
             'type' => 'Type',
@@ -80,7 +82,9 @@ class JobAlerts extends CActiveRecord {
 
         $criteria->compare('alert_id', $this->alert_id);
         $criteria->compare('employ_id', $this->employ_id);
-        $criteria->compare('cat_id', $this->cat_id, true);
+//        $criteria->compare('cat_id', $this->cat_id, true);
+        $criteria->compare('id_category', $this->id_category);
+        $criteria->compare('id_subcategories', $this->id_subcategories);
         $criteria->compare('job_location_id', $this->job_location_id);
         $criteria->compare('worktype_id', $this->worktype_id);
         $criteria->compare('type', $this->type);
@@ -98,6 +102,14 @@ class JobAlerts extends CActiveRecord {
      */
     public static function model($className = __CLASS__) {
         return parent::model($className);
+    }
+
+    public function getCategory($employ_id, $type_cat, $type = 1) {
+
+        $data_tmp = JobAlerts::model()->find('employ_id=:employ_id AND type=:type', array(':employ_id' => $employ_id, ':type' => $type));
+        $cat_id = ($type_cat == 1) ? $data_tmp['id_category'] : $data_tmp['id_subcategories'];
+        $data = JobCategories::model()->findByPk($cat_id);
+        return $data['cat_name'] ? $data['cat_name'] : 'Null';
     }
 
 }

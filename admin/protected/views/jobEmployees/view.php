@@ -79,10 +79,16 @@ if($type_view === 'alert'):
                 'last_name',
                 'email',
                 array(
-                    'name'=>'email',
-                    'label'=>'Category',
+                    'name'=>'id_category',
                     'type'=>'raw',
-                    'value'=>JobCategories::model()->getListNameOfUser($model->employ_id)
+                    'label'=>'Category',
+                    'value'=>JobAlerts::model()->getCategory($model->employ_id,"1",1)
+                ),
+                array(
+                    'name'=>'id_subcategories',
+                    'type'=>'raw',
+                    'label'=>'Sub Category',
+                    'value'=>JobAlerts::model()->getCategory($model->employ_id,"2",1)
                 ),
                 array(
                     'name'=>'email',

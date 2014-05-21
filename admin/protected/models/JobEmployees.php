@@ -166,6 +166,16 @@ class JobEmployees extends CActiveRecord {
         } else {
             $criteria->condition = 'JobAlerts.type=1';
         }
+        
+           if (isset($_GET['JobEmployees']) && ($_GET['JobEmployees']['idcategory'] || $_GET['JobEmployees']['idsubcategory'])) {
+
+            if ($_GET['JobEmployees']['idcategory']) {
+                $criteria->addCondition('JobAlerts.id_category =' . $this->getIdCategory($_GET['JobEmployees']['idcategory']));
+            }
+            if ($_GET['JobEmployees']['idsubcategory']) {
+                $criteria->addCondition('JobAlerts.id_subcategories =' . $this->getIdCategory($_GET['JobEmployees']['idsubcategory']));
+            }
+        }
 
         $criteria->compare('first_name', $this->first_name, true);
         $criteria->compare('last_name', $this->last_name, true);

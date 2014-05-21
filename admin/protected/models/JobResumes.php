@@ -111,9 +111,9 @@ class JobResumes extends CActiveRecord {
         $data= JobResumes::model()->findAll($criteria);
         return $data ? $data[0]['lastest'] :'';
     }
-    public static  function getCategory($employ_id,$type_cat){
+    public static  function getCategory($employ_id,$type_cat,$type=2){
 
-        $data_tmp = JobResumes::model()->find('employ_id=:employ_id AND type=:type',array(':employ_id'=>$employ_id,':type'=>2));
+        $data_tmp = JobResumes::model()->find('employ_id=:employ_id AND type=:type',array(':employ_id'=>$employ_id,':type'=>$type));
         $cat_id = ($type_cat==1) ? $data_tmp['id_category']: $data_tmp['id_subcategories'] ;
         $data = JobCategories::model()->findByPk($cat_id);
         return $data['cat_name'] ? $data['cat_name'] : 'Null' ;
