@@ -183,12 +183,12 @@ $this->widget('zii.widgets.CDetailView', array(
         array(
             'name' => 'descriptions',
             'type' => 'raw',
-            'value' => $model->descriptions,
+            'value' => '<div class="job-list">'.$model->descriptions.'<div>',
         ),
         array(
             'name' => 'benefits',
             'type' => 'raw',
-            'value' =>$model->benefits,
+            'value' =>'<div class="job-list">'.$model->benefits.'<div>',
         ),
         array(
             'name' => 'experience_requirements',

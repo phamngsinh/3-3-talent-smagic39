@@ -1,0 +1,32 @@
+/* 
+    Document   : style
+    Created on : May 23, 2014, 1:45:21 PM
+    Author     : thongnv
+    Description:
+        Purpose of the stylesheet follows.
+*/
+ul, ol {
+    margin: 0 1.5em 0.5em 0;
+    padding-left: 1.5em;
+}
+p {
+    margin: 0 0 0.5em;
+}
+.job-list a, .job-list p, .job-list li, .job-list ol, .job-list ul {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 0 none;
+    font-size: 100%;
+    margin: 0;
+    outline: 0 none;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+.job-list ul {
+    list-style:none;
+    padding-left: 15px;
+}
+
+.job-list ol {
+    padding-left: 20px;
+}
