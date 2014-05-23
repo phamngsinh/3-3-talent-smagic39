@@ -691,6 +691,17 @@ ul.yiiPager a:visited
 	color:#F00;
 	text-shadow:#CCC 0.1em 0.1em 0.1em;
 }
+
+ul, ol{
+    padding-left:0;
+}
+
+li{
+    list-style: none outside none;
+}
+p{
+    margin:0 0 0.5em;
+}
 	
 
 

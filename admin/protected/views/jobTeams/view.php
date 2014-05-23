@@ -32,7 +32,7 @@ $this->widget('zii.widgets.CDetailView', array(
 		array(
                     'name'=>'descriptions',
                     'type'=>'raw',
-                    'value'=>  nl2br($model->descriptions)
+                    'value'=>  $model->descriptions,
                 ),
 		'link_twitter',
 		'link_facebook',

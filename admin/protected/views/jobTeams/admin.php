@@ -48,7 +48,11 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'teams_id',
 		'name',
 		'positions',
-		'descriptions',
+                array(
+                    'name'=>'descriptions',
+                    'type'=>'raw',
+                    'value'=>$model->descriptions,
+                ),
 		array(
 			'class'=>'CButtonColumn',
 		),
