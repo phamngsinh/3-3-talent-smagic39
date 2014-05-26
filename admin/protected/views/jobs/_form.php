@@ -75,19 +75,19 @@
        echo $form->error($model, 'job_location_id'); ?>
         <?php echo CHtml::link('Create Location',array('JobLocation/create'),array('target'=>'_blank')); ?>
     </div>
-    <div class="row">
+    <!--<div class="row">
         <?php
-// currency symbol
-        $locale = CLocale::getInstance('pl_PL');
-        $symbol = $locale->getCurrencySymbol('USD');
+//// currency symbol
+//        $locale = CLocale::getInstance('pl_PL');
+//        $symbol = $locale->getCurrencySymbol('USD');
         ?>
-        <?php echo $form->labelEx($model, 'base_salary'); ?>
+        <?php // echo $form->labelEx($model, 'base_salary'); ?>
         <?php
-        echo $form->textField($model, 'base_salary');
-        echo $symbol;
+//        echo $form->textField($model, 'base_salary');
+//        echo $symbol;
         ?>
-        <?php echo $form->error($model, 'base_salary'); ?>
-    </div>
+        <?php // echo $form->error($model, 'base_salary'); ?>
+    </div> -->
     
     <div class="row">
         <?php echo $form->labelEx($model, 'descriptions'); ?>
@@ -159,8 +159,8 @@
         <?php echo $form->error($model, 'experience_requirements'); ?>
     </div>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'incentives');
+   <!--- <div class="row">
+        <?php /*echo $form->labelEx($model, 'incentives');
                  $this->widget('application.extensions.tinymce.ETinyMce', array(
             'model' => $model,
             'attribute' => 'incentives',
@@ -176,8 +176,8 @@
                 'height' => '100',
             ),
         ));
-         echo $form->error($model, 'incentives'); ?>
-    </div>
+         echo $form->error($model, 'incentives'); */ ?>
+    </div> -->
     <div class="row">
         <?php
         echo $form->labelEx($model, 'date_posted');
@@ -185,37 +185,37 @@
         echo $form->error($model, 'date_posted'); ?>
     </div>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'education_requirements');
-                 $this->widget('application.extensions.tinymce.ETinyMce', array(
-            'model' => $model,
-            'attribute' => 'education_requirements',
-            'htmlOptions' => array('size' => 60),
-            'plugins' => array('safari'),
-            'options' => array(
-                'theme_advanced_toolbar_location' => 'top',
-                'theme' => 'advanced',
-                'skin' => 'o2k7',
-                'theme_advanced_buttons1' => 'bold,italic,underline,fontsizeselect,formatselect,link,justifyfull,justifyleft,justifycenter,justifyright,bullist, numlist',
-                'theme_advanced_buttons2' => '',
-                'theme_advanced_buttons3' => '',
-                'height' => '100',
-            ),
-        ));
-         echo $form->error($model, 'education_requirements'); ?>
+    <!--<div class="row">
+        <?php // echo $form->labelEx($model, 'education_requirements');
+//                 $this->widget('application.extensions.tinymce.ETinyMce', array(
+//            'model' => $model,
+//            'attribute' => 'education_requirements',
+//            'htmlOptions' => array('size' => 60),
+//            'plugins' => array('safari'),
+//            'options' => array(
+//                'theme_advanced_toolbar_location' => 'top',
+//                'theme' => 'advanced',
+//                'skin' => 'o2k7',
+//                'theme_advanced_buttons1' => 'bold,italic,underline,fontsizeselect,formatselect,link,justifyfull,justifyleft,justifycenter,justifyright,bullist, numlist',
+//                'theme_advanced_buttons2' => '',
+//                'theme_advanced_buttons3' => '',
+//                'height' => '100',
+//            ),
+//        ));
+//         echo $form->error($model, 'education_requirements'); ?>
+    </div> -->
+
+   <!-- <div class="row">
+        <?php // echo $form->labelEx($model, 'responsibilities'); ?>
+        <?php // echo $form->textField($model, 'responsibilities', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php // echo $form->error($model, 'responsibilities'); ?>
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'responsibilities'); ?>
-        <?php echo $form->textField($model, 'responsibilities', array('size' => 60, 'maxlength' => 255)); ?>
-        <?php echo $form->error($model, 'responsibilities'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'special_commitments'); ?>
-        <?php echo $form->textField($model, 'special_commitments', array('size' => 60, 'maxlength' => 255)); ?>
-        <?php echo $form->error($model, 'special_commitments'); ?>
-    </div>
+        <?php // echo $form->labelEx($model, 'special_commitments'); ?>
+        <?php // echo $form->textField($model, 'special_commitments', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php // echo $form->error($model, 'special_commitments'); ?>
+    </div> -->
 
 
     <div class="row buttons">

@@ -195,28 +195,28 @@ $this->widget('zii.widgets.CDetailView', array(
             'type' => 'raw',
             'value' =>$model->experience_requirements,
         ),
-        array(
-            'name' => 'education_requirements',
-            'type' => 'raw',
-            'value' =>$model->education_requirements,
-        ),
-        'base_salary',
+//        array(
+//            'name' => 'education_requirements',
+//            'type' => 'raw',
+//            'value' =>$model->education_requirements,
+//        ),
+//        'base_salary',
         'date_posted',
-        array(
-            'name' => 'incentives',
-            'type' => 'raw',
-            'value' =>$model->incentives,
-        ),
-        array(
-            'name' => 'responsibilities',
-            'type' => 'raw',
-            'value' => $model->responsibilities,
-        ),
-        array(
-            'name' => 'special_commitments',
-            'type' => 'raw',
-            'value' => $model->special_commitments,
-        ),
+//        array(
+//            'name' => 'incentives',
+//            'type' => 'raw',
+//            'value' =>$model->incentives,
+//        ),
+//        array(
+//            'name' => 'responsibilities',
+//            'type' => 'raw',
+//            'value' => $model->responsibilities,
+//        ),
+//        array(
+//            'name' => 'special_commitments',
+//            'type' => 'raw',
+//            'value' => $model->special_commitments,
+//        ),
     ),
 ));
 ?>
