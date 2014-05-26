@@ -33,7 +33,7 @@ class Jobs extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('descriptions,date_posted, experience_requirements,cat_id, job_location_id, responsibilities, special_commitments, title, descriptions, worktype_id,recruiter_name,recruiter_email', 'required'),
+            array('descriptions,date_posted, experience_requirements,cat_id, job_location_id, title, descriptions, worktype_id,recruiter_name,recruiter_email', 'required'),
             array('cat_id, base_salary, job_location_id', 'numerical', 'integerOnly' => true),
             array('benefits, education_requirements, incentives, responsibilities, special_commitments, descriptions', 'length'),
             array('title', 'length', 'max' => 300),
