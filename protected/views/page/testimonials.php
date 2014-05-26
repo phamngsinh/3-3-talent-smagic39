@@ -21,7 +21,7 @@
                             <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/no-image.png" width="145" height="145" alt="" class="respimg">
                         <?php } else { 
                             ?>
-                            <img src="<?php echo Yii::app()->request->baseUrl.'/admin/' . $test['image']; ?>" width="145" height="145" alt="" class="respimg">
+                            <img src="<?php echo Yii::app()->request->baseUrl.'/admin/protected/' . $test['image']; ?>" width="145" height="145" alt="" class="respimg">
                         <?php } ?>
                     </div>     
                     <!--testimonials-pic-->
@@ -29,7 +29,7 @@
                     <div class="testimonials-details">
                         <h4><?php echo $test["title"]; ?></h4>
                         <div class="testimonials-para">
-                            <?php echo $test["content"]; ?>
+                            <?php echo nl2br($test["content"]); ?>
                         </div>
                     </div>
                     <!--testimonials-details-->

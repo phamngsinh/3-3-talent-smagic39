@@ -21,7 +21,7 @@
     ?>
         <div class="about-job">
             <div class="left-job">
-                <p><b>Salary</b>: <?php echo Yii::app()->numberFormatter->formatCurrency($job->base_salary, ""); ?></p>
+                <!--<p><b>Salary</b>: <?php // echo Yii::app()->numberFormatter->formatCurrency($job->base_salary, ""); ?></p>-->
                 <p><b>Date advertised</b>: <?php echo $job->date_posted; ?></p>
             </div>
             <div class="right-job">
@@ -38,37 +38,38 @@
         <p><?php echo $job->benefits; ?></p>
     </div>
     <?php endif; ?>
-    <?php if($job->education_requirements): ?>
-    <div  class="style-tinymce">
+    <?php // if($job->education_requirements): ?>
+    <!---<div  class="style-tinymce">
         <strong>Educational Background:</strong><br/>
-        <p><?php echo $job->education_requirements ?></p>
-    </div>
-    <?php endif; ?>
+        <p><?php // echo $job->education_requirements ?></p>
+    </div>-->
+    <?php // endif; ?>
     <?php if($job->experience_requirements): ?>
     <div  class="style-tinymce">
         <strong>Skills and Experience:</strong><br/>
         <p><?php echo $job->experience_requirements; ?></p>
     </div>
     <?php endif; ?>
-    <?php if($job->responsibilities): ?>
-    <div  class="style-tinymce">
+    <?php // if($job->responsibilities): ?>
+    <!---<div  class="style-tinymce">
         <strong>Job Responsibilities:</strong><br/>
-        <p><?php echo $job->responsibilities; ?></p>
-    </div>
-    <?php endif; ?>
-      <?php if($job->incentives): ?>
+        <p><?php // echo $job->responsibilities; ?></p>
+    </div>-->
+    <?php // endif; ?>
+      <?php // if($job->incentives): ?>
    
-    <div  class="style-tinymce">
+    <!--<div  class="style-tinymce">
         <strong>Bonus and Compensation:</strong><br/>
-        <p><?php echo $job->incentives; ?></p>
-    </div>
-    <?php endif; ?>
-    <?php if($job->special_commitments): ?>
+        <p><?php // echo $job->incentives; ?></p>
+    </div> -->
+    <?php // endif; ?>
+    <?php // if($job->special_commitments): ?>
+      <!--<div class="style-tinymce">
         <strong>Any special commitments associated:</strong>
-    <div class="style-tinymce">
-        <p><?php echo $job->special_commitments; ?></p>
-    </div>
-    <?php endif; ?>
+  
+        <p><?php // echo $job->special_commitments; ?></p>
+    </div>-->
+    <?php // endif; ?>
 </div>
 
 <?php 

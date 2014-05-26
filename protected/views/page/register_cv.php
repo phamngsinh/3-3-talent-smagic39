@@ -39,7 +39,43 @@ $form = $this->beginWidget('CActiveForm', array(
     <?php echo $form->textField($model, 'mobile'); ?>
     <?php echo $form->error($model, 'mobile'); ?>
 </div><br/>
+<div class="row">
+   <label for="JobCategory_ID">Job Category </label>
+   <?php
+        $tmp_cat_id = (isset($_GET['cat_id']) && $_GET['cat_id'] ) ? $_GET['cat_id'] : '';
+        echo CHtml::dropDownList('cat_id', '', $categories, array(
+            'prompt' => '-- All Categories --',
+            'options' => array($tmp_cat_id => array('selected' => true)),
+            'selected' => true,
+            'ajax' => array(
+                'beforeSend' => 'preAjax',
+                'complete' => 'completeAjax',
+                'type' => 'POST', //request type
+                'url' => Yii::app()->createUrl('page/dynamicsubCategories'), //url to call
+                'update' => '#sub_cat_id',
+                'data' => array('cat_id' => 'js:this.value', 'YII_CSRF_TOKEN' => Yii::app()->request->csrfToken),
+            )
+        ));
+        ?>
+    
+</div><br/>
+<div class="row">
+  <label for="JobSubcategory_ID">Job Sub Category </label>
+   <?php
+        if (isset($_GET['sub_cat_id']) && $_GET['sub_cat_id']) {
 
+            $tmp_cat_id = $_GET['sub_cat_id'];
+            echo CHtml::dropDownList('sub_cat_id', '', $sub_categories, array(
+                'options' => array($tmp_cat_id => array('selected' => true)),
+            ));
+        } else {
+            echo CHtml::dropDownList('sub_cat_id', '', array(
+                '' => '-- All Sub Categories --',
+            ));
+        }
+        ?>
+   
+</div><br/>
 
 <div class="row">
     <label for="JobEmployees_file_id">Resume </label>
@@ -79,5 +115,18 @@ $form = $this->beginWidget('CActiveForm', array(
         $("#JobEmployees_mobile").mask("(999) 999-9999");
 
     });
+    
 </script>
+<script>
+
+    function preAjax() {
+        $('#sub_cat_id').html('<span class="loading">Loading...</span>');
+    }
+    function completeAjax() {
+        $('#sub_cat_id').siblings('.loading').remove();
+    }
+
+    
+</script>
+
 

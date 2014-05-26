@@ -31,7 +31,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <br/>
 <div class="row">
     <?php echo $form->label($model, 'content'); ?>
-    <?php echo $form->textArea($model, 'content', array('rows' => 10, 'cols' => 105)); ?>
+    <?php echo $form->textArea($model, 'content', array('rows' => 10, 'cols' => 90)); ?>
 </div>
 <br/>
 <?php echo CHtml::submitButton('Submit'); ?>
